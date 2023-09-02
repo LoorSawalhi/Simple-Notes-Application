@@ -6,6 +6,8 @@ import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
 import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
+import com.example.a1190075_1190245_courseproject.service.UserService;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import javax.inject.Singleton;
 
@@ -35,5 +37,17 @@ public class AppModule {
     @Singleton
     public NoteDao provideNoteDao(DatabaseHelper databaseHelper) {
         return new NoteDaoImpl(databaseHelper);
+    }
+
+    @Provides
+    @Singleton
+    public TagDao provideTagDao(DatabaseHelper databaseHelper) {
+        return new TagDaoImpl(databaseHelper);
+    }
+
+    @Provides
+    @Singleton
+    public UserService provideUserService(UserDao userDao, NoteDao noteDao) {
+        return new UserServiceImpl(userDao, noteDao);
     }
 }

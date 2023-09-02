@@ -1,15 +1,14 @@
 package com.example.a1190075_1190245_courseproject.dao.impl;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
+import com.example.a1190075_1190245_courseproject.dto.FavouriteDto;
+import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
-import com.example.a1190075_1190245_courseproject.enums.Preference;
 import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class UserDaoImpl implements UserDao {
         Cursor cursor = database.rawQuery("SELECT * FROM user", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            UserDto user = cursorToUser(cursor);
+            UserDto user = UserDto.cursorToUser(cursor);
             users.add(user);
             cursor.moveToNext();
         }
@@ -58,18 +57,17 @@ public class UserDaoImpl implements UserDao {
     public UserDto findById(String id) {
         openRead();
 
-        Cursor cursor = database.rawQuery("SELECT * FROM user WHERE email = ?", new String[]{id});
+        Cursor cursor = database.rawQuery("SELECT * FROM user WHERE id = ?", new String[]{id});
 
         close();
 
         if (cursor != null) {
             cursor.moveToFirst();
-            UserDto user = cursorToUser(cursor);
+            UserDto user = UserDto.cursorToUser(cursor);
             cursor.close();
             return user;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -81,7 +79,7 @@ public class UserDaoImpl implements UserDao {
         values.put("lastName", user.getLastName());
         values.put("nickName", user.getNickName());
         values.put("email", user.getEmail());
-        values.put("passwords", user.getPasswords());
+        values.put("passwords", user.getPassword());
         values.put("preference", user.getPreference().toString());
 
         database.insert("User", null, values);
@@ -97,7 +95,7 @@ public class UserDaoImpl implements UserDao {
         values.put("lastName", user.getLastName());
         values.put("nickName", user.getNickName());
         values.put("email", user.getEmail());
-        values.put("passwords", user.getPasswords());
+        values.put("passwords", user.getPassword());
         values.put("preference", user.getPreference().toString());
 
         database.update("User", values, "id=?", new String[]{user.getId()});
@@ -105,17 +103,8 @@ public class UserDaoImpl implements UserDao {
         close();
     }
 
-    public UserDto loginUser(String email, String password) {
-        Cursor cursor = database.rawQuery("SELECT * FROM user WHERE email = ? AND password = ?", new String[]{email, password});
-        if (cursor.moveToFirst()) {
-            UserDto user = cursorToUser(cursor);
 
-            cursor.close();
-            return user;
-        }
-        cursor.close();
-        return null;
-    }
+
     @Override
     public void delete(String id) {
         openWrite();
@@ -123,21 +112,71 @@ public class UserDaoImpl implements UserDao {
         close();
     }
 
-    @SuppressLint("Range")
-    private UserDto cursorToUser(Cursor cursor) {
-        UserDto user = new UserDto();
-        user.setId(cursor.getString(cursor.getColumnIndex("id")));
-        user.setFirstName(cursor.getString(cursor.getColumnIndex("firstName")));
-        user.setLastName(cursor.getString(cursor.getColumnIndex("lastName")));
-        user.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
-        user.setEmail(cursor.getString(cursor.getColumnIndex("email")));
-        user.setPasswords(cursor.getString(cursor.getColumnIndex("passwords")));
+    @Override
+    public FavouriteDto getFavourite(String userId, String noteId) {
+        openRead();
 
-        if(cursor.getString(cursor.getColumnIndex("preference")).equals(Preference.ALPHABETICALLY.toString())) {
-            user.setPreference(Preference.ALPHABETICALLY);
-        } else {
-            user.setPreference(Preference.CREATION_DATE);
+        Cursor cursor = database.rawQuery("SELECT * FROM favourite WHERE userId = ? and noteId = ?", new String[]{userId, noteId});
+
+        close();
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            FavouriteDto favourite = UserDto.cursorToFavourite(cursor);
+            cursor.close();
+            return favourite;
         }
-        return user;
+        return null;
+    }
+
+    @Override
+    public void addFavourite(FavouriteDto favouriteDto) {
+        openWrite();
+        ContentValues values = new ContentValues();
+        values.put("id", favouriteDto.getId());
+        values.put("userId", favouriteDto.getUserId());
+        values.put("noteId", favouriteDto.getNoteId());
+
+        database.insert("favourite", null, values);
+
+        close();
+    }
+
+    @Override
+    public void deleteFavourite(String id) {
+        openWrite();
+        database.delete("favourite", "id=?", new String[]{id});
+        close();
+    }
+
+    @Override
+    public List<NoteDto> favouriteNotes(String userId) {
+        openRead();
+        List<NoteDto> notes = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT n.* FROM note n, favourite f WHERE n.id = f.noteId and f.userId = ?", new String[]{userId});
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            NoteDto note = NoteDto.cursorToNote(cursor);
+            notes.add(note);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        close();
+        return notes;
+    }
+
+    @Override
+    public UserDto loginUser(String email, String password) {
+        Cursor cursor = database.rawQuery("SELECT * FROM user WHERE email = ? AND password = ?", new String[]{email, password});
+        if (cursor.moveToFirst()) {
+            UserDto user = UserDto.cursorToUser(cursor);
+
+            cursor.close();
+            return user;
+        }
+        cursor.close();
+        return null;
     }
 }

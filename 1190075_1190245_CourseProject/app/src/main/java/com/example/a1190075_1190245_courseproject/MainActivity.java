@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
+import com.example.a1190075_1190245_courseproject.dto.UserDto;
 
 import javax.inject.Inject;
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     UserDao userDao;
+    public static UserDto currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

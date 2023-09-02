@@ -4,6 +4,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
+import com.example.a1190075_1190245_courseproject.dto.NoteDto;
+import com.example.a1190075_1190245_courseproject.dto.TagDto;
 import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
 
@@ -30,12 +32,12 @@ public class NoteDaoImpl implements NoteDao {
     }
 
     @Override
-    public List<NoteDao> list(NoteSqlQuery query) {
+    public List<NoteDto> list(NoteSqlQuery query) {
         return null;
     }
 
     @Override
-    public void insert(NoteDao note) {
+    public void insert(NoteDto note) {
 
     }
 
@@ -48,4 +50,16 @@ public class NoteDaoImpl implements NoteDao {
     public void delete(String id) {
 
     }
+
+    @Override
+    public void addTag(TagDto tagDto) {
+
+    }
+
+    @Override
+    public void deleteTag(String id) {
+
+    }
+
+
 }
