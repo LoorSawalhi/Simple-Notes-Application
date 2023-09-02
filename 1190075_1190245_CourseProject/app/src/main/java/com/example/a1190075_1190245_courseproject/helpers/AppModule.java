@@ -41,12 +41,6 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public TagDao provideTagDao(DatabaseHelper databaseHelper) {
-        return new TagDaoImpl(databaseHelper);
-    }
-
-    @Provides
-    @Singleton
     public UserService provideUserService(UserDao userDao, NoteDao noteDao) {
         return new UserServiceImpl(userDao, noteDao);
     }
