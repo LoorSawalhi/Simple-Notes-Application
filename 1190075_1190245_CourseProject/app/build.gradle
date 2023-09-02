@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.dagger.hilt.android' version '2.44' apply false
+
 }
+apply plugin: 'com.google.dagger.hilt.android'
 
 android {
     namespace 'com.example.a1190075_1190245_courseproject'
@@ -29,9 +32,11 @@ android {
 }
 
 dependencies {
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.44' // Updated to the version you specified
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.44' // Updated to the version you specified
 
-    compileOnly 'org.projectlombok:lombok:1.18.28'
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
