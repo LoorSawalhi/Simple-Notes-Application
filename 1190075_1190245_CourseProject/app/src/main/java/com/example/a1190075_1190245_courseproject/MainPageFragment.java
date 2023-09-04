@@ -3,20 +3,32 @@ package com.example.a1190075_1190245_courseproject;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
+import com.example.a1190075_1190245_courseproject.dto.Note;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainPageFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private RecyclerView recyclerView;
+    private NewNoteAdapter adapter;
+    private List<Note> noteItems;
     public MainPageFragment() {
 
     }
@@ -45,6 +57,26 @@ public class MainPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_main_page, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main_page, container, false);
+
+        ImageView addIcon = rootView.findViewById(R.id.add_icon);
+        EditText title = rootView.findViewById(R.id.fill_title);
+        EditText content = rootView.findViewById(R.id.fill_content);
+
+        recyclerView = rootView.findViewById(R.id.notes_grid);
+        noteItems = new ArrayList<>();
+        adapter = new NewNoteAdapter(noteItems);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
+        recyclerView.setAdapter(adapter);
+
+        // Load your data into the noteItems list and call notifyDataSetChanged() on the adapter
+        // when you want to refresh the data in the RecyclerView.
+
+//        Note newItem = new Note("New Title", "New Content");
+//        noteItems.add(newItem);
+//        adapter.notifyDataSetChanged();
+
+        return rootView;
     }
 }
