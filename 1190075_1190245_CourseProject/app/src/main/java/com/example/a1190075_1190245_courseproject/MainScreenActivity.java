@@ -8,9 +8,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
+import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
+import com.example.a1190075_1190245_courseproject.menu.SortingFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
