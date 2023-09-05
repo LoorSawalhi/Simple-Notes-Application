@@ -7,6 +7,7 @@ public class NoteSqlQuery {
     private List<String> id = new ArrayList<>();
     private String title;
     private String content;
+    private String orderBy;
 
     public List<String> getId() {
         return id;
@@ -30,5 +31,13 @@ public class NoteSqlQuery {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
     }
 }

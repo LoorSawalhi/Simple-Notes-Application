@@ -20,5 +20,4 @@ public interface UserDao {
     void deleteFavourite(String id);
     List<NoteDto> favouriteNotes(String userId);
     UserDto loginUser(String email, String password);
-
 }
