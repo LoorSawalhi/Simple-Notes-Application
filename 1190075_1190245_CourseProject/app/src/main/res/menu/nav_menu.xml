@@ -14,7 +14,7 @@
             android:title="All"/>
 
         <item
-            android:id="@+id/fav"
+            android:id="@+id/favourite"
             android:icon="@drawable/heart"
             android:title="Favorites"/>
 

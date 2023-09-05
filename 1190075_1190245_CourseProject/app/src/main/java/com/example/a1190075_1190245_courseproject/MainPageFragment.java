@@ -1,11 +1,13 @@
 package com.example.a1190075_1190245_courseproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
-import com.example.a1190075_1190245_courseproject.dto.Note;
+import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +28,11 @@ public class MainPageFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private EditText title;
+    private EditText content;
     private RecyclerView recyclerView;
     private NewNoteAdapter adapter;
-    private List<Note> noteItems;
+    private List<NoteDto> noteItems;
     public MainPageFragment() {
 
     }
@@ -60,8 +64,8 @@ public class MainPageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main_page, container, false);
 
         ImageView addIcon = rootView.findViewById(R.id.add_icon);
-        EditText title = rootView.findViewById(R.id.fill_title);
-        EditText content = rootView.findViewById(R.id.fill_content);
+        title = rootView.findViewById(R.id.fill_title);
+        content = rootView.findViewById(R.id.fill_content);
 
         recyclerView = rootView.findViewById(R.id.notes_grid);
         noteItems = new ArrayList<>();
@@ -69,6 +73,12 @@ public class MainPageFragment extends Fragment {
 
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
+
+        addIcon.setOnClickListener(v -> {
+                if(checkFields()){
+                    // add note
+                }
+            });
 
         // Load your data into the noteItems list and call notifyDataSetChanged() on the adapter
         // when you want to refresh the data in the RecyclerView.
@@ -78,5 +88,11 @@ public class MainPageFragment extends Fragment {
 //        adapter.notifyDataSetChanged();
 
         return rootView;
+    }
+
+    private boolean checkFields() {
+        if(title.getText().toString().isBlank() || content.getText().toString().isBlank())
+            return false;
+        return true;
     }
 }

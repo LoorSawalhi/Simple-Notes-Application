@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
@@ -21,8 +22,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-        Toolbar toolbar = findViewById(R.id.toolbar); //Ignore red line errors
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,
@@ -41,17 +43,14 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             case R.id.all:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MainPageFragment()).commit();
                 break;
-//            case R.id.nav_settings:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
-//                break;
-//            case R.id.nav_share:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShareFragment()).commit();
-//                break;
-//            case R.id.nav_about:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
-//                break;
-//            case R.id.nav_logout:
-//                Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
+            case R.id.favourite:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouriteFragment()).commit();
+                break;
+            case R.id.sotred:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SortingFragment()).commit();
+                break;
+//            case R.id.logout:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SignInActivity()).commit();
 //                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

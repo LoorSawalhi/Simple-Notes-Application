@@ -51,14 +51,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:hint="@string/title"
-                    android:textSize="20sp"/>
+                    android:textSize="19sp"/>
 
                 <EditText
                     android:id="@+id/fill_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="7dp"
+                    android:layout_height="128dp"
                     android:layout_gravity="bottom"
+                    android:layout_marginStart="7dp"
                     android:layout_weight="0.5"
                     android:hint="@string/content"
                     android:textSize="20sp" />
@@ -70,8 +70,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        tools:context=".pokemonList.PokemonListFragment">
+        android:background="@color/white">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notes_grid"
