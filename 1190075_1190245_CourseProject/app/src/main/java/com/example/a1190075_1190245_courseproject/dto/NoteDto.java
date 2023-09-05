@@ -13,15 +13,15 @@ public class NoteDto {
     private String content;
     private String createdOn = new Date().toString();
 
+    public NoteDto() {
+
+    }
     public NoteDto(String userId, String title, String content) {
         this.userId = userId;
         this.title = title;
         this.content = content;
     }
 
-    public NoteDto() {
-
-    }
 
     public String getId() {
         return id;

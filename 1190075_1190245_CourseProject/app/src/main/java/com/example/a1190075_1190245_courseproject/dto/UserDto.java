@@ -16,7 +16,7 @@ public class UserDto {
     private String nickName;
     private String email;
     private String password;
-    private Preference preference;
+    private Preference preference = Preference.CREATION_DATE;
 
     public UserDto() {
 

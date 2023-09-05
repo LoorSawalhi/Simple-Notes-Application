@@ -20,7 +20,6 @@ public class UserDaoImpl implements UserDao {
     private final DatabaseHelper databaseHelper;
 
     public UserDaoImpl(DatabaseHelper databaseHelper) {
-        database = databaseHelper.getWritableDatabase();
         this.databaseHelper  = databaseHelper;
     }
 
@@ -59,7 +58,7 @@ public class UserDaoImpl implements UserDao {
 
         Cursor cursor = database.rawQuery("SELECT * FROM user WHERE id = ?", new String[]{id});
 
-        close();
+
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -67,6 +66,7 @@ public class UserDaoImpl implements UserDao {
             cursor.close();
             return user;
         }
+        close();
         return null;
     }
 
