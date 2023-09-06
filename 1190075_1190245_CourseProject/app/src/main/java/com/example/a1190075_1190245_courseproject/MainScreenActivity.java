@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.a1190075_1190245_courseproject.dto.UserDto;
 import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.SortingFragment;
@@ -23,6 +24,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     private DrawerLayout drawerLayout;
     private SearchView searchView;
+
+    public static UserDto currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,7 +3,10 @@ package com.example.a1190075_1190245_courseproject.dao.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.FavouriteDto;
@@ -71,7 +74,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void insert(UserDto user) {
+    public boolean insert(UserDto user) {
         openWrite();
         ContentValues values = new ContentValues();
         values.put("id", user.getId());
@@ -82,9 +85,15 @@ public class UserDaoImpl implements UserDao {
         values.put("passwords", user.getPassword());
         values.put("preference", user.getPreference().name());
 
-        database.insert("User", null, values);
-
-        close();
+        try {
+            database.insertOrThrow("`user`", null, values);  // Table name should match what's defined in SQL
+            close();
+            return true;
+        } catch (SQLiteConstraintException e) {
+            Log.e("DatabaseHelper", "Error inserting new user: ", e);
+            close();
+            return false;
+        }
     }
 
     @Override

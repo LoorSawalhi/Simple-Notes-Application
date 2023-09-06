@@ -1,6 +1,6 @@
 package com.example.a1190075_1190245_courseproject.service.impl;
 
-import com.example.a1190075_1190245_courseproject.MainActivity;
+import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.FavouriteDto;
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(UserDto user) {
-        userDao.insert(user);
+    public boolean addUser(UserDto user) {
+        return userDao.insert(user);
     }
 
     @Override
@@ -64,7 +64,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public void addFavourite(String userId, String noteId) {
         FavouriteDto favouriteDto = new FavouriteDto();
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public boolean authorized(String email, String password) {
         UserDto user = userDao.loginUser(email, password);
         if(user != null) {
-            MainActivity.currentUser = user;
+            MainScreenActivity.currentUser = user;
             return true;
         }
         return false;

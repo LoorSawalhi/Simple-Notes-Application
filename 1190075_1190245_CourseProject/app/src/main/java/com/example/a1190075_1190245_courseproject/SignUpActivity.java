@@ -7,11 +7,22 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a1190075_1190245_courseproject.dao.NoteDao;
+import com.example.a1190075_1190245_courseproject.dao.UserDao;
+import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
+import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
+import com.example.a1190075_1190245_courseproject.dto.UserDto;
+import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.inject.Inject;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -22,12 +33,22 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView passwordConfirm;
     private Button createAccount;
 
+
+    @Inject
+    UserDao userDao;
+    @Inject
+    NoteDao noteDao;
+    @Inject
+    public UserServiceImpl userService;
+
+
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
     private static final String PASSWORD_PATTERN =
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,12}$";
 
+    //TODO: PRINT TO THE USER PASSWORD REQUIREMENTS
 
     private static final Pattern pattern_email = Pattern.compile(EMAIL_PATTERN);
     private static final Pattern pattern_password = Pattern.compile(PASSWORD_PATTERN);
@@ -49,6 +70,11 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        noteDao = new NoteDaoImpl(databaseHelper);
+        userDao = new UserDaoImpl(databaseHelper);
+        userService = new UserServiceImpl(userDao, noteDao);
 
         TextView linkTextView = findViewById(R.id.linkTextView);
         firstName = findViewById(R.id.firstNameField);
@@ -72,11 +98,22 @@ public class SignUpActivity extends AppCompatActivity {
 
         createAccount.setOnClickListener(v -> {
             if(checkFields()){
+                UserDto user = new UserDto();
+                user.setFirstName(firstName.getText().toString());
+                user.setLastName(lastName.getText().toString());
+                user.setEmail(email.getText().toString());
+                user.setPassword(password.getText().toString());
+                user.setNickName(String.format("%s %s", firstName.getText().toString(), lastName.getText().toString()));
 
+                if(userService.addUser(user)) {
+                    Toast.makeText(this, "Added Successfully!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(SignUpActivity.this, MainScreenActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "Email already exists!", Toast.LENGTH_LONG).show();
+                    //TODO: remove the text from email -LOOR-
+                }
 
-
-                Intent intent = new Intent(SignUpActivity.this, MainScreenActivity.class);
-                startActivity(intent);
             } else {
                 changeColors();
             }

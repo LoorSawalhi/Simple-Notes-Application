@@ -12,7 +12,7 @@ public interface UserDao {
 
     List<UserDto> list();
     UserDto findById(String id);
-    void insert(UserDto user);
+    boolean insert(UserDto user);
     void update(UserDto user);
     void delete(String id);
     FavouriteDto getFavourite(String userId, String noteId);

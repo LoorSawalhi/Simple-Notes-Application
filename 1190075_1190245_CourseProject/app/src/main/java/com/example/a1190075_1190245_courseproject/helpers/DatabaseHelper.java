@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "firstName TEXT," +
                     "lastName TEXT," +
                     "nickName TEXT," +
-                    "email TEXT," +
+                    "email TEXT UNIQUE," +
                     "passwords TEXT," +
                     "preference TEXT" +
                     ")";
@@ -60,6 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
