@@ -8,8 +8,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.a1190075_1190245_courseproject.dao.NoteDao;
+import com.example.a1190075_1190245_courseproject.dao.UserDao;
+import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
+import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
+import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
+
+import javax.inject.Inject;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -17,6 +27,12 @@ public class SignInActivity extends AppCompatActivity {
     private  EditText password;
     private CheckBox rememberUser;
     private Button logIn;
+    @Inject
+    UserDao userDao;
+    @Inject
+    NoteDao noteDao;
+    @Inject
+    public UserServiceImpl userService;
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -35,6 +51,11 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        noteDao = new NoteDaoImpl(databaseHelper);
+        userDao = new UserDaoImpl(databaseHelper);
+        userService = new UserServiceImpl(userDao, noteDao);
+
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         rememberUser = findViewById(R.id.remember_me);
@@ -46,9 +67,19 @@ public class SignInActivity extends AppCompatActivity {
         password.addTextChangedListener(textWatcher);
 
         signUpPage.setOnClickListener(v -> {
-
+//            UserDto userDto = userService.findById("");
+//            if( user and not matched password){
+            Toast.makeText(this, "Wrong Password", Toast.LENGTH_LONG).show();
+            password.setText("");
+//            } else if (no user){
+            Toast.makeText(this, "No Such User Exists", Toast.LENGTH_LONG).show();
+            password.setText("");
+            email.setText("");
+//            } else {
+//          load notes
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
+//        }
         });
 
         logIn.setOnClickListener(v -> {

@@ -33,7 +33,6 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView passwordConfirm;
     private Button createAccount;
 
-
     @Inject
     UserDao userDao;
     @Inject
