@@ -15,4 +15,5 @@ public interface UserService {
     List<NoteDto> getUserFavouriteNotes(String userId);
     void addFavourite(String userId, String noteId);
     boolean authorized(String email, String password);
+    UserDto findUserByEmail(String email);
 }

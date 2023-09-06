@@ -6,7 +6,9 @@ import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
 import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
+import com.example.a1190075_1190245_courseproject.service.NoteService;
 import com.example.a1190075_1190245_courseproject.service.UserService;
+import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import javax.inject.Singleton;
@@ -14,6 +16,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
+import dagger.hilt.android.components.ActivityComponent;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 
@@ -43,5 +46,11 @@ public class AppModule {
     @Singleton
     public UserService provideUserService(UserDao userDao, NoteDao noteDao) {
         return new UserServiceImpl(userDao, noteDao);
+    }
+
+    @Provides
+    @Singleton
+    public NoteService provideNoteService(NoteDao noteDao) {
+        return new NoteServiceImpl(noteDao);
     }
 }

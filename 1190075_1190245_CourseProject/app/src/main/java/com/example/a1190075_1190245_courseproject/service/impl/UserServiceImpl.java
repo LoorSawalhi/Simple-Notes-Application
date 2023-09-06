@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 public class UserServiceImpl implements UserService {
 
@@ -80,5 +81,11 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public UserDto findUserByEmail(String email) {
+        List<UserDto> users = userDao.list();
+        return users.stream().filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
     }
 }

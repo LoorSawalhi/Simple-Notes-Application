@@ -14,13 +14,28 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.a1190075_1190245_courseproject.dao.NoteDao;
+import com.example.a1190075_1190245_courseproject.dao.UserDao;
+import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
+import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
+import com.example.a1190075_1190245_courseproject.helpers.AppComponent;
+import com.example.a1190075_1190245_courseproject.helpers.AppModule;
+import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
 import com.example.a1190075_1190245_courseproject.menu.SortingFragment;
+import com.example.a1190075_1190245_courseproject.service.NoteService;
+import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 import com.google.android.material.navigation.NavigationView;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
@@ -28,13 +43,35 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     public static UserDto currentUser;
 
+    @Inject
+    UserDao userDao;
+    @Inject
+    NoteDao noteDao;
+    @Inject
+    public UserServiceImpl userService;
+
+    @Inject
+    public NoteServiceImpl noteService;
+
+    MainPageFragment mainPageFragment;
+    private AppComponent appComponent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+//        appComponent =
+//        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+//        noteDao = new NoteDaoImpl(databaseHelper);
+//        userDao = new UserDaoImpl(databaseHelper);
+//        userService = new UserServiceImpl(userDao, noteDao);
+//        noteService = new NoteServiceImpl(noteDao);
+
+        mainPageFragment = new MainPageFragment(noteService.listAll());
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -46,7 +83,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         if (savedInstanceState == null) {
 
-            loadFragment(new MainPageFragment());
+            loadFragment(mainPageFragment);
             navigationView.setCheckedItem(R.id.all);
         }
 
@@ -57,7 +94,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.all:
-                loadFragment(new MainPageFragment());
+                loadFragment(mainPageFragment);
                 searchView.setVisibility(View.VISIBLE);
                 break;
             case R.id.favourite:

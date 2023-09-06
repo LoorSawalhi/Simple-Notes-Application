@@ -16,7 +16,9 @@ import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
 import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
+import com.example.a1190075_1190245_courseproject.dto.UserDto;
 import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
+import com.example.a1190075_1190245_courseproject.helpers.SharedPrefManager;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import javax.inject.Inject;
@@ -33,6 +35,8 @@ public class SignInActivity extends AppCompatActivity {
     NoteDao noteDao;
     @Inject
     public UserServiceImpl userService;
+
+    public SharedPrefManager sharedPrefManager;
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -56,6 +60,8 @@ public class SignInActivity extends AppCompatActivity {
         userDao = new UserDaoImpl(databaseHelper);
         userService = new UserServiceImpl(userDao, noteDao);
 
+        sharedPrefManager = SharedPrefManager.getInstance(this);
+
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         rememberUser = findViewById(R.id.remember_me);
@@ -67,25 +73,29 @@ public class SignInActivity extends AppCompatActivity {
         password.addTextChangedListener(textWatcher);
 
         signUpPage.setOnClickListener(v -> {
-//            UserDto userDto = userService.findById("");
-//            if( user and not matched password){
-            Toast.makeText(this, "Wrong Password", Toast.LENGTH_LONG).show();
-            password.setText("");
-//            } else if (no user){
-            Toast.makeText(this, "No Such User Exists", Toast.LENGTH_LONG).show();
-            password.setText("");
-            email.setText("");
-//            } else {
-//          load notes
+
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
-//        }
+
         });
 
         logIn.setOnClickListener(v -> {
+            UserDto userDto = userService.findUserByEmail(email.getText().toString());
 
-            Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
-            startActivity(intent);
+            if (userDto == null){
+                Toast.makeText(this, "No Such User Exists", Toast.LENGTH_LONG).show();
+                password.setText("");
+                email.setText("");
+            } else if(!userDto.getPassword().equals(password.getText().toString())){
+                Toast.makeText(this, "Wrong Password", Toast.LENGTH_LONG).show();
+                password.setText("");
+            } else {
+//          load notes
+                MainScreenActivity.currentUser = userDto;
+                //TODO save email on shared preference
+                Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
@@ -94,7 +104,7 @@ public class SignInActivity extends AppCompatActivity {
 
             logIn.setBackgroundResource(R.drawable.clickable_button);
             logIn.setEnabled(true);
-        }else{
+        } else{
             logIn.setBackgroundResource(R.drawable.rounded_button);
             logIn.setEnabled(false);
         }

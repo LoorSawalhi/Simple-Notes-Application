@@ -13,23 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHolder> {
 
-    private List<NoteDto> noteItems;
+    private List<NoteDto> noteItems = new ArrayList<>();
 
     public NewNoteAdapter(List<NoteDto> noteItems) {
-            this.noteItems = noteItems;
-            }
+        this.noteItems = noteItems;
+    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
 
-            return new ViewHolder(view);
-            }
+        return new ViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -57,8 +58,8 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-            return noteItems.size();
-            }
+        return noteItems.size();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTextView;

@@ -1,5 +1,7 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
+import static dagger.hilt.android.internal.Contexts.getApplication;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,12 +14,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
+import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class MainPageFragment extends Fragment {
 
@@ -32,10 +39,20 @@ public class MainPageFragment extends Fragment {
     private RecyclerView recyclerView;
     private NewNoteAdapter adapter;
     private List<NoteDto> noteItems;
+
+    @Inject
+    public UserServiceImpl userService;
+
+    @Inject
+    public NoteServiceImpl noteService;
+
     public MainPageFragment() {
 
     }
 
+    public MainPageFragment(List<NoteDto> notes) {
+        this.noteItems = notes;
+    }
 
     public static MainPageFragment newInstance(String param1, String param2) {
         MainPageFragment fragment = new MainPageFragment();
@@ -49,11 +66,11 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        ((MainScreenActivity) getActivity().getApplication()).getYourComponent().inject(this);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -67,7 +84,6 @@ public class MainPageFragment extends Fragment {
         content = rootView.findViewById(R.id.fill_content);
 
         recyclerView = rootView.findViewById(R.id.notes_grid);
-        noteItems = new ArrayList<>();
         adapter = new NewNoteAdapter(noteItems);
 
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
