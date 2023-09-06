@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.a1190075_1190245_courseproject.enums.Preference;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "twitter";
     private static final int DATABASE_VERSION = 2;
@@ -66,6 +68,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_FAVOURITE_TABLE);
         db.execSQL(CREATE_TAG_TABLE);
         db.execSQL(CREATE_NOTE_TAG_TABLE);
+
+        // Users
+        db.execSQL("INSERT INTO user (id, firstName, lastName, nickName, email, passwords, preference) VALUES " +
+                "('1', 'Ahmad', 'Abbas', 'AhmadAbbas', 'abbas@equiptal.net', '123'," + Preference.CREATION_DATE.ordinal() + ")," +
+                "('2', 'Jane', 'Doe', 'jane', 'jane@example.com', 'password123', " + Preference.ALPHABETICALLY.ordinal() + ")");
+
+        // Notes
+        db.execSQL("INSERT INTO note (id, userId, title, content, creationDate) VALUES " +
+                "('note1', '1', 'Note 1', 'Content 1', '01-01-2023')," +
+                "('note2', '2', 'Note 2', 'Content 2', '02-01-2023')");
+
+        // Favourites
+        db.execSQL("INSERT INTO favourite (id, userId, noteId) VALUES " +
+                "('fav1', '1', 'note1')," +
+                "('fav2', '2', 'note2')");
+
+        // Tags
+        db.execSQL("INSERT INTO tag (id, label) VALUES " +
+                "('tag1', 'Tag 1')," +
+                "('tag2', 'Tag 2')");
+
+        // Note Tags
+        db.execSQL("INSERT INTO note_tag (id, noteId, tagId, userId) VALUES " +
+                "('notetag1', 'note1', 'tag1', '1')," +
+                "('notetag2', 'note2', 'tag2', '2')");
     }
 
     @Override
