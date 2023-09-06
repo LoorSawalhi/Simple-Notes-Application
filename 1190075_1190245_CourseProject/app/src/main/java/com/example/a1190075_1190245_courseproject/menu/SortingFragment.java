@@ -87,7 +87,7 @@ public class SortingFragment extends Fragment {
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
         recyclerView = view.findViewById(R.id.fav_grid);
-        adapter = new NewNoteAdapter(noteItems);
+        adapter = new NewNoteAdapter(noteItems, getContext());
 
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
