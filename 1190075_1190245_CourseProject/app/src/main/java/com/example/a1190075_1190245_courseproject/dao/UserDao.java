@@ -17,7 +17,7 @@ public interface UserDao {
     void delete(String id);
     FavouriteDto getFavourite(String userId, String noteId);
     void addFavourite(FavouriteDto favouriteDto);
-    void deleteFavourite(String id);
+    void deleteFavourite(String userId, String noteId);
     List<NoteDto> favouriteNotes(String userId);
     UserDto loginUser(String email, String password);
 }

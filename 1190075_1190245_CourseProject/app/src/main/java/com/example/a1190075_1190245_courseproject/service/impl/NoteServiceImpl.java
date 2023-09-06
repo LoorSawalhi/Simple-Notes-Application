@@ -1,9 +1,11 @@
 package com.example.a1190075_1190245_courseproject.service.impl;
 
+import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.NoteTagDto;
 import com.example.a1190075_1190245_courseproject.dto.TagDto;
+import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
 import com.example.a1190075_1190245_courseproject.service.NoteService;
 
@@ -21,13 +23,17 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<NoteDto> listAll() {
-        return noteDao.list(new NoteSqlQuery()); // Assuming an empty query returns all notes
+        NoteSqlQuery query = new NoteSqlQuery();
+//        query.setId(List.of(MainScreenActivity.currentUser.getId()));
+
+        return noteDao.list(query);
     }
 
     @Override
     public List<NoteDto> listUserNotes(String userId) {
         NoteSqlQuery query = new NoteSqlQuery();
-        // Populate query with userId (Add a userId field to NoteSqlQuery if not exist)
+        query.setId(List.of(userId));
+
         return noteDao.list(query);
     }
 
@@ -64,5 +70,12 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public List<TagDto> getAllTags() {
         return noteDao.getAllTags();
+    }
+
+    @Override
+    public List<NoteDto> getSorted(String sortingCriteria) {
+        NoteSqlQuery query = new NoteSqlQuery();
+        query.setOrderBy(sortingCriteria);
+        return noteDao.list(query);
     }
 }

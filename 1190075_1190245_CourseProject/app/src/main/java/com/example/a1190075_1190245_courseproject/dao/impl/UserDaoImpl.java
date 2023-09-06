@@ -127,14 +127,15 @@ public class UserDaoImpl implements UserDao {
 
         Cursor cursor = database.rawQuery("SELECT * FROM favourite WHERE userId = ? and noteId = ?", new String[]{userId, noteId});
 
-        close();
-
         if (cursor != null) {
             cursor.moveToFirst();
             FavouriteDto favourite = UserDto.cursorToFavourite(cursor);
             cursor.close();
+            close();
             return favourite;
         }
+        close();
+
         return null;
     }
 
@@ -146,15 +147,16 @@ public class UserDaoImpl implements UserDao {
         values.put("userId", favouriteDto.getUserId());
         values.put("noteId", favouriteDto.getNoteId());
 
+        System.out.println(values);
         database.insert("favourite", null, values);
 
         close();
     }
 
     @Override
-    public void deleteFavourite(String id) {
+    public void deleteFavourite(String userId, String noteId) {
         openWrite();
-        database.delete("favourite", "id=?", new String[]{id});
+        database.delete("favourite", "userId=? and noteId=?", new String[]{userId, noteId});
         close();
     }
 
@@ -162,7 +164,7 @@ public class UserDaoImpl implements UserDao {
     public List<NoteDto> favouriteNotes(String userId) {
         openRead();
         List<NoteDto> notes = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT n.* FROM note n, favourite f WHERE n.id = f.noteId and f.userId = ?", new String[]{userId});
+        Cursor cursor = database.rawQuery("SELECT DISTINCT n.* FROM note n, favourite f WHERE n.id = f.noteId and f.userId = ?", new String[]{userId});
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {

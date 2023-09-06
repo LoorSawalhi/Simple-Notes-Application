@@ -1,12 +1,14 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -21,6 +23,7 @@ import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -50,10 +53,6 @@ public class MainPageFragment extends Fragment {
 
     }
 
-    public MainPageFragment(List<NoteDto> notes) {
-        this.noteItems = notes;
-    }
-
     public static MainPageFragment newInstance(String param1, String param2) {
         MainPageFragment fragment = new MainPageFragment();
         Bundle args = new Bundle();
@@ -73,6 +72,7 @@ public class MainPageFragment extends Fragment {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,24 +85,40 @@ public class MainPageFragment extends Fragment {
         title = rootView.findViewById(R.id.fill_title);
         content = rootView.findViewById(R.id.fill_content);
 
+        noteItems = noteService.listAll();
+
         recyclerView = rootView.findViewById(R.id.notes_grid);
-        adapter = new NewNoteAdapter(noteItems);
+        adapter = new NewNoteAdapter(noteItems, getContext());
 
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
 
         addIcon.setOnClickListener(v -> {
                 if(checkFields()){
-                    // add note
+                    NoteDto noteDto = new NoteDto();
+                    noteDto.setTitle(title.getText().toString());
+                    noteDto.setContent(content.getText().toString());
+                    noteDto.setUserId(MainScreenActivity.currentUser.getId());
+
+                    noteService.addNote(noteDto);
+                    noteItems.add(noteDto);
+
+                    Toast.makeText(getContext(), "Note Added Successfully", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+
+
+                } else {
+                    Toast.makeText(getContext(), "Empty Fields", Toast.LENGTH_SHORT).show();
+
                 }
+                title.setText("");
+                content.setText("");
             });
 
         return rootView;
     }
 
     private boolean checkFields() {
-        if(title.getText().toString().isBlank() || content.getText().toString().isBlank())
-            return false;
-        return true;
+        return !title.getText().toString().isBlank() && !content.getText().toString().isBlank();
     }
 }

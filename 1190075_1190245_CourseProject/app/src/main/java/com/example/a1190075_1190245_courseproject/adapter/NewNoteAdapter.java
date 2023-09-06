@@ -1,5 +1,7 @@
 package com.example.a1190075_1190245_courseproject.adapter;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,26 +11,49 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.a1190075_1190245_courseproject.MainScreenActivity;
+import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.R;
+import com.example.a1190075_1190245_courseproject.dto.FavouriteDto;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
+import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHolder> {
 
     private List<NoteDto> noteItems = new ArrayList<>();
 
-    public NewNoteAdapter(List<NoteDto> noteItems) {
+    private Context context;
+    private MyApplication myApplication;
+
+    @Inject
+    public UserServiceImpl userService;
+
+    @Inject
+    public NoteServiceImpl noteService;
+    private FavouriteDto favourite;
+
+    public NewNoteAdapter(List<NoteDto> noteItems, Context context) {
         this.noteItems = noteItems;
+        this.context = context;
+        this.myApplication = (MyApplication) context.getApplicationContext();
+        myApplication.getAppComponent().inject(this);
+
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
+
 
         return new ViewHolder(view);
     }
@@ -39,6 +64,17 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
         holder.titleTextView.setText(noteItem.getTitle());
         holder.contentTextView.setText(noteItem.getContent());
 
+        System.out.println(MainScreenActivity.currentUser.getId() + noteItem.getId());
+        favourite = userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+
+        Drawable loverFilled = ContextCompat.getDrawable(context, R.drawable.loverfilled);
+        Drawable loverEmpty = ContextCompat.getDrawable(context, R.drawable.heart);
+
+        if(favourite != null) {
+            holder.fav.setImageDrawable(loverFilled);
+        } else {
+            holder.fav.setImageDrawable(loverEmpty);
+        }
         holder.edit.setOnClickListener(v -> {
 
         });
@@ -52,9 +88,25 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
         });
 
         holder.fav.setOnClickListener(v -> {
-            TransitionDrawable transitionDrawable = (TransitionDrawable)
-                    holder.fav.getDrawable();
-            transitionDrawable.reverseTransition(500);
+
+
+            Drawable[] layers = new Drawable[2];
+            layers[0] = ContextCompat.getDrawable(context, R.drawable.loverfilled);
+            layers[1] = ContextCompat.getDrawable(context, R.drawable.heart);
+            TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
+
+
+            if (favourite == null) {
+                userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+                transitionDrawable.reverseTransition(500);
+
+                favourite = userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+            } else {
+                userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+
+                transitionDrawable.startTransition(500);
+                favourite = null;
+            }
         });
 
     }

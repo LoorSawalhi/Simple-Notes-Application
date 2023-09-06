@@ -72,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Users
         db.execSQL("INSERT INTO user (id, firstName, lastName, nickName, email, passwords, preference) VALUES " +
-                "('1', 'Ahmad', 'Abbas', 'AhmadAbbas', 'abbas@equiptal.net', '123'," + Preference.CREATION_DATE.ordinal() + ")," +
+                "('1', 'Ahmad', 'Abbas', 'AhmadAbbas', '123', '123'," + Preference.CREATION_DATE.ordinal() + ")," +
                 "('2', 'Jane', 'Doe', 'jane', 'jane@example.com', 'password123', " + Preference.ALPHABETICALLY.ordinal() + ")");
 
         // Notes

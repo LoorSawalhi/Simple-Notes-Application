@@ -70,9 +70,19 @@ public class UserServiceImpl implements UserService {
         FavouriteDto favouriteDto = new FavouriteDto();
         favouriteDto.setNoteId(noteId);
         favouriteDto.setUserId(userId);
+        System.out.println("HERE");
         userDao.addFavourite(favouriteDto);
     }
 
+    @Override
+    public void deleteFavourite(String userId, String noteId) {
+        userDao.deleteFavourite(userId, noteId);
+    }
+
+    @Override
+    public FavouriteDto getFavourite(String userId, String noteId) {
+        return userDao.getFavourite(userId, noteId);
+    }
     @Override
     public boolean authorized(String email, String password) {
         UserDto user = userDao.loginUser(email, password);

@@ -89,6 +89,9 @@ public class UserDto {
 
     @SuppressLint("Range")
     public static UserDto cursorToUser(Cursor cursor) {
+        if(cursor.getCount() == 0)
+            return null;
+
         UserDto user = new UserDto();
         user.setId(cursor.getString(cursor.getColumnIndex("id")));
         user.setFirstName(cursor.getString(cursor.getColumnIndex("firstName")));
@@ -108,6 +111,10 @@ public class UserDto {
     @SuppressLint("Range")
     public static FavouriteDto cursorToFavourite(Cursor cursor) {
         FavouriteDto favouriteDto = new FavouriteDto();
+
+        if(cursor.getCount() == 0)
+            return null;
+
         favouriteDto.setId(cursor.getString(cursor.getColumnIndex("id")));
         favouriteDto.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
         favouriteDto.setNoteId(cursor.getString(cursor.getColumnIndex("noteId")));

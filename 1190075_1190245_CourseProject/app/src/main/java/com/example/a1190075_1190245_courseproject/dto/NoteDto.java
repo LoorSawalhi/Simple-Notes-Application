@@ -65,7 +65,12 @@ public class NoteDto {
 
     @SuppressLint("Range")
     public static NoteDto cursorToNote(Cursor cursor) {
+
+        if(cursor.getCount() == 0)
+            return null;
+
         NoteDto note = new NoteDto();
+
         note.setId(cursor.getString(cursor.getColumnIndex("id")));
         note.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
         note.setTitle(cursor.getString(cursor.getColumnIndex("title")));

@@ -4,6 +4,7 @@ import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.SignInActivity;
 import com.example.a1190075_1190245_courseproject.SignUpActivity;
 import com.example.a1190075_1190245_courseproject.SplashScreenActivity;
+import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
 import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
@@ -24,4 +25,6 @@ public interface AppComponent {
     void inject(ProfileFragment profileFragment);
     void inject(SortingFragment sortingFragment);
     void inject(FavouriteFragment favouriteFragment);
+    void inject(NewNoteAdapter adapter);
+
 }

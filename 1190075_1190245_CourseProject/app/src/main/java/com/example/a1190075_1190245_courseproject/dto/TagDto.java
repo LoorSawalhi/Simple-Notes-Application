@@ -28,7 +28,11 @@ public class TagDto {
 
     @SuppressLint("Range")
     public static TagDto cursorToTag(Cursor cursor) {
+        if(cursor.getCount() == 0)
+            return null;
+
         TagDto tag = new TagDto();
+
         tag.setId(cursor.getString(cursor.getColumnIndex("id")));
         tag.setLabel(cursor.getString(cursor.getColumnIndex("label")));
         return tag;

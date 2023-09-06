@@ -1,5 +1,6 @@
 package com.example.a1190075_1190245_courseproject.service;
 
+import com.example.a1190075_1190245_courseproject.dto.FavouriteDto;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
 
@@ -13,7 +14,9 @@ public interface UserService {
     void deleteUser(String id);
     List<NoteDto> getUserNotes(String userId);
     List<NoteDto> getUserFavouriteNotes(String userId);
+    FavouriteDto getFavourite(String userId, String noteId);
     void addFavourite(String userId, String noteId);
+    void deleteFavourite(String userId, String noteId);
     boolean authorized(String email, String password);
     UserDto findUserByEmail(String email);
 }

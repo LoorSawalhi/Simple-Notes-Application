@@ -81,7 +81,7 @@ public class FavouriteFragment extends Fragment {
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
         recyclerView = rootView.findViewById(R.id.fav_grid);
-        adapter = new NewNoteAdapter(noteItems);
+        adapter = new NewNoteAdapter(noteItems, getContext());
 
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
