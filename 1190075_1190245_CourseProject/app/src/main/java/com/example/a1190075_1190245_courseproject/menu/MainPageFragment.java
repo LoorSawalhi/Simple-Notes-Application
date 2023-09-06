@@ -97,13 +97,6 @@ public class MainPageFragment extends Fragment {
                 }
             });
 
-        // Load your data into the noteItems list and call notifyDataSetChanged() on the adapter
-        // when you want to refresh the data in the RecyclerView.
-
-//        Note newItem = new Note("New Title", "New Content");
-//        noteItems.add(newItem);
-//        adapter.notifyDataSetChanged();
-
         return rootView;
     }
 

@@ -46,6 +46,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     public NoteServiceImpl noteService;
 
     MainPageFragment mainPageFragment;
+    FavouriteFragment favouriteFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
 
         mainPageFragment = new MainPageFragment(noteService.listAll());
+        favouriteFragment = new FavouriteFragment(userService.getUserFavouriteNotes(currentUser.getId()));
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -85,7 +87,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 searchView.setVisibility(View.VISIBLE);
                 break;
             case R.id.favourite:
-                loadFragment(new FavouriteFragment());
+                loadFragment(favouriteFragment);
                 searchView.setVisibility(View.VISIBLE);
                 break;
             case R.id.sotred:
