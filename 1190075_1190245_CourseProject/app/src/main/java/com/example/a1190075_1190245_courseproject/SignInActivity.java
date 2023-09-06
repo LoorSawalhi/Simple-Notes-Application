@@ -59,7 +59,7 @@ public class SignInActivity extends AppCompatActivity {
 
     }
     private void updateButtonColor() {
-        if(!(email.getText().toString().isBlank() || password.getText().toString().isBlank()) ){
+        if(!(email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) ){
 
             logIn.setBackgroundResource(R.drawable.clickable_button);
             logIn.setEnabled(true);

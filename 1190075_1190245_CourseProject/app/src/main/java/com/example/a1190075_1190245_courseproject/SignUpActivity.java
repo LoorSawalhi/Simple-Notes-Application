@@ -130,9 +130,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void updateButtonColor() {
-        if(!(email.getText().toString().isBlank() || password.getText().toString().isBlank()
-                || passwordConfirm.getText().toString().isBlank() || firstName.getText().toString().isBlank()
-                || lastName.getText().toString().isBlank())){
+        if(!(email.getText().toString().isEmpty() || password.getText().toString().isEmpty()
+                || passwordConfirm.getText().toString().isEmpty() || firstName.getText().toString().isEmpty()
+                || lastName.getText().toString().isEmpty())){
             createAccount.setBackgroundResource(R.drawable.clickable_button);
             createAccount.setEnabled(true);
         }else{
