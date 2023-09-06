@@ -1,30 +1,30 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
-import static dagger.hilt.android.internal.Contexts.getApplication;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.a1190075_1190245_courseproject.MainScreenActivity;
+import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+
 
 public class MainPageFragment extends Fragment {
 
@@ -66,7 +66,7 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        ((MainScreenActivity) getActivity().getApplication()).getYourComponent().inject(this);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -78,6 +78,8 @@ public class MainPageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main_page, container, false);
+
+        ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
         ImageView addIcon = rootView.findViewById(R.id.add_icon);
         title = rootView.findViewById(R.id.fill_title);

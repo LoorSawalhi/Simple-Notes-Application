@@ -13,10 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
-import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
-import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
-import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.regex.Matcher;
@@ -70,10 +67,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        noteDao = new NoteDaoImpl(databaseHelper);
-        userDao = new UserDaoImpl(databaseHelper);
-        userService = new UserServiceImpl(userDao, noteDao);
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+
 
         TextView linkTextView = findViewById(R.id.linkTextView);
         firstName = findViewById(R.id.firstNameField);

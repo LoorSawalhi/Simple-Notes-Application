@@ -18,6 +18,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+
         View decorView = getWindow().getDecorView();
         WindowInsetsController insetsController = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {

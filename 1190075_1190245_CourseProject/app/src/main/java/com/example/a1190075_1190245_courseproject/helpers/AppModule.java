@@ -15,18 +15,26 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.components.ActivityComponent;
-import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.hilt.components.SingletonComponent;
+
 
 @Module
-@InstallIn(SingletonComponent.class)
 public class AppModule {
+
+    private final Context context;
+
+    public AppModule(Context context) {
+        this.context = context;
+    }
 
     @Provides
     @Singleton
-    public DatabaseHelper provideDatabaseHelper(@ApplicationContext Context context) {
+    public Context provideContext() {
+        return context;
+    }
+
+    @Provides
+    @Singleton
+    public DatabaseHelper provideDatabaseHelper(Context context) {
         return new DatabaseHelper(context);
     }
 

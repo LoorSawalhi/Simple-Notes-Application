@@ -55,10 +55,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        noteDao = new NoteDaoImpl(databaseHelper);
-        userDao = new UserDaoImpl(databaseHelper);
-        userService = new UserServiceImpl(userDao, noteDao);
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
 
         sharedPrefManager = SharedPrefManager.getInstance(this);
 
