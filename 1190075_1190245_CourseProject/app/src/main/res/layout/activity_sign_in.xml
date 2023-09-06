@@ -55,37 +55,48 @@
             android:layout_margin="15dp"
             android:layout_marginTop="30dp">
 
-            <EditText
-                android:id="@+id/email"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/email"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey_500"
-                android:textAlignment="textStart"
-                android:textDirection="ltr"
-                android:background="@android:color/transparent"
-                android:minHeight="48dp"
-                android:layout_marginTop="15dp"
-                android:autofillHints="" />
+                app:boxBackgroundMode="none">
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/email"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_500"
+                    android:textAlignment="textStart"
+                    android:textDirection="ltr"
+                    android:background="@android:color/transparent"
+                    android:minHeight="48dp"
+                    android:layout_marginTop="15dp"
+                    android:autofillHints="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/password"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
                 android:hint="@string/password"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey_500"
-                android:textAlignment="textStart"
-                android:textDirection="ltr"
-                android:background="@android:color/transparent"
-                android:minHeight="48dp"
-                android:layout_marginTop="15dp"
-                android:autofillHints="" />
+                app:boxBackgroundMode="none"
+                app:passwordToggleEnabled="true">
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_500"
+                    android:textAlignment="textStart"
+                    android:textDirection="ltr"
+                    android:background="@android:color/transparent"
+                    android:minHeight="48dp"
+                    android:layout_marginTop="15dp"
+                    android:autofillHints="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
                 android:id="@+id/remember_me"

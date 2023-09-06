@@ -111,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Email already exists!", Toast.LENGTH_LONG).show();
-                    //TODO: remove the text from email -LOOR-
+                    email.setText("");
                 }
 
             } else {
@@ -120,10 +120,14 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    //TODO: Change the stroke color of the fiels
     private void changeColors() {
         boolean flag = false;
+        int i =0;
+        String toastMessage = "";
          if (!isValidEmail(email.getText().toString())) {
              email.setTextColor(Color.RED);
+             toastMessage += "Email Format Is Wrong!\n";
              flag = true;
          } else {
              email.setTextColor(Color.BLACK);
@@ -132,6 +136,11 @@ public class SignUpActivity extends AppCompatActivity {
          if (!isValidPassword(password.getText().toString()) || !passwordConfirm.getText().toString().equals(password.getText().toString())){
              passwordConfirm.setTextColor(Color.RED);
              password.setTextColor(Color.RED);
+             if (!isValidPassword(password.getText().toString())){
+                 toastMessage += "Password Should Contain 6-12 Characters with capital & small letters and numbers\n";
+             } else {
+                 toastMessage += "Passwords Don't Match\n";
+             }
              flag = true;
          } else {
              passwordConfirm.setTextColor(Color.BLACK);
@@ -141,12 +150,17 @@ public class SignUpActivity extends AppCompatActivity {
          if(!isValidName(firstName.getText().toString())){
              firstName.setTextColor(Color.RED);
              flag = true;
+             i=1;
+             toastMessage += "Names Should be 3-10 Alphabets";
          } else {
              firstName.setTextColor(Color.BLACK);
          }
 
         if(!isValidName(lastName.getText().toString())){
             lastName.setTextColor(Color.RED);
+            if (i == 0){
+                toastMessage += "Names Should be 3-10 Alphabets";
+            }
             flag = true;
          } else {
             lastName.setTextColor(Color.BLACK);
@@ -154,6 +168,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (flag){
+            Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
             createAccount.setBackgroundResource(R.drawable.rounded_button);
             createAccount.setEnabled(false);
         }

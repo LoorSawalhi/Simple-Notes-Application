@@ -71,86 +71,112 @@ tools:context=".SignUpActivity">
         android:layout_margin="15dp"
         android:layout_marginTop="30dp">
 
-        <EditText
-            android:id="@+id/firstNameField"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_500"
-            android:textAlignment="textStart"
-            android:textDirection="ltr"
-            android:background="@android:color/transparent"
-            android:minHeight="48dp"
-            android:autofillHints=""
-            android:hint="@string/first_name"
-            android:inputType="textPersonName" />
+            app:boxBackgroundMode="none">
+            <EditText
+                android:id="@+id/firstNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_500"
+                android:textAlignment="textStart"
+                android:textDirection="ltr"
+                android:background="@android:color/transparent"
+                android:minHeight="48dp"
+                android:autofillHints=""
+                android:hint="@string/first_name"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/lastNameField"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/last_name"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_500"
-            android:textAlignment="textStart"
-            android:textDirection="ltr"
-            android:background="@android:color/transparent"
-            android:minHeight="48dp"
-            android:layout_marginTop="15dp"
-            android:inputType="textPersonName"
-            android:autofillHints="" />
+            app:boxBackgroundMode="none">
+            <EditText
+                android:id="@+id/lastNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/last_name"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_500"
+                android:textAlignment="textStart"
+                android:textDirection="ltr"
+                android:background="@android:color/transparent"
+                android:minHeight="48dp"
+                android:layout_marginTop="15dp"
+                android:inputType="textPersonName"
+                android:autofillHints="" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/emailField"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:layout_marginTop="15dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_500"
-            android:textAlignment="textStart"
-            android:textDirection="ltr"
-            android:background="@android:color/transparent"
-            android:minHeight="48dp"
-            android:autofillHints=""
-            android:hint="@string/email" />
+            app:boxBackgroundMode="none">
+            <EditText
+                android:id="@+id/emailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_500"
+                android:textAlignment="textStart"
+                android:textDirection="ltr"
+                android:background="@android:color/transparent"
+                android:minHeight="48dp"
+                android:autofillHints=""
+                android:hint="@string/email" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/passwordField"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:layout_marginTop="15dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_500"
-            android:textAlignment="textStart"
-            android:textDirection="ltr"
-            android:background="@android:color/transparent"
-            android:minHeight="48dp"
-            android:autofillHints=""
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            app:boxBackgroundMode="none"
+            app:passwordToggleEnabled="true">
+            <EditText
+                android:id="@+id/passwordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_500"
+                android:textAlignment="textStart"
+                android:textDirection="ltr"
+                android:background="@android:color/transparent"
+                android:minHeight="48dp"
+                android:autofillHints="" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/confirmPasswordField"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:hint="@string/confirm_password"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_500"
-            android:textAlignment="textStart"
-            android:textDirection="ltr"
-            android:background="@android:color/transparent"
-            android:minHeight="48dp"
-            android:layout_marginTop="15dp"
-            android:autofillHints="" />
-
+            app:passwordToggleEnabled="true"
+            app:boxBackgroundMode="none">
+            <EditText
+                android:id="@+id/confirmPasswordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_500"
+                android:textAlignment="textStart"
+                android:textDirection="ltr"
+                android:background="@android:color/transparent"
+                android:minHeight="48dp"
+                android:layout_marginTop="15dp"
+                android:autofillHints="" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -171,6 +197,7 @@ tools:context=".SignUpActivity">
                 app:backgroundTint="@null" />
 
         </RelativeLayout>
+
         <TextView
             android:id="@+id/linkTextView"
             android:layout_width="wrap_content"

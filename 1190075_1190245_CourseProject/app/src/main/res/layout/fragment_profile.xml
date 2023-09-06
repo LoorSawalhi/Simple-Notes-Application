@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".ProfileFragment">
+tools:context=".menu.ProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,25 +54,33 @@ tools:context=".ProfileFragment">
             android:orientation="vertical"
             android:layout_margin="15dp"
             android:gravity="center"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/firstName"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="First Name"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey_500"
-                    android:textAlignment="textStart"
-                    android:textDirection="ltr"
-                    android:background="@android:color/transparent"
-                    android:minHeight="48dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:boxBackgroundMode="none">
+                    <EditText
+                        android:id="@+id/firstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="First Name"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey_500"
+                        android:textAlignment="textStart"
+                        android:textDirection="ltr"
+                        android:background="@android:color/transparent"
+                        android:minHeight="48dp"
+                        android:layout_weight="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <ImageView
                     android:id="@+id/edit_fn"
                     android:layout_width="match_parent"
@@ -85,21 +93,29 @@ tools:context=".ProfileFragment">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/lastName"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Last Name"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey_500"
-                    android:textAlignment="textStart"
-                    android:textDirection="ltr"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:minHeight="48dp"
-                    android:layout_marginTop="25dp" />
+                    app:boxBackgroundMode="none">
+                    <EditText
+                        android:id="@+id/lastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Last Name"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey_500"
+                        android:textAlignment="textStart"
+                        android:textDirection="ltr"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:minHeight="48dp"
+                        android:layout_marginTop="25dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <ImageView
                     android:id="@+id/edit_ln"
                     android:layout_width="match_parent"
@@ -112,21 +128,29 @@ tools:context=".ProfileFragment">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/email"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey_500"
-                    android:textAlignment="textStart"
-                    android:textDirection="ltr"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:minHeight="48dp"
-                    android:layout_marginTop="25dp" />
+                    app:boxBackgroundMode="none">
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey_500"
+                        android:textAlignment="textStart"
+                        android:textDirection="ltr"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:minHeight="48dp"
+                        android:layout_marginTop="25dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <ImageView
                     android:id="@+id/edit_email"
                     android:layout_width="match_parent"
@@ -135,24 +159,35 @@ tools:context=".ProfileFragment">
                     android:layout_gravity="center"
                     android:src="@drawable/edit"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/password"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey_500"
-                    android:textAlignment="textStart"
-                    android:textDirection="ltr"
+                    android:hint="@string/password"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:minHeight="48dp"
-                    android:layout_marginTop="25dp" />
+                    app:boxBackgroundMode="none"
+                    app:passwordToggleEnabled="true">
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Password"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey_500"
+                        android:textAlignment="textStart"
+                        android:textDirection="ltr"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:minHeight="48dp"
+                        android:layout_marginTop="25dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <ImageView
                     android:id="@+id/edit_password"
                     android:layout_width="match_parent"
