@@ -73,7 +73,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 startActivity(intent);
                 break;
         }
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

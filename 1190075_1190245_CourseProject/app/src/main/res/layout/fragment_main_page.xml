@@ -41,7 +41,8 @@
                         android:layout_height="35dp"
                         android:layout_marginEnd="10dp"
                         android:src="@drawable/addfile"
-                        android:layout_weight="2"/>
+                        android:layout_weight="2"
+                        android:contentDescription="@string/todo" />
                 </LinearLayout>
 
                 <EditText
@@ -51,7 +52,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:hint="@string/title"
-                    android:textSize="19sp"/>
+                    android:textSize="19sp"
+                    android:autofillHints=""
+                    android:inputType="text" />
 
                 <EditText
                     android:id="@+id/fill_content"
@@ -61,7 +64,9 @@
                     android:layout_marginStart="7dp"
                     android:layout_weight="0.5"
                     android:hint="@string/content"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:autofillHints=""
+                    android:inputType="text" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </com.google.android.material.card.MaterialCardView>

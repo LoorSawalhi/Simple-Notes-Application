@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Note +"
-        android:textSize="30dp"
+        android:text="@string/note_plus"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/white"/>
 
@@ -27,9 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Best NoteBook Ever!"
+        android:text="@string/best_notebook_ever"
         android:textColor="@color/white"
         android:layout_marginTop="250dp"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
 </LinearLayout>

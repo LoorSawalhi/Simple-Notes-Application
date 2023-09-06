@@ -8,4 +8,25 @@
     <string name="new_note">New Note</string>
     <string name="content">Content</string>
     <string name="note">note</string>
+    <string name="best_notebook_ever">Best NoteBook Ever!</string>
+    <string name="note_plus">Note +</string>
+    <string name="logo">logo</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="log_in">Log In</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
+    <string name="create_account">Create Account</string>
+    <string name="welcome_to_our_family">Welcome To Our Family</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="todo">TODO</string>
+    <string name="user_name">User Name</string>
+    <string name="all">All</string>
+    <string name="favorites">Favorites</string>
+    <string name="sorted">Sorted</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
 </resources>

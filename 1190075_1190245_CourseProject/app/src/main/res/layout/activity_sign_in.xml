@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="logo" />
+        android:contentDescription="@string/logo" />
 
     <TextView
         android:id="@+id/login_text"
@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="Welcome Back"
+        android:text="@string/welcome_back"
         app:layout_constraintTop_toBottomOf="@+id/icon_"
-        android:textSize="27dp"
+        android:textSize="27sp"
         android:textColor="@color/white"
         android:visibility="visible" />
 
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey_500"
@@ -68,14 +68,15 @@
                 android:textDirection="ltr"
                 android:background="@android:color/transparent"
                 android:minHeight="48dp"
-                android:layout_marginTop="15dp" />
+                android:layout_marginTop="15dp"
+                android:autofillHints="" />
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey_500"
@@ -83,7 +84,8 @@
                 android:textDirection="ltr"
                 android:background="@android:color/transparent"
                 android:minHeight="48dp"
-                android:layout_marginTop="15dp" />
+                android:layout_marginTop="15dp"
+                android:autofillHints="" />
 
             <CheckBox
                 android:id="@+id/remember_me"
@@ -93,7 +95,7 @@
                 android:checked="true"
                 android:textSize="18sp"
                 android:layout_marginTop="15dp"
-                android:text="Remember Me"/>
+                android:text="@string/remember_me"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -108,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="30dp"
-                    android:text="Log In"
+                    android:text="@string/log_in"
                     android:textColor="@color/white"
                     android:background="@drawable/rounded_button"
                     app:backgroundTint="@null" />
@@ -118,7 +120,7 @@
                 android:id="@+id/linkSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Already have an account? Sign in"
+                android:text="@string/already_have_an_account_sign_in"
                 android:textColor="@color/blue_700"
                 android:layout_gravity="center"
                 android:autoLink="web" />
