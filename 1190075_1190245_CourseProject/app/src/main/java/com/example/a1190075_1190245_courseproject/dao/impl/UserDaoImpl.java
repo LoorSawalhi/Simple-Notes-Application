@@ -80,7 +80,7 @@ public class UserDaoImpl implements UserDao {
         values.put("nickName", user.getNickName());
         values.put("email", user.getEmail());
         values.put("passwords", user.getPassword());
-        values.put("preference", user.getPreference().toString());
+        values.put("preference", user.getPreference().name());
 
         database.insert("User", null, values);
 
