@@ -3,6 +3,8 @@ package com.example.a1190075_1190245_courseproject.menu;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,14 @@ import android.widget.Spinner;
 
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.R;
+import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
+import com.example.a1190075_1190245_courseproject.dto.NoteDto;
+import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,17 +30,26 @@ import com.example.a1190075_1190245_courseproject.R;
  */
 public class SortingFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private RecyclerView recyclerView;
+    private NewNoteAdapter adapter;
+    private List<NoteDto> noteItems;
+
+    @Inject
+    public UserServiceImpl userService;
+
+    @Inject
+    public NoteServiceImpl noteService;
     public SortingFragment() {
-        // Required empty public constructor
+    }
+
+    public SortingFragment(List<NoteDto> notes)  {
+        this.noteItems = notes;
     }
 
 
@@ -64,6 +83,14 @@ public class SortingFragment extends Fragment {
         final Spinner genderSpinner = view.findViewById(R.id.sort_spinner);
         ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
         genderSpinner.setAdapter(objGenderArr);
+
+        ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+
+        recyclerView = view.findViewById(R.id.fav_grid);
+        adapter = new NewNoteAdapter(noteItems);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
+        recyclerView.setAdapter(adapter);
 
         return view;
     }

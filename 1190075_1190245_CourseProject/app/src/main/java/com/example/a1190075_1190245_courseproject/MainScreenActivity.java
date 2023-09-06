@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -47,6 +48,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     MainPageFragment mainPageFragment;
     FavouriteFragment favouriteFragment;
+    SortingFragment sortingFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +63,18 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         mainPageFragment = new MainPageFragment();
         favouriteFragment = new FavouriteFragment(userService.getUserFavouriteNotes(currentUser.getId()));
+        sortingFragment = new SortingFragment(noteService.listAll());
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         searchView = findViewById(R.id.search_bar);
+
+        View headerView = navigationView.getHeaderView(0); // 0 is the index of the header view
+        TextView user = headerView.findViewById(R.id.userName);
+        TextView email = headerView.findViewById(R.id.user_ID);
+
+        user.setText(currentUser.getNickName());
+        email.setText(currentUser.getEmail());
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
@@ -91,7 +101,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 searchView.setVisibility(View.VISIBLE);
                 break;
             case R.id.sotred:
-                loadFragment(new SortingFragment());
+                loadFragment(sortingFragment);
                 searchView.setVisibility(View.VISIBLE);
                 break;
             case R.id.profile:

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.SignUpActivity;
@@ -79,6 +80,11 @@ public class ProfileFragment extends Fragment {
         lastName.setEnabled(false);
         email.setEnabled(false);
         password.setEnabled(false);
+
+        firstName.setText(MainScreenActivity.currentUser.getFirstName());
+        lastName.setText(MainScreenActivity.currentUser.getLastName());
+        email.setText(MainScreenActivity.currentUser.getEmail());
+        password.setText(MainScreenActivity.currentUser.getPassword());
 
         firstName.setText("Loor");
 
