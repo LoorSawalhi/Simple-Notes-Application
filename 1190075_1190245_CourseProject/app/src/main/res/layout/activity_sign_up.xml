@@ -24,7 +24,7 @@ tools:context=".SignUpActivity">
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    android:contentDescription="logo" />
+    android:contentDescription="@string/logo" />
 
 <TextView
     android:id="@+id/create_text"
@@ -32,9 +32,9 @@ tools:context=".SignUpActivity">
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
-    android:text="Create Account"
+    android:text="@string/create_account"
     app:layout_constraintTop_toBottomOf="@+id/icon"
-    android:textSize="27dp"
+    android:textSize="27sp"
     android:textColor="@color/white"
     android:visibility="visible" />
 
@@ -44,7 +44,7 @@ tools:context=".SignUpActivity">
     android:layout_gravity="center"
     android:layout_marginTop="2dp"
     android:letterSpacing="0.01"
-    android:text="Welcome To Our Family"
+    android:text="@string/welcome_to_our_family"
     android:layout_marginBottom="5dp"
     app:layout_constraintTop_toBottomOf="@+id/create_text"
     android:textSize="15sp"
@@ -75,7 +75,7 @@ tools:context=".SignUpActivity">
             android:id="@+id/firstNameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="First Name"
+            android:layout_marginTop="15dp"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_500"
@@ -83,13 +83,15 @@ tools:context=".SignUpActivity">
             android:textDirection="ltr"
             android:background="@android:color/transparent"
             android:minHeight="48dp"
-            android:layout_marginTop="15dp" />
+            android:autofillHints=""
+            android:hint="@string/first_name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/lastNameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Last Name"
+            android:hint="@string/last_name"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_500"
@@ -97,14 +99,16 @@ tools:context=".SignUpActivity">
             android:textDirection="ltr"
             android:background="@android:color/transparent"
             android:minHeight="48dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:inputType="textPersonName"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/emailField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Email"
+            android:layout_marginTop="15dp"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_500"
@@ -112,14 +116,15 @@ tools:context=".SignUpActivity">
             android:textDirection="ltr"
             android:background="@android:color/transparent"
             android:minHeight="48dp"
-            android:layout_marginTop="15dp" />
+            android:autofillHints=""
+            android:hint="@string/email" />
 
         <EditText
             android:id="@+id/passwordField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Password"
+            android:layout_marginTop="15dp"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_500"
@@ -127,14 +132,15 @@ tools:context=".SignUpActivity">
             android:textDirection="ltr"
             android:background="@android:color/transparent"
             android:minHeight="48dp"
-            android:layout_marginTop="15dp" />
+            android:autofillHints=""
+            android:hint="@string/password" />
 
         <EditText
-            android:id="@+id/confirtPasswordField"
+            android:id="@+id/confirmPasswordField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Confirm Password"
+            android:hint="@string/confirm_password"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_500"
@@ -142,7 +148,8 @@ tools:context=".SignUpActivity">
             android:textDirection="ltr"
             android:background="@android:color/transparent"
             android:minHeight="48dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:autofillHints="" />
 
 
         <RelativeLayout
@@ -154,11 +161,11 @@ tools:context=".SignUpActivity">
             android:layout_marginTop="20dp">
 
             <Button
-                android:id="@+id/creatAccount"
+                android:id="@+id/createAccount"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                android:text="Create Account"
+                android:text="@string/create_account"
                 android:textColor="@color/white"
                 android:background="@drawable/rounded_button"
                 app:backgroundTint="@null" />
@@ -168,7 +175,7 @@ tools:context=".SignUpActivity">
             android:id="@+id/linkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account? Sign in"
+            android:text="@string/already_have_an_account_sign_in"
             android:textColor="@color/blue_700"
             android:layout_gravity="center"
             android:autoLink="web" />

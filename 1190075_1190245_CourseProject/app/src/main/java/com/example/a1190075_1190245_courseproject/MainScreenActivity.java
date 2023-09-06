@@ -41,20 +41,16 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.all:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MainPageFragment()).commit();
-                break;
-            case R.id.favourite:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouriteFragment()).commit();
-                break;
-            case R.id.sotred:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SortingFragment()).commit();
-                break;
-//            case R.id.logout:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SignInActivity()).commit();
-//                break;
-        }
+        int id = item.getItemId();
+        if (id == R.id.all) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MainPageFragment()).commit();
+        } else if (id == R.id.favourite) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouriteFragment()).commit();
+        } else if (id == R.id.sotred) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SortingFragment()).commit();
+        } // else if (id == R.id.logout) {
+        //    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SignInActivity()).commit();
+        //}
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

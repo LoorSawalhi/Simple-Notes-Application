@@ -55,8 +55,8 @@ public class SignUpActivity extends AppCompatActivity {
         lastName = findViewById(R.id.lastNameField);
         email = findViewById(R.id.emailField);
         password = findViewById(R.id.passwordField);
-        passwordConfirm = findViewById(R.id.confirtPasswordField);
-        createAccount = findViewById(R.id.creatAccount);
+        passwordConfirm = findViewById(R.id.confirmPasswordField);
+        createAccount = findViewById(R.id.createAccount);
 
         firstName.addTextChangedListener(textWatcher);
         lastName.addTextChangedListener(textWatcher);
