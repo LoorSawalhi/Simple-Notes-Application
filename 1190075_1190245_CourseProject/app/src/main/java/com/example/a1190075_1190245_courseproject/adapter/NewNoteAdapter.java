@@ -1,5 +1,6 @@
 package com.example.a1190075_1190245_courseproject.adapter;
 
+import android.graphics.drawable.TransitionDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,9 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
         });
 
         holder.fav.setOnClickListener(v -> {
-
+            TransitionDrawable transitionDrawable = (TransitionDrawable)
+                    holder.fav.getDrawable();
+            transitionDrawable.reverseTransition(500);
         });
 
     }
