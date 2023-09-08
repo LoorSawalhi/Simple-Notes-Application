@@ -1,5 +1,7 @@
 package com.example.a1190075_1190245_courseproject.adapter;
 
+import static com.example.a1190075_1190245_courseproject.MainScreenActivity.colorArray;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +63,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.tag.setOnClickListener(view -> {
             listener.updateList(tagItem);
         });
+
+        int colorIndex = (position + colorArray.length + 4) % colorArray.length;
+        holder.tag.setBackgroundColor(colorArray[colorIndex]);
     }
 
     @Override

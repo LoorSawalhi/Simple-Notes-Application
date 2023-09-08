@@ -1,5 +1,7 @@
 package com.example.a1190075_1190245_courseproject.adapter;
 
+import static com.example.a1190075_1190245_courseproject.MainScreenActivity.colorArray;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a1190075_1190245_courseproject.MyApplication;
@@ -76,11 +79,14 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
             listener.openNote(noteItem);
         });
 
+        int colorIndex = position % colorArray.length;
+        holder.card.setBackgroundColor(colorArray[colorIndex]);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTextView;
         private TextView dateTextView;
+        private ConstraintLayout card;
 
         private CardView item;
 
@@ -89,6 +95,7 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
             titleTextView = itemView.findViewById(R.id.title);
             dateTextView = itemView.findViewById(R.id.create_date);
             item = itemView.findViewById(R.id.cardView);
+            card = itemView.findViewById(R.id.back_item);
 
         }
     }

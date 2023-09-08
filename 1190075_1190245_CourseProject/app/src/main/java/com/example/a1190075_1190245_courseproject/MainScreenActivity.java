@@ -1,6 +1,7 @@
 package com.example.a1190075_1190245_courseproject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,14 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     @Inject
     public NoteServiceImpl noteService;
     private List<NoteDto> favNotes;
+    public static int[] colorArray = {
+            Color.parseColor("#FFCB75E3"),
+            Color.parseColor("#FF75B0E3"),
+            Color.parseColor("#FFE37598"),
+            Color.parseColor("#FF75E380"),
+            Color.parseColor("#FFE3A875"),
+            Color.parseColor("#FF8D75E3")
+    };
 
     MainPageFragment mainPageFragment;
     FavouriteFragment favouriteFragment;
