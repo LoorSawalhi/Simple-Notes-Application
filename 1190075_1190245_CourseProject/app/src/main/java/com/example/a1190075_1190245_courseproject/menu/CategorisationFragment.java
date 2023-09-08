@@ -34,6 +34,8 @@ import javax.inject.Inject;
 
 public class CategorisationFragment extends Fragment implements CategoryAdapter.tagOnClickListener, NewNoteAdapter.noteOnClickListener {
 
+    //TODO: CREATE TAG SEARCH
+    //TODO: CREATE SEARCH NOTES BY TITLE OR CONTENT FOR 09.09.2023
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 

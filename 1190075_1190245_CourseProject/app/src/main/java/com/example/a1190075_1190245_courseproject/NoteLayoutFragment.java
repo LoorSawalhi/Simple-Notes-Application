@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -21,9 +22,11 @@ import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.TagDto;
+import com.example.a1190075_1190245_courseproject.enums.Preference;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -92,11 +95,42 @@ public class NoteLayoutFragment extends Fragment {
         List<TagDto> tags = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId());
         String[] options = tags.stream().map(TagDto::getLabel).toArray(String[]::new);
 
-//        String[] options = { "CREATION DATE", "ALPHABETICALLY"};
 
-        final Spinner genderSpinner = itemView.findViewById(R.id.cat_spinner);
-        ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
-        genderSpinner.setAdapter(objGenderArr);
+        TagDto tag = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId()).stream().filter(t -> t.getId().equalsIgnoreCase(noteItem.getTagId())).findFirst().orElse(null);
+
+        final Spinner tagSpinner = itemView.findViewById(R.id.cat_spinner);
+        ArrayAdapter<String> objTagArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
+        tagSpinner.setAdapter(objTagArr);
+
+        if(tag != null)
+            tagSpinner.setSelection(objTagArr.getPosition(tag.getLabel()));
+
+        final boolean[] sFlag = {false};
+        tagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedTag = tagSpinner.getSelectedItem().toString();
+
+                TagDto tag = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId()).stream().filter(t -> t.getLabel().equalsIgnoreCase(selectedTag)).findFirst().orElse(null);
+                if(tag != null && sFlag[0]) {
+                    noteItem.setTagId(tag.getId());
+                    int update = noteService.updateNote(noteItem.getId(), noteItem);
+                    if(update != 0) {
+                        Toast.makeText(getContext(), "Updated Successfully", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_LONG).show();
+                    }
+                }
+                sFlag[0] = true;
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
 
         edit = itemView.findViewById(R.id.edit);
         delete = itemView.findViewById(R.id.delete);
@@ -111,7 +145,6 @@ public class NoteLayoutFragment extends Fragment {
         date.setText(noteItem.getCreatedOn());
 
 
-        System.out.println(MainScreenActivity.currentUser.getId() + noteItem.getId());
 
         TransitionDrawable transitionDrawable = (TransitionDrawable) fav.getDrawable();
 

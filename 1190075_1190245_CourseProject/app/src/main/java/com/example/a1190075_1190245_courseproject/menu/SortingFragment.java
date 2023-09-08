@@ -3,12 +3,6 @@ package com.example.a1190075_1190245_courseproject.menu;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
-import com.example.a1190075_1190245_courseproject.NoteFragment;
 import com.example.a1190075_1190245_courseproject.NoteLayoutFragment;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
@@ -36,20 +34,17 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    @Inject
+    public UserServiceImpl userService;
+    @Inject
+    public NoteServiceImpl noteService;
     private String mParam1;
     private String mParam2;
-
     private RecyclerView recyclerView;
     private NewNoteAdapter adapter;
     private List<NoteDto> noteItems;
-
-    @Inject
-    public UserServiceImpl userService;
-
-    @Inject
-    public NoteServiceImpl noteService;
     private AlertDialog.Builder builder;
+
     public SortingFragment() {
     }
 
@@ -79,21 +74,21 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sorting, container, false);
 
-        String[] options = { "CREATION DATE", "ALPHABETICALLY"};
-        final Spinner genderSpinner = view.findViewById(R.id.sort_spinner);
-        ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
-        genderSpinner.setAdapter(objGenderArr);
+        String[] options = {"CREATION DATE", "ALPHABETICALLY"};
+        final Spinner sortingSpinner = view.findViewById(R.id.sort_spinner);
+        ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
+        sortingSpinner.setAdapter(objGenderArr);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
         String userId = MainScreenActivity.currentUser.getId();
 
-        if(MainScreenActivity.currentUser.getPreference().equals(Preference.CREATIONDATE)){
+        if (MainScreenActivity.currentUser.getPreference().equals(Preference.CREATIONDATE)) {
             noteItems = noteService.getSorted(userId, "creationDate DESC");
-            genderSpinner.setSelection(0);
+            sortingSpinner.setSelection(0);
         } else {
             noteItems = noteService.getSorted(userId, "title");
-            genderSpinner.setSelection(1);
+            sortingSpinner.setSelection(1);
         }
 
         recyclerView = view.findViewById(R.id.fav_grid);
@@ -104,11 +99,11 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
 
-        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sortingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if(genderSpinner.getSelectedItem().equals("CREATION DATE")){
+                if (sortingSpinner.getSelectedItem().equals("CREATION DATE")) {
                     noteItems.clear();
                     noteItems.addAll(noteService.getSorted(userId, "creationDate DESC"));
                     MainScreenActivity.currentUser.setPreference(Preference.CREATIONDATE);
@@ -119,7 +114,7 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
 
                 }
                 int update = userService.updateUser(MainScreenActivity.currentUser);
-                if(update != 0 ) {
+                if (update != 0) {
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_LONG).show();

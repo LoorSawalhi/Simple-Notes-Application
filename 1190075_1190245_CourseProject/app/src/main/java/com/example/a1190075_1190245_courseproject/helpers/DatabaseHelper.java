@@ -8,7 +8,7 @@ import com.example.a1190075_1190245_courseproject.enums.Preference;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "notes";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String CREATE_USER_TABLE =
             "CREATE TABLE `user` (" +
@@ -57,10 +57,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Loor', 'Johnson', 'loory', 'loor@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
 
 // Tag data
-        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('1', 'Work', '1')");
-        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('2', 'Personal', '1')");
-        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('3', 'Family', '2')");
-        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('4', 'Work', '2')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('0', 'All', '1')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('1', 'All', '2')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('2', 'Work', '1')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('3', 'Personal', '1')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('4', 'Family', '2')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('5', 'Work', '2')");
 
 // Notes for Ahmad (userId=1) with different tags
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Android Components', 'Learn about Activity, Service, and BroadcastReceiver.', '2023-01-01', 1, '1')");

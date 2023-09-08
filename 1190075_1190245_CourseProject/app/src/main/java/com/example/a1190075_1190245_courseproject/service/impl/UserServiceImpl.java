@@ -4,6 +4,7 @@ import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
+import com.example.a1190075_1190245_courseproject.dto.TagDto;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
 import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
 import com.example.a1190075_1190245_courseproject.service.UserService;
@@ -38,6 +39,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean addUser(UserDto user) {
+        TagDto tag = new TagDto();
+        tag.setLabel("All");
+        tag.setUserId(user.getId());
+
+        noteDao.addTag(tag);
+
         return userDao.insert(user);
     }
 
