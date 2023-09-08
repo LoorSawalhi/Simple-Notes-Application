@@ -203,6 +203,7 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     public List<TagDto> getAllTagsForUser(String userId) {
+        openWrite();
         List<TagDto> tagList = new ArrayList<>();
 
         String sql = "SELECT DISTINCT t.* FROM tag t " +
@@ -220,6 +221,8 @@ public class NoteDaoImpl implements NoteDao {
         }
 
         cursor.close();
+        close();
+        System.out.println(tagList);
         return tagList;
     }
 

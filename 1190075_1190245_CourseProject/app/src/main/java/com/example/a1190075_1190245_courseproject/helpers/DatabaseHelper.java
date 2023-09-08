@@ -50,21 +50,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_NOTE_TABLE);
         db.execSQL(CREATE_TAG_TABLE);
 
-        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('1', 'John', 'Doe', 'johnny', '1', '1', \"" + Preference.CREATIONDATE.name() +"\")");
-        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Jane', 'Doe', 'jenny', 'jane@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
+// User data
+        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('1', 'Ahmad', 'Smith', 'ahmady', '1', '1', \"" + Preference.CREATIONDATE.name() +"\")");
+        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Loor', 'Johnson', 'loory', 'loor@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
 
+// Tag data
         db.execSQL("INSERT INTO `tag` (id, label) VALUES ('1', 'Work')");
         db.execSQL("INSERT INTO `tag` (id, label) VALUES ('2', 'Personal')");
         db.execSQL("INSERT INTO `tag` (id, label) VALUES ('3', 'Family')");
 
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Meeting notes', 'Discuss project plans.', '2021-01-01', 1, '1')");
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('2', '1', 'Grocery list', 'Milk, Bread', '2021-01-02', 0, '2')");
+// Notes for Ahmad (userId=1) with different tags
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Android Components', 'Learn about Activity, Service, and BroadcastReceiver.', '2023-01-01', 1, '1')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('2', '1', 'Kotlin Libraries', 'Explore Coroutines and Flow.', '2023-01-02', 0, '2')");
 
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('3', '2', 'Family Reunion', 'Plan for the family reunion next month.', '2021-01-03', 1, '3')");
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('4', '2', 'Read List', 'Books to read this year.', '2021-01-04', 0, '2')");
+// Notes for Loor (userId=2) with different tags
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('3', '2', 'Android Networking', 'Retrofit and OkHttp.', '2023-01-03', 1, '1')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('4', '2', 'Design Patterns', 'MVC, MVP, and MVVM in Android.', '2023-01-04', 0, '3')");
 
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('5', '1', 'Shared Note', 'This is a shared note.', '2021-01-05', 1, '2')");
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('6', '2', 'Shared Note', 'This is a shared note.', '2021-01-05', 1, '2')");
+// Shared notes for Ahmad and Loor
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('5', '1', 'Shared Note on RxJava', 'Learning RxJava for Android.', '2023-01-05', 1, '3')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('6', '2', 'Shared Note on Room', 'Exploring Room database.', '2023-01-05', 1, '2')");
     }
 
     @Override

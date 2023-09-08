@@ -20,10 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
+import com.example.a1190075_1190245_courseproject.dto.TagDto;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -86,7 +89,11 @@ public class NoteLayoutFragment extends Fragment {
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
-        String[] options = { "CREATION DATE", "ALPHABETICALLY"};
+        List<TagDto> tags = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId());
+        String[] options = tags.stream().map(TagDto::getLabel).toArray(String[]::new);
+
+//        String[] options = { "CREATION DATE", "ALPHABETICALLY"};
+
         final Spinner genderSpinner = itemView.findViewById(R.id.cat_spinner);
         ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
         genderSpinner.setAdapter(objGenderArr);

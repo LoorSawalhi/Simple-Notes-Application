@@ -8,6 +8,7 @@ import com.example.a1190075_1190245_courseproject.SignUpActivity;
 import com.example.a1190075_1190245_courseproject.SplashScreenActivity;
 import com.example.a1190075_1190245_courseproject.adapter.CategoryAdapter;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
+import com.example.a1190075_1190245_courseproject.menu.CategorisationFragment;
 import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
@@ -34,4 +35,6 @@ public interface AppComponent {
     void inject(NoteFragment noteFragment);
 
     void inject(CategoryAdapter categoryAdapter);
+
+    void inject(CategorisationFragment categorisationFragment);
 }
