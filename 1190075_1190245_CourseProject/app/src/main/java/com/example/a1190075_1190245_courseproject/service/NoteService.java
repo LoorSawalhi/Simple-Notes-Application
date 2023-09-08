@@ -19,5 +19,5 @@ public interface NoteService {
     int deleteTagFromNote(NoteDto noteDto);
     List<NoteDto> getNotesByTagLabel(String tagLabel, String userId);
     List<TagDto> getAllTagsForUser(String userId);
-    List<NoteDto> getSorted(String sortingCriteria);
+    List<NoteDto> getSorted(String userId, String sortingCriteria);
 }

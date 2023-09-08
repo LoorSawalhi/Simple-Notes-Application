@@ -104,10 +104,10 @@ public class NoteLayoutFragment extends Fragment {
         AtomicBoolean flag = new AtomicBoolean(false);
 
 
-        if(userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId()) != null) {
-            transitionDrawable.reverseTransition(1);
-            flag.set(true);
-        }
+//        if(userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId()) != null) {
+//            transitionDrawable.reverseTransition(1);
+//            flag.set(true);
+//        }
 
         edit.setOnClickListener(v -> {
             Fragment newFragment = new NoteFragment(noteItem, this);
@@ -143,17 +143,17 @@ public class NoteLayoutFragment extends Fragment {
 
         fav.setOnClickListener(v -> {
 
-            if (!flag.get()) {
-                transitionDrawable.reverseTransition(500);
-                userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-
-                flag.set(true);
-            } else {
-                transitionDrawable.reverseTransition(500);
-                userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-
-                flag.set(false);
-            }
+//            if (!flag.get()) {
+//                transitionDrawable.reverseTransition(500);
+//                userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+//
+//                flag.set(true);
+//            } else {
+//                transitionDrawable.reverseTransition(500);
+//                userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+//
+//                flag.set(false);
+//            }
         });
 
         return itemView;

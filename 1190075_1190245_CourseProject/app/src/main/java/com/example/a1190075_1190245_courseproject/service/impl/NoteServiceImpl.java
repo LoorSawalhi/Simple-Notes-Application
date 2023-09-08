@@ -82,9 +82,11 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteDto> getSorted(String sortingCriteria) {
+    public List<NoteDto> getSorted(String userId, String sortingCriteria) {
         NoteSqlQuery query = new NoteSqlQuery();
+        query.setId(List.of(userId));
         query.setOrderBy(sortingCriteria);
+        System.out.println(noteDao.list(query));
         return noteDao.list(query);
     }
 

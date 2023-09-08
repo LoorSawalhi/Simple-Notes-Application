@@ -1,5 +1,6 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
@@ -16,12 +17,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.NoteFragment;
 import com.example.a1190075_1190245_courseproject.NoteLayoutFragment;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
+import com.example.a1190075_1190245_courseproject.enums.Preference;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
@@ -50,11 +53,6 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
     public SortingFragment() {
     }
 
-    public SortingFragment(List<NoteDto> notes)  {
-        this.noteItems = notes;
-    }
-
-
     public static SortingFragment newInstance(String param1, String param2) {
         SortingFragment fragment = new SortingFragment();
         Bundle args = new Bundle();
@@ -81,29 +79,22 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sorting, container, false);
 
-        String[] options = { "CREATION_DATE", "ALPHABETICALLY"};
+        String[] options = { "CREATION DATE", "ALPHABETICALLY"};
         final Spinner genderSpinner = view.findViewById(R.id.sort_spinner);
         ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
         genderSpinner.setAdapter(objGenderArr);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
-        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selected = (String) parentView.getItemAtPosition(position);
-                if(genderSpinner.getSelectedItem().equals("CREATION_DATE")){
+        String userId = MainScreenActivity.currentUser.getId();
 
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-
-            }
-        });
+        if(MainScreenActivity.currentUser.getPreference().equals(Preference.CREATIONDATE)){
+            noteItems = noteService.getSorted(userId, "creationDate DESC");
+            genderSpinner.setSelection(0);
+        } else {
+            noteItems = noteService.getSorted(userId, "title");
+            genderSpinner.setSelection(1);
+        }
 
         recyclerView = view.findViewById(R.id.fav_grid);
         adapter = new NewNoteAdapter(noteItems, getContext());
@@ -112,6 +103,30 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
 
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
+
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if(genderSpinner.getSelectedItem().equals("CREATION DATE")){
+                    noteItems.clear();
+                    noteItems.addAll(noteService.getSorted(userId, "creationDate DESC"));
+                    MainScreenActivity.currentUser.setPreference(Preference.CREATIONDATE);
+                } else {
+                    noteItems.clear();
+                    noteItems.addAll(noteService.getSorted(userId, "title"));
+                    MainScreenActivity.currentUser.setPreference(Preference.ALPHABETICALLY);
+
+                }
+                userService.updateUser(MainScreenActivity.currentUser);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
 
         return view;
     }

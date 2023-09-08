@@ -171,7 +171,7 @@ public class ProfileFragment extends Fragment {
                     break;
             }
 
-            UserDto userDto = new UserDto();
+            UserDto userDto = MainScreenActivity.currentUser;
             userDto.setFirstName(fName);
             userDto.setLastName(lName);
             userDto.setEmail(emailText);

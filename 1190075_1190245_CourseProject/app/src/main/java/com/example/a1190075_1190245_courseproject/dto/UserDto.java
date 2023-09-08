@@ -100,7 +100,7 @@ public class UserDto {
         user.setEmail(cursor.getString(cursor.getColumnIndex("email")));
         user.setPassword(cursor.getString(cursor.getColumnIndex("passwords")));
 
-        if(cursor.getString(cursor.getColumnIndex("preference")).equals(Preference.ALPHABETICALLY.toString())) {
+        if(cursor.getString(cursor.getColumnIndex("preference")).equalsIgnoreCase(Preference.ALPHABETICALLY.toString())) {
             user.setPreference(Preference.ALPHABETICALLY);
         } else {
             user.setPreference(Preference.CREATIONDATE);

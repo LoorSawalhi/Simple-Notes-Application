@@ -96,5 +96,8 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
 
         }
     }
-
+    public void updateData(List<NoteDto> newNoteItems) {
+        this.noteItems = newNoteItems;
+        notifyDataSetChanged();
+    }
 }

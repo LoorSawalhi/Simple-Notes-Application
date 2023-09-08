@@ -50,25 +50,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_NOTE_TABLE);
         db.execSQL(CREATE_TAG_TABLE);
 
-        // Insert Dummy Users
         db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('1', 'John', 'Doe', 'johnny', '1', '1', \"" + Preference.CREATIONDATE.name() +"\")");
         db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Jane', 'Doe', 'jenny', 'jane@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
 
-        // Insert Dummy Tags
         db.execSQL("INSERT INTO `tag` (id, label) VALUES ('1', 'Work')");
         db.execSQL("INSERT INTO `tag` (id, label) VALUES ('2', 'Personal')");
         db.execSQL("INSERT INTO `tag` (id, label) VALUES ('3', 'Family')");
 
-        // Insert Dummy Notes
-        // John's Notes
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Meeting notes', 'Discuss project plans.', '2021-01-01', 1, '1')");
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('2', '1', 'Grocery list', 'Milk, Bread', '2021-01-02', 0, '2')");
 
-        // Jane's Notes
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('3', '2', 'Family Reunion', 'Plan for the family reunion next month.', '2021-01-03', 1, '3')");
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('4', '2', 'Read List', 'Books to read this year.', '2021-01-04', 0, '2')");
 
-        // Both John and Jane favorite this note (this is actually not possible with your schema but adding just for the sake of example)
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('5', '1', 'Shared Note', 'This is a shared note.', '2021-01-05', 1, '2')");
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('6', '2', 'Shared Note', 'This is a shared note.', '2021-01-05', 1, '2')");
     }

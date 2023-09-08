@@ -76,7 +76,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         mainPageFragment = new MainPageFragment();
         favouriteFragment = new FavouriteFragment(favNotes);
-        sortingFragment = new SortingFragment(noteService.getSorted(Preference.CREATIONDATE.name()));
+        sortingFragment = new SortingFragment();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
