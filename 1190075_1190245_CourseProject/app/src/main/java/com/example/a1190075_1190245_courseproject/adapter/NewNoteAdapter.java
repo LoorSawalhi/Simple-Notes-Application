@@ -57,8 +57,8 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
     }
 
     public interface noteOnClickListener {
-        void deleteNoteOnClick(NoteDto noteDto);
-        void editeNoteOnClick(NoteDto noteDto);
+
+        void openNote(NoteDto noteDto);
     }
 
     @NonNull
@@ -73,93 +73,27 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoteDto noteItem = noteItems.get(position);
-        holder.titleTextView.setText(noteItem.getCreatedOn());
-        holder.contentTextView.setText(noteItem.getTitle());
+        holder.dateTextView.setText(noteItem.getCreatedOn());
+        holder.titleTextView.setText(noteItem.getTitle());
 
-        holder.titleTextView.setOnClickListener(view -> {
-                holder.contentTextView.setText(noteItem.getContent());
-                holder.titleTextView.setText(noteItem.getTitle());
-        });
-
-        System.out.println(MainScreenActivity.currentUser.getId() + noteItem.getId());
-
-        TransitionDrawable transitionDrawable = (TransitionDrawable)
-                holder.fav.getDrawable();
-
-        AtomicBoolean flag = new AtomicBoolean(false);
-//        if(userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId()) != null) {
-//            transitionDrawable.reverseTransition(1);
-//            flag.set(true);
-//        }
-
-        holder.edit.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.editeNoteOnClick(noteItem);
-            }
-        });
-
-        holder.delete.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.deleteNoteOnClick(noteItem);
-            }
-        });
-
-        holder.share.setOnClickListener(v -> {
-//            Intent gmailIntent =new Intent();
-//            gmailIntent.setAction(Intent.ACTION_SENDTO);
-//            gmailIntent.setType("message/rfc822");
-//            gmailIntent.setData(Uri.parse("mailto:"));
-//            gmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"rajaie.imseeh@gmail.com"});
-//            gmailIntent.putExtra(Intent.EXTRA_SUBJECT,"My Subject");
-//            gmailIntent.putExtra(Intent.EXTRA_TEXT,"Content of the message");
-//            startActivity(gmailIntent);
-        });
-
-        holder.fav.setOnClickListener(v -> {
-
-//            if (!flag.get()) {
-//                transitionDrawable.reverseTransition(500);
-//                userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-//
-//                flag.set(true);
-//            } else {
-//                transitionDrawable.reverseTransition(500);
-//                userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-//
-//                flag.set(false);
-//            }
-            notifyDataSetChanged();
+        holder.item.setOnClickListener(view -> {
+            listener.openNote(noteItem);
         });
 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTextView;
-        private TextView contentTextView;
-        private ImageView edit;
-        private ImageView delete;
-        private ImageView share;
-        private ImageView fav;
+        private TextView dateTextView;
 
         private CardView item;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.title);
-            contentTextView = itemView.findViewById(R.id.note_content);
-            edit = itemView.findViewById(R.id.edit);
-            delete = itemView.findViewById(R.id.delete);
-            share = itemView.findViewById(R.id.share);
-            fav = itemView.findViewById(R.id.favourite);
-//            contentTextView.setVisibility(View.INVISIBLE);
+            dateTextView = itemView.findViewById(R.id.create_date);
             item = itemView.findViewById(R.id.cardView);
 
-//            item.setOnClickListener(view -> {
-//                int position = getAdapterPosition();
-//                if (position != RecyclerView.NO_POSITION) {
-//                    contentTextView.setVisibility(View.VISIBLE);
-//                }
-//            });
         }
     }
 

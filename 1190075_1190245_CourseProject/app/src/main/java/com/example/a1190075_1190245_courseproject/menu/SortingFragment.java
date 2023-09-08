@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.NoteFragment;
+import com.example.a1190075_1190245_courseproject.NoteLayoutFragment;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
@@ -116,24 +117,8 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
     }
 
     @Override
-    public void deleteNoteOnClick(NoteDto noteDto) {
-
-        builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Alert")
-                .setMessage("Delete This Note! It Won't Be Restored")
-                .setCancelable(true)
-                .setPositiveButton("YES", (dialog, which) ->{
-                    noteService.deleteNote(noteDto.getId());
-                    noteItems.remove(noteDto);
-                    Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                    adapter.notifyDataSetChanged();
-                })
-                .setNegativeButton("NO", (dialog, which) -> dialog.cancel()).show();
-    }
-
-    @Override
-    public void editeNoteOnClick(NoteDto noteDto) {
-        Fragment newFragment = new NoteFragment(noteDto, this);
+    public void openNote(NoteDto noteDto) {
+        Fragment newFragment = new NoteLayoutFragment(noteDto);
         FragmentTransaction transaction = requireFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
