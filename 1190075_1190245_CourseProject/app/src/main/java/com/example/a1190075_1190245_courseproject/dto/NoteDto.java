@@ -12,6 +12,8 @@ public class NoteDto {
     private String title;
     private String content;
     private String createdOn = new Date().toString();
+    private boolean isFavourite;
+    private String tagId;
 
     public NoteDto() {
 
@@ -63,6 +65,22 @@ public class NoteDto {
         this.createdOn = createdOn;
     }
 
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
+    }
+
+    public String getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
+    }
+
     @SuppressLint("Range")
     public static NoteDto cursorToNote(Cursor cursor) {
 
@@ -76,6 +94,9 @@ public class NoteDto {
         note.setTitle(cursor.getString(cursor.getColumnIndex("title")));
         note.setContent(cursor.getString(cursor.getColumnIndex("content")));
         note.setCreatedOn(cursor.getString(cursor.getColumnIndex("creationDate")));
+        note.setTagId(cursor.getString(cursor.getColumnIndex("tagId")));
+        note.setFavourite(cursor.getString(cursor.getColumnIndex("isFavourite")).equals("1"));
+
         return note;
     }
 }

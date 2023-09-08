@@ -19,6 +19,7 @@ import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
+import com.example.a1190075_1190245_courseproject.enums.Preference;
 import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
@@ -75,7 +76,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         mainPageFragment = new MainPageFragment();
         favouriteFragment = new FavouriteFragment(favNotes);
-        sortingFragment = new SortingFragment(noteService.listAll());
+        sortingFragment = new SortingFragment(noteService.getSorted(Preference.CREATIONDATE.name()));
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

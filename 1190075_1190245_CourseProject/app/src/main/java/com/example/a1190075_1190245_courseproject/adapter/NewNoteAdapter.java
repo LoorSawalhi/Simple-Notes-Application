@@ -1,9 +1,7 @@
 package com.example.a1190075_1190245_courseproject.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.R;
-import com.example.a1190075_1190245_courseproject.dto.FavouriteDto;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
@@ -42,8 +39,6 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
 
     @Inject
     public NoteServiceImpl noteService;
-    private FavouriteDto favourite;
-
     public NewNoteAdapter(List<NoteDto> noteItems, Context context) {
         this.noteItems = noteItems;
         this.context = context;
@@ -92,10 +87,10 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
                 holder.fav.getDrawable();
 
         AtomicBoolean flag = new AtomicBoolean(false);
-        if(userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId()) != null) {
-            transitionDrawable.reverseTransition(1);
-            flag.set(true);
-        }
+//        if(userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId()) != null) {
+//            transitionDrawable.reverseTransition(1);
+//            flag.set(true);
+//        }
 
         holder.edit.setOnClickListener(v -> {
             if (listener != null) {
@@ -122,17 +117,17 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
 
         holder.fav.setOnClickListener(v -> {
 
-            if (!flag.get()) {
-                transitionDrawable.reverseTransition(500);
-                userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-
-                flag.set(true);
-            } else {
-                transitionDrawable.reverseTransition(500);
-                userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-
-                flag.set(false);
-            }
+//            if (!flag.get()) {
+//                transitionDrawable.reverseTransition(500);
+//                userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+//
+//                flag.set(true);
+//            } else {
+//                transitionDrawable.reverseTransition(500);
+//                userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+//
+//                flag.set(false);
+//            }
             notifyDataSetChanged();
         });
 

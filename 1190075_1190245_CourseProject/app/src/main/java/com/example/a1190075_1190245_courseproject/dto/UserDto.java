@@ -16,7 +16,7 @@ public class UserDto {
     private String nickName;
     private String email;
     private String password;
-    private Preference preference = Preference.CREATION_DATE;
+    private Preference preference = Preference.CREATIONDATE;
 
     public UserDto() {
 
@@ -103,21 +103,9 @@ public class UserDto {
         if(cursor.getString(cursor.getColumnIndex("preference")).equals(Preference.ALPHABETICALLY.toString())) {
             user.setPreference(Preference.ALPHABETICALLY);
         } else {
-            user.setPreference(Preference.CREATION_DATE);
+            user.setPreference(Preference.CREATIONDATE);
         }
         return user;
     }
 
-    @SuppressLint("Range")
-    public static FavouriteDto cursorToFavourite(Cursor cursor) {
-        FavouriteDto favouriteDto = new FavouriteDto();
-
-        if(cursor.getCount() == 0)
-            return null;
-
-        favouriteDto.setId(cursor.getString(cursor.getColumnIndex("id")));
-        favouriteDto.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
-        favouriteDto.setNoteId(cursor.getString(cursor.getColumnIndex("noteId")));
-        return favouriteDto;
-    }
 }

@@ -6,10 +6,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
-import com.example.a1190075_1190245_courseproject.dto.FavouriteDto;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
 import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
@@ -122,61 +120,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public FavouriteDto getFavourite(String userId, String noteId) {
-        openRead();
-
-        Cursor cursor = database.rawQuery("SELECT * FROM favourite WHERE userId = ? and noteId = ?", new String[]{userId, noteId});
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            FavouriteDto favourite = UserDto.cursorToFavourite(cursor);
-            cursor.close();
-            close();
-            return favourite;
-        }
-        close();
-
-        return null;
-    }
-
-    @Override
-    public void addFavourite(FavouriteDto favouriteDto) {
-        openWrite();
-        ContentValues values = new ContentValues();
-        values.put("id", favouriteDto.getId());
-        values.put("userId", favouriteDto.getUserId());
-        values.put("noteId", favouriteDto.getNoteId());
-
-        System.out.println(values);
-        database.insert("favourite", null, values);
-
-        close();
-    }
-
-    @Override
-    public void deleteFavourite(String userId, String noteId) {
-        openWrite();
-        database.delete("favourite", "userId=? and noteId=?", new String[]{userId, noteId});
-        close();
-    }
-
-    @Override
     public List<NoteDto> favouriteNotes(String userId) {
         openRead();
         List<NoteDto> notes = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT DISTINCT n.* FROM note n, favourite f WHERE n.id = f.noteId and f.userId = ?", new String[]{userId});
-        cursor.moveToFirst();
 
-        while (!cursor.isAfterLast()) {
-            NoteDto note = NoteDto.cursorToNote(cursor);
-            notes.add(note);
-            cursor.moveToNext();
+        Cursor cursor = database.rawQuery("SELECT * FROM note WHERE userId = ? AND isFavourite = 1", new String[]{userId});
+
+        if (cursor.moveToFirst()) {
+            do {
+                NoteDto note = NoteDto.cursorToNote(cursor);
+                notes.add(note);
+            } while (cursor.moveToNext());
         }
-        cursor.close();
 
+        cursor.close();
         close();
         return notes;
     }
+
 
     @Override
     public UserDto loginUser(String email, String password) {

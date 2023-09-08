@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.a1190075_1190245_courseproject.enums.Preference;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "twitter";
-    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "notes";
+    private static final int DATABASE_VERSION = 3;
 
     private static final String CREATE_USER_TABLE =
             "CREATE TABLE `user` (" +
@@ -25,36 +25,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE `note` ( " +
                     "id TEXT PRIMARY KEY," +
                     "userId TEXT," +
-                    " title TEXT," +
-                    " content TEXT," +
-                    " creationDate TEXT," +
+                    "title TEXT," +
+                    "content TEXT," +
+                    "creationDate TEXT," +
+                    "isFavourite INTEGER DEFAULT 0," +
+                    "tagId TEXT DEFAULT '0'," +
                     "FOREIGN KEY(userId) REFERENCES Users(id)" +
-                    ")";
-
-    private static final String CREATE_FAVOURITE_TABLE =
-            "CREATE TABLE `favourite` (" +
-                    "    id TEXT PRIMARY KEY," +
-                    "    userId TEXT," +
-                    "    noteId TEXT," +
-                    "    FOREIGN KEY(userId) REFERENCES Users(id)," +
-                    "    FOREIGN KEY(noteId) REFERENCES Notes(id)" +
                     ")";
 
     private static final String CREATE_TAG_TABLE =
             "CREATE TABLE `tag` (" +
                     "id TEXT PRIMARY KEY," +
                     "label TEXT UNIQUE" +
-                    ")";
-
-    private static final String CREATE_NOTE_TAG_TABLE =
-            "CREATE TABLE `note_tag` (" +
-                    "id TEXT PRIMARY KEY," +
-                    "noteId TEXT," +
-                    "tagId TEXT," +
-                    "userId TEXT," +
-                    "FOREIGN KEY(noteId) REFERENCES note(id)," +
-                    "FOREIGN KEY(tagId) REFERENCES tag(id)," +
-                    "FOREIGN KEY(userId) REFERENCES user(id)" +
                     ")";
 
     public DatabaseHelper(Context context) {
@@ -66,34 +48,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_NOTE_TABLE);
-        db.execSQL(CREATE_FAVOURITE_TABLE);
         db.execSQL(CREATE_TAG_TABLE);
-        db.execSQL(CREATE_NOTE_TAG_TABLE);
 
-        // Users
-        db.execSQL("INSERT INTO user (id, firstName, lastName, nickName, email, passwords, preference) VALUES " +
-                "('1', 'Ahmad', 'Abbas', 'AhmadAbbas', '123', '123'," + Preference.CREATION_DATE.ordinal() + ")," +
-                "('2', 'Jane', 'Doe', 'jane', 'jane@example.com', 'password123', " + Preference.ALPHABETICALLY.ordinal() + ")");
+        // Insert Dummy Users
+        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('1', 'John', 'Doe', 'johnny', '1', '1', \"" + Preference.CREATIONDATE.name() +"\")");
+        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Jane', 'Doe', 'jenny', 'jane@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
 
-        // Notes
-        db.execSQL("INSERT INTO note (id, userId, title, content, creationDate) VALUES " +
-                "('note1', '1', 'Note 1', 'Content 1', '01-01-2023')," +
-                "('note2', '2', 'Note 2', 'Content 2', '02-01-2023')");
+        // Insert Dummy Tags
+        db.execSQL("INSERT INTO `tag` (id, label) VALUES ('1', 'Work')");
+        db.execSQL("INSERT INTO `tag` (id, label) VALUES ('2', 'Personal')");
+        db.execSQL("INSERT INTO `tag` (id, label) VALUES ('3', 'Family')");
 
-        // Favourites
-        db.execSQL("INSERT INTO favourite (id, userId, noteId) VALUES " +
-                "('fav1', '1', 'note1')," +
-                "('fav2', '2', 'note2')");
+        // Insert Dummy Notes
+        // John's Notes
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Meeting notes', 'Discuss project plans.', '2021-01-01', 1, '1')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('2', '1', 'Grocery list', 'Milk, Bread', '2021-01-02', 0, '2')");
 
-        // Tags
-        db.execSQL("INSERT INTO tag (id, label) VALUES " +
-                "('tag1', 'Tag 1')," +
-                "('tag2', 'Tag 2')");
+        // Jane's Notes
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('3', '2', 'Family Reunion', 'Plan for the family reunion next month.', '2021-01-03', 1, '3')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('4', '2', 'Read List', 'Books to read this year.', '2021-01-04', 0, '2')");
 
-        // Note Tags
-        db.execSQL("INSERT INTO note_tag (id, noteId, tagId, userId) VALUES " +
-                "('notetag1', 'note1', 'tag1', '1')," +
-                "('notetag2', 'note2', 'tag2', '2')");
+        // Both John and Jane favorite this note (this is actually not possible with your schema but adding just for the sake of example)
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('5', '1', 'Shared Note', 'This is a shared note.', '2021-01-05', 1, '2')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('6', '2', 'Shared Note', 'This is a shared note.', '2021-01-05', 1, '2')");
     }
 
     @Override
@@ -102,12 +79,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // V1
         db.execSQL("DROP TABLE IF EXISTS user");
         db.execSQL("DROP TABLE IF EXISTS note");
-        db.execSQL("DROP TABLE IF EXISTS favourite");
 
         // V2
         db.execSQL("DROP TABLE IF EXISTS tag");
         db.execSQL("DROP TABLE IF EXISTS note_tag");
-
         onCreate(db);
     }
 }

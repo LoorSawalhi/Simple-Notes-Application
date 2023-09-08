@@ -4,11 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.nfc.Tag;
 
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
-import com.example.a1190075_1190245_courseproject.dto.NoteTagDto;
 import com.example.a1190075_1190245_courseproject.dto.TagDto;
 import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
@@ -43,7 +41,7 @@ public class NoteDaoImpl implements NoteDao {
         StringBuilder sql = new StringBuilder("SELECT * FROM note WHERE 1 ");
 
         if (query.getId() != null && !query.getId().isEmpty()) {
-            sql.append(" AND id IN (");
+            sql.append(" AND userId IN (");
             for (int i = 0; i < query.getId().size(); i++) {
                 sql.append("?");
                 if (i < query.getId().size() - 1) {
@@ -102,7 +100,7 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
 
-    public void insert(NoteDto note) {
+    public int insert(NoteDto note) {
         openWrite();
 
         ContentValues  values = new ContentValues();
@@ -112,101 +110,84 @@ public class NoteDaoImpl implements NoteDao {
         values.put("content", note.getContent());
         values.put("creationDate", note.getCreatedOn());
 
-        database.insert("note", null, values);
+        long rowId = database.insert("note", null, values);
         close();
+        return (int) rowId;
     }
 
     @Override
-    public void update(String id, NoteDto noteDto) {
+    public int update(String id, NoteDto noteDto) {
         openWrite();
 
         ContentValues values = new ContentValues();
-        values.put("title", noteDto.getTitle());
-        values.put("content", noteDto.getContent());
 
-        database.update("note", values, "id = ?", new String[]{id});
+        if (noteDto.getTitle() != null && !noteDto.getTitle().isEmpty()) {
+            values.put("title", noteDto.getTitle());
+        }
+
+        if (noteDto.getContent() != null && !noteDto.getContent().isEmpty()) {
+            values.put("content", noteDto.getContent());
+        }
+
+        values.put("isFavourite", noteDto.isFavourite());
+
+        if (noteDto.getTagId() != null && !noteDto.getTagId().isEmpty()) {
+            values.put("tagId", noteDto.getTagId());
+        }
+
+        if (values.size() > 0) {
+            database.update("note", values, "id = ?", new String[]{id});
+        }
+
+
+
+        long rows = database.update("note", values, "id = ?", new String[]{id});
         close();
+        return (int) rows;
     }
 
     @Override
-    public void delete(String id) {
+    public int  delete(String id) {
         openWrite();
 
-        database.delete("note", "id = ?", new String[]{id});
+        int rows = database.delete("note", "id = ?", new String[]{id});
         close();
+        return (int) rows;
     }
 
     @Override
-    public void addTag(TagDto tagDto) {
+    public int addTag(TagDto tagDto) {
         openWrite();
 
         ContentValues values = new ContentValues();
         values.put("id", tagDto.getId());
         values.put("label", tagDto.getLabel());
 
-        database.insert("tag", null, values);
+        long rowId = database.insert("tag", null, values);
         close();
+        return (int) rowId;
     }
 
     @Override
-    public void deleteTag(String id) {
+    public int deleteTag(String id) {
         openWrite();
 
-        database.delete("tag", "id = ?", new String[]{id});
+        long rows = database.delete("tag", "id = ?", new String[]{id});
         close();
+        return (int) rows;
     }
 
-    @Override
-    public void addNoteTag(NoteTagDto noteTagDto) {
-        openWrite();
-
-        ContentValues values = new ContentValues();
-        values.put("id", noteTagDto.getId());
-        values.put("noteId", noteTagDto.getNoteId());
-        values.put("tagId", noteTagDto.getTagId());
-        values.put("userId", noteTagDto.getUserId());
-
-        database.insert("note_tag", null, values);
-        close();
-    }
 
     @Override
-    public void deleteNoteTag(NoteTagDto noteTagDto) {
-        openWrite();
-        database.delete("note_tag", "id = ?", new String[]{noteTagDto.getTagId()});
-        close();
-    }
-
-    @Override
-    public List<NoteDto> getNotesByTagsForUser(List<String> tagIds, String userId) {
+    public List<NoteDto> getNotesByTagLabel(String tagLabel, String userId) {
+        openRead();
         List<NoteDto> noteList = new ArrayList<>();
 
-        StringBuilder sql = new StringBuilder(
-                "SELECT n.* FROM note n " +
-                        "INNER JOIN note_tag nt ON n.id = nt.noteId " +
-                        "WHERE nt.userId = ? "
-        );
+        String sql = "SELECT n.* FROM note n " +
+                "INNER JOIN tag t ON n.tagId = t.id " +
+                "WHERE n.userId = ? AND t.label = ?";
 
-        if (tagIds != null && !tagIds.isEmpty()) {
-            sql.append("AND nt.tagId IN (");
-            for (int i = 0; i < tagIds.size(); i++) {
-                sql.append("?");
-                if (i < tagIds.size() - 1) {
-                    sql.append(", ");
-                }
-            }
-            sql.append(")");
-        }
-
-        sql.append(" GROUP BY n.id");
-
-        List<String> argsList = new ArrayList<>();
-        argsList.add(userId);
-        if (tagIds != null && !tagIds.isEmpty()) {
-            argsList.addAll(tagIds);
-        }
-
-        Cursor cursor = database.rawQuery(sql.toString(), argsList.toArray(new String[0]));
+        Cursor cursor = database.rawQuery(sql, new String[]{userId, tagLabel});
 
         if (cursor.moveToFirst()) {
             do {
@@ -216,15 +197,19 @@ public class NoteDaoImpl implements NoteDao {
         }
 
         cursor.close();
+        close();
         return noteList;
     }
 
     @Override
-    public List<TagDto> getAllTags() {
+    public List<TagDto> getAllTagsForUser(String userId) {
         List<TagDto> tagList = new ArrayList<>();
 
-        String sql = "SELECT * FROM tag";
-        Cursor cursor = database.rawQuery(sql, null);
+        String sql = "SELECT DISTINCT t.* FROM tag t " +
+                "INNER JOIN note n ON n.tagId = t.id " +
+                "WHERE n.userId = ?";
+
+        Cursor cursor = database.rawQuery(sql, new String[]{userId});
 
         if (cursor.moveToFirst()) {
             do {
@@ -238,4 +223,14 @@ public class NoteDaoImpl implements NoteDao {
         return tagList;
     }
 
+    @Override
+    public int setFavourite(String userId, String noteId, boolean isFavourite) {
+        openWrite();
+        ContentValues values = new ContentValues();
+        values.put("isFavourite", isFavourite ? 1 : 0);
+
+        long rows = database.update("note", values, "userId = ? AND id = ?", new String[]{userId, noteId});
+        close();
+        return (int) rows;
+    }
 }
