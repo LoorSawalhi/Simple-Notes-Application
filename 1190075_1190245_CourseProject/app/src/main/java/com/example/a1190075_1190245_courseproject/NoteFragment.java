@@ -16,6 +16,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
+import com.example.a1190075_1190245_courseproject.service.NoteService;
+
+import javax.inject.Inject;
 
 
 public class NoteFragment extends Fragment {
@@ -33,6 +36,8 @@ public class NoteFragment extends Fragment {
     private NoteDto note;
     private Fragment fragment;
 
+    @Inject
+    NoteService noteService;
     public NoteFragment() {
     }
 
@@ -65,6 +70,8 @@ public class NoteFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note, container, false);
 
+        ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+
         date = view.findViewById(R.id.note_date);
         content = view.findViewById(R.id.fill_c);
         title = view.findViewById(R.id.fill_t);
@@ -76,7 +83,13 @@ public class NoteFragment extends Fragment {
 
         save.setOnClickListener(v -> {
             if(checkFields()){
-                // edit note
+                // TODO: edit note
+                NoteDto noteDto = note;
+                noteDto.setTitle(title.getText().toString());
+                noteDto.setContent(content.getText().toString());
+
+                noteService.updateNote(noteDto.getId(), noteDto);
+
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
 
             } else {

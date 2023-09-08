@@ -22,7 +22,7 @@ public class NoteServiceImpl implements NoteService {
     public List<NoteDto> listUserNotes(String userId) {
         NoteSqlQuery query = new NoteSqlQuery();
         query.setId(List.of(userId));
-
+        query.setOrderBy("creationDate");
         return noteDao.list(query);
     }
 

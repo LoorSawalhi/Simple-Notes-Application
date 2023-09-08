@@ -2,7 +2,9 @@ package com.example.a1190075_1190245_courseproject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,11 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
-import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
@@ -104,10 +104,10 @@ public class NoteLayoutFragment extends Fragment {
         AtomicBoolean flag = new AtomicBoolean(false);
 
 
-//        if(userService.getFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId()) != null) {
-//            transitionDrawable.reverseTransition(1);
-//            flag.set(true);
-//        }
+        if(noteItem.isFavourite()) {
+            transitionDrawable.reverseTransition(1);
+            flag.set(true);
+        }
 
         edit.setOnClickListener(v -> {
             Fragment newFragment = new NoteFragment(noteItem, this);
@@ -124,36 +124,37 @@ public class NoteLayoutFragment extends Fragment {
                     .setCancelable(true)
                     .setPositiveButton("YES", (dialog, which) ->{
                         noteService.deleteNote(noteItem.getId());
-//                        MainScreenActivity.noteItems.remove(noteItem);
+
                         Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton("NO", (dialog, which) -> dialog.cancel()).show();
         });
-//
+
         share.setOnClickListener(v -> {
-//            Intent gmailIntent =new Intent();
-//            gmailIntent.setAction(Intent.ACTION_SENDTO);
-//            gmailIntent.setType("message/rfc822");
-//            gmailIntent.setData(Uri.parse("mailto:"));
-//            gmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"rajaie.imseeh@gmail.com"});
-//            gmailIntent.putExtra(Intent.EXTRA_SUBJECT,"My Subject");
-//            gmailIntent.putExtra(Intent.EXTRA_TEXT,"Content of the message");
-//            startActivity(gmailIntent);
+            Intent gmailIntent =new Intent();
+            gmailIntent.setAction(Intent.ACTION_SENDTO);
+            gmailIntent.setType("message/rfc822");
+            gmailIntent.setData(Uri.parse("mailto:"));
+            gmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{MainScreenActivity.currentUser.getEmail()});
+            gmailIntent.putExtra(Intent.EXTRA_SUBJECT,title.getText().toString());
+            gmailIntent.putExtra(Intent.EXTRA_TEXT, content.getText().toString());
+            startActivity(gmailIntent);
         });
 
         fav.setOnClickListener(v -> {
 
-//            if (!flag.get()) {
-//                transitionDrawable.reverseTransition(500);
-//                userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-//
-//                flag.set(true);
-//            } else {
-//                transitionDrawable.reverseTransition(500);
-//                userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-//
-//                flag.set(false);
-//            }
+            if (!flag.get()) {
+                transitionDrawable.reverseTransition(500);
+                noteService.setFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+                noteItem.setFavourite(true);
+                flag.set(true);
+            } else {
+                transitionDrawable.reverseTransition(500);
+                noteService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+                noteItem.setFavourite(false);
+
+                flag.set(false);
+            }
         });
 
         return itemView;

@@ -72,10 +72,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         ((MyApplication) getApplication()).getAppComponent().inject(this);
 
-        favNotes = userService.getUserFavouriteNotes(currentUser.getId());
 
         mainPageFragment = new MainPageFragment();
-        favouriteFragment = new FavouriteFragment(favNotes);
+        favouriteFragment = new FavouriteFragment();
         sortingFragment = new SortingFragment();
 
         drawerLayout = findViewById(R.id.drawer_layout);

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.NoteFragment;
 import com.example.a1190075_1190245_courseproject.NoteLayoutFragment;
@@ -61,11 +62,6 @@ public class FavouriteFragment extends Fragment implements NewNoteAdapter.noteOn
         return fragment;
     }
 
-    public FavouriteFragment(List<NoteDto> notes) {
-        this.noteItems = notes;
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +80,9 @@ public class FavouriteFragment extends Fragment implements NewNoteAdapter.noteOn
         View rootView = inflater.inflate(R.layout.fragment_favourite, container, false);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+
+
+        noteItems = userService.getUserFavouriteNotes(MainScreenActivity.currentUser.getId());
 
         recyclerView = rootView.findViewById(R.id.fav_grid);
         adapter = new NewNoteAdapter(noteItems, getContext());
