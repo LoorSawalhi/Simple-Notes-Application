@@ -36,7 +36,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TAG_TABLE =
             "CREATE TABLE `tag` (" +
                     "id TEXT PRIMARY KEY," +
-                    "label TEXT UNIQUE" +
+                    "label TEXT," +
+                    "userId TEXT," +
+                    "FOREIGN KEY(userId) REFERENCES Users(id)" +
                     ")";
 
     public DatabaseHelper(Context context) {
@@ -55,9 +57,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Loor', 'Johnson', 'loory', 'loor@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
 
 // Tag data
-        db.execSQL("INSERT INTO `tag` (id, label) VALUES ('1', 'Work')");
-        db.execSQL("INSERT INTO `tag` (id, label) VALUES ('2', 'Personal')");
-        db.execSQL("INSERT INTO `tag` (id, label) VALUES ('3', 'Family')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('1', 'Work', '1')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('2', 'Personal', '1')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('3', 'Family', '2')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('4', 'Work', '2')");
 
 // Notes for Ahmad (userId=1) with different tags
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Android Components', 'Learn about Activity, Service, and BroadcastReceiver.', '2023-01-01', 1, '1')");

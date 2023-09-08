@@ -2,8 +2,10 @@ package com.example.a1190075_1190245_courseproject.menu;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
@@ -44,6 +48,8 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
     public NoteServiceImpl noteService;
     private AlertDialog.Builder builder;
     private NewNoteAdapter noteAdapter;
+    private CategoryAdapter categoryAdapter;
+    private List<TagDto> tags;
     List<NoteDto> noteItems;
     public CategorisationFragment() {
         // Required empty public constructor
@@ -76,28 +82,20 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
         noteItems = noteService.listUserNotes(MainScreenActivity.currentUser.getId());
-        List<TagDto> tags = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId());
+        tags = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId());
 
         RecyclerView categories = view.findViewById(R.id.categories_grid);
         RecyclerView notes = view.findViewById(R.id.categorized_notes);
         Button add = view.findViewById(R.id.add_tag);
 
         add.setOnClickListener(v -> {
-//            builder = new AlertDialog.Builder(getContext());
-//            builder.setTitle("New Tag")
-//                    .setMessage("Delete This Note! It Won't Be Restored")
-//                    .setCancelable(true)
-//                    .setPositiveButton("YES", (dialog, which) ->{
-//
-//                        Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
-//                    })
-//                    .setNegativeButton("NO", (dialog, which) -> dialog.cancel()).show();
+            showPopupDialog();
         });
 
         noteAdapter = new NewNoteAdapter(noteItems, getContext());
         noteAdapter.setOnNoteItemClickListener(this);
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(tags, getContext());
+        categoryAdapter = new CategoryAdapter(tags, getContext());
 
         notes.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         notes.setAdapter(noteAdapter);
@@ -125,4 +123,33 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         transaction.addToBackStack(null);
         transaction.commit();
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void showPopupDialog() {
+
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.add_tag);
+
+        // TODO: TRIM WHEN USER ADD SOMETHING SIGN IN UP
+        EditText editText = dialog.findViewById(R.id.editTag);
+        Button closeButton = dialog.findViewById(R.id.add_button);
+        closeButton.setOnClickListener(view -> {
+            String enteredText = editText.getText().toString();
+            boolean exists = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId()).stream().anyMatch(tag -> tag.getLabel().equalsIgnoreCase(enteredText));
+            if(exists) {
+                Toast.makeText(getContext(), "The tag already exists", Toast.LENGTH_LONG).show();
+            } else {
+                TagDto tagDto = new TagDto();
+                tagDto.setLabel(enteredText);
+                tagDto.setUserId(MainScreenActivity.currentUser.getId());
+                noteService.addTag(tagDto);
+                tags.add(tagDto);
+                categoryAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "Added Successfully", Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
+
+        });
+        dialog.show();
+    }
+
 }

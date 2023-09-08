@@ -8,6 +8,8 @@ import java.util.UUID;
 public class TagDto {
     private String id = UUID.randomUUID().toString();
     private String label;
+    private String userId;
+
 
 
     public String getId() {
@@ -26,6 +28,13 @@ public class TagDto {
         this.label = label;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
     @SuppressLint("Range")
     public static TagDto cursorToTag(Cursor cursor) {
         if(cursor.getCount() == 0)
@@ -35,6 +44,7 @@ public class TagDto {
 
         tag.setId(cursor.getString(cursor.getColumnIndex("id")));
         tag.setLabel(cursor.getString(cursor.getColumnIndex("label")));
+        tag.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
         return tag;
     }
 

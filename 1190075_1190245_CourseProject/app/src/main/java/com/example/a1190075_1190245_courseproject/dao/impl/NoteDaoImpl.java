@@ -162,6 +162,7 @@ public class NoteDaoImpl implements NoteDao {
         ContentValues values = new ContentValues();
         values.put("id", tagDto.getId());
         values.put("label", tagDto.getLabel());
+        values.put("userId", tagDto.getUserId());
 
         long rowId = database.insert("tag", null, values);
         close();
@@ -206,9 +207,8 @@ public class NoteDaoImpl implements NoteDao {
         openWrite();
         List<TagDto> tagList = new ArrayList<>();
 
-        String sql = "SELECT DISTINCT t.* FROM tag t " +
-                "INNER JOIN note n ON n.tagId = t.id " +
-                "WHERE n.userId = ?";
+        String sql = "SELECT t.* FROM tag t " +
+                "WHERE t.userId = ?";
 
         Cursor cursor = database.rawQuery(sql, new String[]{userId});
 
