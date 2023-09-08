@@ -6,7 +6,7 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="18dp"
         app:cardUseCompatPadding="true"
         app:cardElevation="8dp">
 
@@ -46,6 +46,7 @@
                     android:textSize="28sp"
                     android:layout_weight="1"
                     android:textColor="@color/white"/>
+
                 <ImageView
                     android:id="@+id/edit"
                     android:layout_width="match_parent"

@@ -1,18 +1,23 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.a1190075_1190245_courseproject.MyApplication;
+import com.example.a1190075_1190245_courseproject.NoteFragment;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
@@ -23,12 +28,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SortingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SortingFragment extends Fragment {
+public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -45,6 +45,7 @@ public class SortingFragment extends Fragment {
 
     @Inject
     public NoteServiceImpl noteService;
+    private AlertDialog.Builder builder;
     public SortingFragment() {
     }
 
@@ -79,19 +80,64 @@ public class SortingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sorting, container, false);
 
-        String[] options = { "A-Z", "Z-A", "Date"};
+        String[] options = { "CREATION_DATE", "ALPHABETICALLY"};
         final Spinner genderSpinner = view.findViewById(R.id.sort_spinner);
         ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
         genderSpinner.setAdapter(objGenderArr);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selected = (String) parentView.getItemAtPosition(position);
+                if(genderSpinner.getSelectedItem().equals("CREATION_DATE")){
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
+
         recyclerView = view.findViewById(R.id.fav_grid);
         adapter = new NewNoteAdapter(noteItems, getContext());
+
+        adapter.setOnNoteItemClickListener(this);
 
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
 
         return view;
     }
+
+    @Override
+    public void deleteNoteOnClick(NoteDto noteDto) {
+
+        builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Alert")
+                .setMessage("Delete This Note! It Won't Be Restored")
+                .setCancelable(true)
+                .setPositiveButton("YES", (dialog, which) ->{
+                    noteService.deleteNote(noteDto.getId());
+                    noteItems.remove(noteDto);
+                    Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                })
+                .setNegativeButton("NO", (dialog, which) -> dialog.cancel()).show();
+    }
+
+    @Override
+    public void editeNoteOnClick(NoteDto noteDto) {
+        Fragment newFragment = new NoteFragment(noteDto, this);
+        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 }

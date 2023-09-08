@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
+import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
 import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
@@ -26,6 +27,8 @@ import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 
@@ -33,7 +36,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     private DrawerLayout drawerLayout;
     private SearchView searchView;
-
+    private static TextView user;
+    private static TextView email;
     public static UserDto currentUser;
 
     @Inject
@@ -45,33 +49,41 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     @Inject
     public NoteServiceImpl noteService;
+    private List<NoteDto> favNotes;
 
     MainPageFragment mainPageFragment;
     FavouriteFragment favouriteFragment;
     SortingFragment sortingFragment;
+
+    public static void setCurrentUser(UserDto currentUser) {
+        MainScreenActivity.currentUser = currentUser;
+        MainScreenActivity.user.setText(currentUser.getNickName());
+        MainScreenActivity.email.setText(currentUser.getEmail());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ((MyApplication) getApplication()).getAppComponent().inject(this);
 
+        favNotes = userService.getUserFavouriteNotes(currentUser.getId());
 
         mainPageFragment = new MainPageFragment();
-        favouriteFragment = new FavouriteFragment(userService.getUserFavouriteNotes(currentUser.getId()));
+        favouriteFragment = new FavouriteFragment(favNotes);
         sortingFragment = new SortingFragment(noteService.listAll());
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         searchView = findViewById(R.id.search_bar);
 
-        View headerView = navigationView.getHeaderView(0); // 0 is the index of the header view
-        TextView user = headerView.findViewById(R.id.userName);
-        TextView email = headerView.findViewById(R.id.user_ID);
+        View headerView = navigationView.getHeaderView(0);
+        user = headerView.findViewById(R.id.userName);
+        email = headerView.findViewById(R.id.user_ID);
 
         user.setText(currentUser.getNickName());
         email.setText(currentUser.getEmail());

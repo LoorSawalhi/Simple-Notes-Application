@@ -57,17 +57,21 @@
                     android:autofillHints=""
                     android:inputType="text" />
 
-                <EditText
-                    android:id="@+id/fill_content"
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="128dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginStart="7dp"
-                    android:layout_weight="0.5"
-                    android:hint="@string/content"
-                    android:textSize="20sp"
-                    android:autofillHints=""
-                    android:inputType="text" />
+                    android:layout_weight="0.5">
+                    <EditText
+                        android:id="@+id/fill_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="7dp"
+                        android:hint="@string/content"
+                        android:textSize="20sp"
+                        android:autofillHints=""
+                        android:inputType="text" />
+                </ScrollView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </com.google.android.material.card.MaterialCardView>

@@ -14,6 +14,13 @@ import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.SignUpActivity;
+import com.example.a1190075_1190245_courseproject.dao.NoteDao;
+import com.example.a1190075_1190245_courseproject.dao.UserDao;
+import com.example.a1190075_1190245_courseproject.dto.UserDto;
+import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
+import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
+
+import javax.inject.Inject;
 
 
 public class ProfileFragment extends Fragment {
@@ -23,6 +30,17 @@ public class ProfileFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
+    @Inject
+    UserDao userDao;
+
+    @Inject
+    NoteDao noteDao;
+    @Inject
+    public UserServiceImpl userService;
+
+    @Inject
+    public NoteServiceImpl noteService;
 
     private EditText firstName;
     private EditText lastName;
@@ -67,6 +85,9 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+
         firstName = view.findViewById(R.id.firstName);
         lastName = view.findViewById(R.id.lastName);
         email = view.findViewById(R.id.email);
@@ -85,8 +106,6 @@ public class ProfileFragment extends Fragment {
         lastName.setText(MainScreenActivity.currentUser.getLastName());
         email.setText(MainScreenActivity.currentUser.getEmail());
         password.setText(MainScreenActivity.currentUser.getPassword());
-
-        firstName.setText("Loor");
 
         editFN.setOnClickListener(v -> toggleEditText(firstName, editFN));
         editLN.setOnClickListener(v -> toggleEditText(lastName, editLN));
@@ -110,13 +129,16 @@ public class ProfileFragment extends Fragment {
             passwordText = password.getText().toString();
             emailText = email.getText().toString();
         } else {
+
             image.setImageResource(R.drawable.edit);
+
             switch (image.getId()) {
                 case R.id.edit_fn:
                     if (!SignUpActivity.isValidName(editText.getText().toString())) {
                         editText.setText(fName);
                         Toast.makeText(getContext(), "Names Should be 3-10 Alphabets", Toast.LENGTH_LONG).show();
                     }else {
+                        fName = firstName.getText().toString();
                         Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
                     }
                     break;
@@ -125,6 +147,7 @@ public class ProfileFragment extends Fragment {
                         editText.setText(lName);
                         Toast.makeText(getContext(), "Names Should be 3-10 Alphabets", Toast.LENGTH_LONG).show();
                     }else {
+                        lName = lastName.getText().toString();
                         Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
                     }
                     break;
@@ -133,6 +156,7 @@ public class ProfileFragment extends Fragment {
                         editText.setText(emailText);
                         Toast.makeText(getContext(), "Email Format Is Wrong", Toast.LENGTH_LONG).show();
                     }else {
+                        emailText = email.getText().toString();
                         Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
                     }
                     break;
@@ -141,10 +165,21 @@ public class ProfileFragment extends Fragment {
                         editText.setText(passwordText);
                         Toast.makeText(getContext(), "Password Should Contain 6-12 Characters with capital & small letters and numbers", Toast.LENGTH_LONG).show();
                     }else {
+                        passwordText = password.getText().toString();
                         Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
                     }
                     break;
             }
+
+            UserDto userDto = new UserDto();
+            userDto.setFirstName(fName);
+            userDto.setLastName(lName);
+            userDto.setEmail(emailText);
+            userDto.setPassword(passwordText);
+            userDto.setNickName(String.format("%s %s", fName, lName));
+
+            userService.updateUser(userDto);
+            MainScreenActivity.setCurrentUser(userDto);
         }
 
         editText.setEnabled(!editText.isEnabled());

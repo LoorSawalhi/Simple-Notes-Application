@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
+import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.regex.Matcher;
@@ -98,7 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
                 user.setEmail(email.getText().toString());
                 user.setPassword(password.getText().toString());
                 user.setNickName(String.format("%s %s", firstName.getText().toString(), lastName.getText().toString()));
-
+                MainScreenActivity.currentUser = user;
                 if(userService.addUser(user)) {
                     Toast.makeText(this, "Added Successfully!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(SignUpActivity.this, MainScreenActivity.class);

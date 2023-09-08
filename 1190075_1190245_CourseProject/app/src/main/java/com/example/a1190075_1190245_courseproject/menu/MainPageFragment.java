@@ -2,6 +2,7 @@ package com.example.a1190075_1190245_courseproject.menu;
 
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
+import com.example.a1190075_1190245_courseproject.NoteFragment;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.adapter.NewNoteAdapter;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
@@ -23,20 +26,18 @@ import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
 
 
-public class MainPageFragment extends Fragment {
+public class MainPageFragment extends Fragment implements NewNoteAdapter.noteOnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
     private String mParam2;
-
     private EditText title;
     private EditText content;
     private RecyclerView recyclerView;
@@ -48,6 +49,7 @@ public class MainPageFragment extends Fragment {
 
     @Inject
     public NoteServiceImpl noteService;
+    private AlertDialog.Builder builder;
 
     public MainPageFragment() {
 
@@ -90,6 +92,8 @@ public class MainPageFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.notes_grid);
         adapter = new NewNoteAdapter(noteItems, getContext());
 
+        adapter.setOnNoteItemClickListener(this);
+
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         recyclerView.setAdapter(adapter);
 
@@ -118,7 +122,33 @@ public class MainPageFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void deleteNoteOnClick(NoteDto noteDto) {
+
+        builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Alert")
+                .setMessage("Delete This Note! It Won't Be Restored")
+                .setCancelable(true)
+                .setPositiveButton("YES", (dialog, which) ->{
+                    noteService.deleteNote(noteDto.getId());
+                    noteItems.remove(noteDto);
+                    Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                })
+                .setNegativeButton("NO", (dialog, which) -> dialog.cancel()).show();
+    }
+
+    @Override
+    public void editeNoteOnClick(NoteDto noteDto) {
+        Fragment newFragment = new NoteFragment(noteDto, this);
+        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     private boolean checkFields() {
         return !title.getText().toString().isBlank() && !content.getText().toString().isBlank();
     }
+
 }

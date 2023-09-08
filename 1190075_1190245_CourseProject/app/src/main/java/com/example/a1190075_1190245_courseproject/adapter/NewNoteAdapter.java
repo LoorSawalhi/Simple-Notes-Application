@@ -1,7 +1,9 @@
 package com.example.a1190075_1190245_courseproject.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +28,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
+//TODO : ADD TAGS ON THE NOTES
+
 public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHolder> {
 
     private List<NoteDto> noteItems = new ArrayList<>();
-
+    private noteOnClickListener listener;
     private Context context;
     private MyApplication myApplication;
 
@@ -48,6 +52,20 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
 
     }
 
+    @Override
+    public int getItemCount() {
+        return noteItems.size();
+    }
+
+    public void setOnNoteItemClickListener(noteOnClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface noteOnClickListener {
+        void deleteNoteOnClick(NoteDto noteDto);
+        void editeNoteOnClick(NoteDto noteDto);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -60,8 +78,13 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoteDto noteItem = noteItems.get(position);
-        holder.titleTextView.setText(noteItem.getTitle());
-        holder.contentTextView.setText(noteItem.getContent());
+        holder.titleTextView.setText(noteItem.getCreatedOn());
+        holder.contentTextView.setText(noteItem.getTitle());
+
+        holder.titleTextView.setOnClickListener(view -> {
+                holder.contentTextView.setText(noteItem.getContent());
+                holder.titleTextView.setText(noteItem.getTitle());
+        });
 
         System.out.println(MainScreenActivity.currentUser.getId() + noteItem.getId());
 
@@ -75,15 +98,26 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
         }
 
         holder.edit.setOnClickListener(v -> {
-
+            if (listener != null) {
+                listener.editeNoteOnClick(noteItem);
+            }
         });
 
         holder.delete.setOnClickListener(v -> {
-
+            if (listener != null) {
+                listener.deleteNoteOnClick(noteItem);
+            }
         });
 
         holder.share.setOnClickListener(v -> {
-
+//            Intent gmailIntent =new Intent();
+//            gmailIntent.setAction(Intent.ACTION_SENDTO);
+//            gmailIntent.setType("message/rfc822");
+//            gmailIntent.setData(Uri.parse("mailto:"));
+//            gmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"rajaie.imseeh@gmail.com"});
+//            gmailIntent.putExtra(Intent.EXTRA_SUBJECT,"My Subject");
+//            gmailIntent.putExtra(Intent.EXTRA_TEXT,"Content of the message");
+//            startActivity(gmailIntent);
         });
 
         holder.fav.setOnClickListener(v -> {
@@ -91,19 +125,17 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
             if (!flag.get()) {
                 transitionDrawable.reverseTransition(500);
                 userService.addFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+
                 flag.set(true);
             } else {
                 transitionDrawable.reverseTransition(500);
                 userService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+
                 flag.set(false);
             }
+            notifyDataSetChanged();
         });
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return noteItems.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -124,16 +156,16 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
             delete = itemView.findViewById(R.id.delete);
             share = itemView.findViewById(R.id.share);
             fav = itemView.findViewById(R.id.favourite);
-            contentTextView.setVisibility(View.INVISIBLE);
+//            contentTextView.setVisibility(View.INVISIBLE);
             item = itemView.findViewById(R.id.cardView);
 
-            item.setOnClickListener(view -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    contentTextView.setVisibility(View.VISIBLE);
-                }
-            });
-
+//            item.setOnClickListener(view -> {
+//                int position = getAdapterPosition();
+//                if (position != RecyclerView.NO_POSITION) {
+//                    contentTextView.setVisibility(View.VISIBLE);
+//                }
+//            });
         }
     }
+
 }
