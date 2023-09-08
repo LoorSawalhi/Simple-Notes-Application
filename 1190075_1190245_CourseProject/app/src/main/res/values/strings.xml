@@ -29,4 +29,6 @@
     <string name="sorted">Sorted</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
+    <string name="creation_date">Creation Date</string>
+    <string name="note_title">Note title</string>
 </resources>

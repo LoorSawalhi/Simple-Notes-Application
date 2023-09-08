@@ -13,7 +13,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +85,11 @@ public class NoteLayoutFragment extends Fragment {
         View itemView = inflater.inflate(R.layout.fragment_note_layout, container, false);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+
+        String[] options = { "CREATION DATE", "ALPHABETICALLY"};
+        final Spinner genderSpinner = itemView.findViewById(R.id.cat_spinner);
+        ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
+        genderSpinner.setAdapter(objGenderArr);
 
         edit = itemView.findViewById(R.id.edit);
         delete = itemView.findViewById(R.id.delete);

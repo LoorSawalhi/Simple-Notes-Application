@@ -19,7 +19,7 @@ import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
-import com.example.a1190075_1190245_courseproject.enums.Preference;
+import com.example.a1190075_1190245_courseproject.menu.CategorisationFragment;
 import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
@@ -119,6 +119,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             case R.id.profile:
                 loadFragment(new ProfileFragment());
                 searchView.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.note_tagging:
+                loadFragment(new CategorisationFragment());
+                searchView.setVisibility(View.VISIBLE);
                 break;
             case R.id.logout:
                 Intent intent = new Intent(MainScreenActivity.this, SignInActivity.class);

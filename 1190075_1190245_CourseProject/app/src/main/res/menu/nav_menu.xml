@@ -24,6 +24,11 @@
             android:title="@string/sorted"/>
 
         <item
+            android:id="@+id/note_tagging"
+            android:icon="@drawable/tag"
+            android:title="Collections"/>
+
+        <item
             android:id="@+id/profile"
             android:icon="@drawable/user"
             android:title="@string/profile"/>

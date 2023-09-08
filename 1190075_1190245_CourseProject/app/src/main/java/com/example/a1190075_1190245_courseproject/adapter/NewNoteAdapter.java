@@ -1,18 +1,15 @@
 package com.example.a1190075_1190245_courseproject.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.TransitionDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.MyApplication;
 import com.example.a1190075_1190245_courseproject.R;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
@@ -21,7 +18,6 @@ import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
