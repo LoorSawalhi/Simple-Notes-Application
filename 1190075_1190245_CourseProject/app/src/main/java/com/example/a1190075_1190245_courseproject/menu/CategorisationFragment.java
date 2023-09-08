@@ -1,8 +1,10 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.a1190075_1190245_courseproject.MainScreenActivity;
 import com.example.a1190075_1190245_courseproject.R;
@@ -72,15 +75,7 @@ public class CategorisationFragment extends Fragment {
         Button add = view.findViewById(R.id.add_tag);
 
         add.setOnClickListener(v -> {
-//            builder = new AlertDialog.Builder(getContext());
-//            builder.setTitle("New Tag")
-//                    .setMessage("Delete This Note! It Won't Be Restored")
-//                    .setCancelable(true)
-//                    .setPositiveButton("YES", (dialog, which) ->{
-//
-//                        Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
-//                    })
-//                    .setNegativeButton("NO", (dialog, which) -> dialog.cancel()).show();
+            showPopupDialog();
         });
 
         NewNoteAdapter noteAdapter = new NewNoteAdapter(noteItems, getContext());
@@ -91,4 +86,20 @@ public class CategorisationFragment extends Fragment {
 
         return view;
     }
+
+    public void showPopupDialog() {
+
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.add_tag);
+
+        EditText editText = dialog.findViewById(R.id.editTag);
+        Button closeButton = dialog.findViewById(R.id.add_button);
+        closeButton.setOnClickListener(view -> {
+            String enteredText = editText.getText().toString();
+            // Handle the entered text as needed
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
 }
