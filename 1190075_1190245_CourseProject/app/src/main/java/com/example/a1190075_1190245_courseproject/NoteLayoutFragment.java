@@ -42,6 +42,7 @@ public class NoteLayoutFragment extends Fragment {
     private TextView date;
     private TextView content;
     private NoteDto noteItem;
+
     @Inject
     public UserServiceImpl userService;
 
@@ -51,7 +52,6 @@ public class NoteLayoutFragment extends Fragment {
     private AlertDialog.Builder builder;
 
     public NoteLayoutFragment() {
-        // Required empty public constructor
     }
 
     public NoteLayoutFragment(NoteDto noteDto) {
@@ -123,9 +123,14 @@ public class NoteLayoutFragment extends Fragment {
                     .setMessage("Delete This Note! It Won't Be Restored")
                     .setCancelable(true)
                     .setPositiveButton("YES", (dialog, which) ->{
-                        noteService.deleteNote(noteItem.getId());
+                        int deleted = noteService.deleteNote(noteItem.getId());
 
-                        Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        if(deleted != 0) {
+                            Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Deleting Failed", Toast.LENGTH_SHORT).show();
+
+                        }
                     })
                     .setNegativeButton("NO", (dialog, which) -> dialog.cancel()).show();
         });
@@ -133,8 +138,7 @@ public class NoteLayoutFragment extends Fragment {
         share.setOnClickListener(v -> {
             Intent gmailIntent =new Intent();
             gmailIntent.setAction(Intent.ACTION_SENDTO);
-            gmailIntent.setType("message/rfc822");
-            gmailIntent.setData(Uri.parse("mailto:"));
+            gmailIntent.setDataAndType(Uri.parse("mailto:"), "message/rfc822");
             gmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{MainScreenActivity.currentUser.getEmail()});
             gmailIntent.putExtra(Intent.EXTRA_SUBJECT,title.getText().toString());
             gmailIntent.putExtra(Intent.EXTRA_TEXT, content.getText().toString());
@@ -145,15 +149,19 @@ public class NoteLayoutFragment extends Fragment {
 
             if (!flag.get()) {
                 transitionDrawable.reverseTransition(500);
-                noteService.setFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-                noteItem.setFavourite(true);
-                flag.set(true);
+                int setFave = noteService.setFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+                if(setFave != 0) {
+                    noteItem.setFavourite(true);
+                    flag.set(true);
+                }
             } else {
                 transitionDrawable.reverseTransition(500);
-                noteService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
-                noteItem.setFavourite(false);
+                int delFave = noteService.deleteFavourite(MainScreenActivity.currentUser.getId(), noteItem.getId());
+                if(delFave != 0) {
+                    noteItem.setFavourite(false);
 
-                flag.set(false);
+                    flag.set(false);
+                }
             }
         });
 

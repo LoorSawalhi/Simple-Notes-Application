@@ -178,8 +178,12 @@ public class ProfileFragment extends Fragment {
             userDto.setPassword(passwordText);
             userDto.setNickName(String.format("%s %s", fName, lName));
 
-            userService.updateUser(userDto);
-            MainScreenActivity.setCurrentUser(userDto);
+            int update = userService.updateUser(userDto);
+            if(update != 0) {
+                MainScreenActivity.setCurrentUser(userDto);
+            } else {
+                Toast.makeText(getContext(), "Updated failed", Toast.LENGTH_LONG).show();
+            }
         }
 
         editText.setEnabled(!editText.isEnabled());

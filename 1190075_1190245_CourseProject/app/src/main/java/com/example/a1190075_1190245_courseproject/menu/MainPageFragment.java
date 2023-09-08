@@ -105,11 +105,14 @@ public class MainPageFragment extends Fragment implements NewNoteAdapter.noteOnC
                     noteDto.setContent(content.getText().toString());
                     noteDto.setUserId(MainScreenActivity.currentUser.getId());
 
-                    noteService.addNote(noteDto);
-                    noteItems.add(noteDto);
-
-                    Toast.makeText(getContext(), "Note Added Successfully", Toast.LENGTH_SHORT).show();
-                    adapter.notifyDataSetChanged();
+                    int add = noteService.addNote(noteDto);
+                    if(add != -1) {
+                        noteItems.add(noteDto);
+                        Toast.makeText(getContext(), "Note Added Successfully", Toast.LENGTH_SHORT).show();
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), "Failed adding the note", Toast.LENGTH_SHORT).show();
+                    }
 
 
                 } else {

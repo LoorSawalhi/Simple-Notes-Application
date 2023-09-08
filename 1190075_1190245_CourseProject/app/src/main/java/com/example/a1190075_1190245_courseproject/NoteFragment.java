@@ -88,10 +88,13 @@ public class NoteFragment extends Fragment {
                 noteDto.setTitle(title.getText().toString());
                 noteDto.setContent(content.getText().toString());
 
-                noteService.updateNote(noteDto.getId(), noteDto);
+                int update = noteService.updateNote(noteDto.getId(), noteDto);
 
-                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
-
+                if(update != 0) {
+                    Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
             }

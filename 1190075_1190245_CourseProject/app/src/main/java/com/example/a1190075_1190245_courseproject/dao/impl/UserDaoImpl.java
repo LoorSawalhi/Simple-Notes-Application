@@ -95,7 +95,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void update(UserDto user) {
+    public int update(UserDto user) {
         openWrite();
         ContentValues values = new ContentValues();
         values.put("firstName", user.getFirstName());
@@ -105,18 +105,20 @@ public class UserDaoImpl implements UserDao {
         values.put("passwords", user.getPassword());
         values.put("preference", user.getPreference().toString());
 
-        database.update("User", values, "id=?", new String[]{user.getId()});
+        int rows = database.update("User", values, "id=?", new String[]{user.getId()});
 
         close();
+        return rows;
     }
 
 
 
     @Override
-    public void delete(String id) {
+    public int delete(String id) {
         openWrite();
-        database.delete("User", "id=?", new String[]{id});
+        int rows = database.delete("User", "id=?", new String[]{id});
         close();
+        return rows;
     }
 
     @Override

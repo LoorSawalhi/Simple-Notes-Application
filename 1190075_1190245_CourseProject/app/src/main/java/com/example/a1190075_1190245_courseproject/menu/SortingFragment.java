@@ -118,8 +118,12 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
                     MainScreenActivity.currentUser.setPreference(Preference.ALPHABETICALLY);
 
                 }
-                userService.updateUser(MainScreenActivity.currentUser);
-                adapter.notifyDataSetChanged();
+                int update = userService.updateUser(MainScreenActivity.currentUser);
+                if(update != 0 ) {
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
