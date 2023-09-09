@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
-import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
 import java.util.regex.Matcher;
@@ -94,11 +93,11 @@ public class SignUpActivity extends AppCompatActivity {
         createAccount.setOnClickListener(v -> {
             if(checkFields()){
                 UserDto user = new UserDto();
-                user.setFirstName(firstName.getText().toString());
-                user.setLastName(lastName.getText().toString());
-                user.setEmail(email.getText().toString());
+                user.setFirstName(firstName.getText().toString().trim());
+                user.setLastName(lastName.getText().toString().trim());
+                user.setEmail(email.getText().toString().trim());
                 user.setPassword(password.getText().toString());
-                user.setNickName(String.format("%s %s", firstName.getText().toString(), lastName.getText().toString()));
+                user.setNickName(String.format("%s %s", firstName.getText().toString().trim(), lastName.getText().toString().trim()));
                 MainScreenActivity.currentUser = user;
                 if(userService.addUser(user)) {
                     Toast.makeText(this, "Added Successfully!", Toast.LENGTH_LONG).show();
@@ -115,7 +114,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    //TODO: Change the stroke color of the fiels
     private void changeColors() {
         boolean flag = false;
         int i =0;

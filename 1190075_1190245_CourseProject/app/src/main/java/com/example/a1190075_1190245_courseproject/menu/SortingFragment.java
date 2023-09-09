@@ -42,7 +42,7 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
     private String mParam2;
     private RecyclerView recyclerView;
     private NewNoteAdapter adapter;
-    private List<NoteDto> noteItems;
+    private static List<NoteDto> noteItems;
     private AlertDialog.Builder builder;
 
     public SortingFragment() {
@@ -132,11 +132,21 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
 
     @Override
     public void openNote(NoteDto noteDto) {
-        Fragment newFragment = new NoteLayoutFragment(noteDto);
+        Fragment newFragment = new NoteLayoutFragment(noteDto, new SortingFragment());
         FragmentTransaction transaction = requireFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public static List<NoteDto> getList(){
+        return noteItems;
+    }
+
+    public void updateList(List<NoteDto> filteredList) {
+        noteItems.clear();
+        noteItems.addAll(filteredList);
+        adapter.notifyDataSetChanged();
     }
 
 }

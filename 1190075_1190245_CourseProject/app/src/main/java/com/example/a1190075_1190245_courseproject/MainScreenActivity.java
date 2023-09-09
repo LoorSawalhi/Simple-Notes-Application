@@ -29,7 +29,9 @@ import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -41,7 +43,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private static TextView user;
     private static TextView email;
     public static UserDto currentUser;
-
+    private int itemId= R.id.all;
     @Inject
     UserDao userDao;
     @Inject
@@ -51,7 +53,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     @Inject
     public NoteServiceImpl noteService;
-    private List<NoteDto> favNotes;
     public static int[] colorArray = {
             Color.parseColor("#FFCB75E3"),
             Color.parseColor("#FF75B0E3"),
@@ -64,6 +65,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     MainPageFragment mainPageFragment;
     FavouriteFragment favouriteFragment;
     SortingFragment sortingFragment;
+    CategorisationFragment categorisationFragment;
 
     public static void setCurrentUser(UserDto currentUser) {
         MainScreenActivity.currentUser = currentUser;
@@ -85,6 +87,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         mainPageFragment = new MainPageFragment();
         favouriteFragment = new FavouriteFragment();
         sortingFragment = new SortingFragment();
+        categorisationFragment = new CategorisationFragment();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -108,11 +111,50 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         }
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
     }
+
+    private void filterList(String query) {
+        List<NoteDto> filteredList = null;
+
+        switch (itemId) {
+            case R.id.all:
+                filteredList = filter(query, noteService.listUserNotes(MainScreenActivity.currentUser.getId()));
+                updateMainPageFragment(filteredList);
+                break;
+            case R.id.favourite:
+                filteredList = filter(query, userService.getUserFavouriteNotes(MainScreenActivity.currentUser.getId()));
+                updateFavouriteFragment(filteredList);
+                break;
+            case R.id.sotred:
+                filteredList = filter(query, SortingFragment.getList());
+                updateSortingFragment(filteredList);
+                break;
+            case R.id.note_tagging:
+                filteredList = filter(query, CategorisationFragment.getList());
+                updateCategorisationFragment(filteredList);
+                break;
+        }
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        itemId = item.getItemId();
+
+        switch (itemId) {
             case R.id.all:
                 loadFragment(mainPageFragment);
                 searchView.setVisibility(View.VISIBLE);
@@ -154,4 +196,52 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
+
+    private List<NoteDto> filter(String query, List<NoteDto> originalList) {
+        List<NoteDto> filteredList = new ArrayList<>();
+
+        if (query == null || query.trim().isEmpty()) {
+            filteredList.addAll(originalList);
+        } else {
+            String lowercaseQuery = query.toLowerCase(Locale.ROOT);
+
+            for (NoteDto noteDto : originalList) {
+                if (noteDto.getTitle().toLowerCase(Locale.ROOT).contains(lowercaseQuery) ||
+                        noteDto.getContent().toLowerCase(Locale.ROOT).contains(lowercaseQuery)) {
+                    filteredList.add(noteDto);
+                }
+            }
+        }
+
+        return filteredList;
+    }
+
+    private void updateMainPageFragment(List<NoteDto> filteredList) {
+
+        if (mainPageFragment != null) {
+            mainPageFragment.updateList(filteredList);
+        }
+    }
+
+    private void updateFavouriteFragment(List<NoteDto> filteredList) {
+
+        if (favouriteFragment != null) {
+            favouriteFragment.updateList(filteredList);
+        }
+    }
+
+    private void updateSortingFragment(List<NoteDto> filteredList) {
+
+        if (sortingFragment != null) {
+            sortingFragment.updateList(filteredList);
+        }
+    }
+
+    private void updateCategorisationFragment(List<NoteDto> filteredList) {
+
+        if (categorisationFragment != null) {
+            categorisationFragment.updateList(filteredList);
+        }
+    }
+
 }

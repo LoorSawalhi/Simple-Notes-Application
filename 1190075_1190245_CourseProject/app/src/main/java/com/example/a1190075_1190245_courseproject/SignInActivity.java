@@ -14,10 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
-import com.example.a1190075_1190245_courseproject.dao.impl.NoteDaoImpl;
-import com.example.a1190075_1190245_courseproject.dao.impl.UserDaoImpl;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
-import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 import com.example.a1190075_1190245_courseproject.helpers.SharedPrefManager;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
@@ -27,7 +24,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private  EditText email;
     private  EditText password;
-    private CheckBox rememberUser;
+    private CheckBox rememberUser; // TODO SHARED PREFRENCES
     private Button logIn;
     @Inject
     UserDao userDao;
@@ -37,7 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     public UserServiceImpl userService;
 
     public SharedPrefManager sharedPrefManager;
-    private TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -77,7 +74,7 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         logIn.setOnClickListener(v -> {
-            UserDto userDto = userService.findUserByEmail(email.getText().toString());
+            UserDto userDto = userService.findUserByEmail(email.getText().toString().trim());
 
             if (userDto == null){
                 Toast.makeText(this, "No Such User Exists", Toast.LENGTH_LONG).show();
@@ -87,9 +84,10 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(this, "Wrong Password", Toast.LENGTH_LONG).show();
                 password.setText("");
             } else {
-//          load notes
                 MainScreenActivity.currentUser = userDto;
+                if(rememberUser.isChecked()){
                 //TODO save email on shared preference
+                }
                 Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
                 startActivity(intent);
             }

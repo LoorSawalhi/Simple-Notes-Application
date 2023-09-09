@@ -1,7 +1,6 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,41 +33,22 @@ import javax.inject.Inject;
 
 public class CategorisationFragment extends Fragment implements CategoryAdapter.tagOnClickListener, NewNoteAdapter.noteOnClickListener {
 
-    //TODO: CREATE TAG SEARCH
-    //TODO: CREATE SEARCH NOTES BY TITLE OR CONTENT FOR 09.09.2023
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     @Inject
     public UserServiceImpl userService;
 
     @Inject
     public NoteServiceImpl noteService;
-    private AlertDialog.Builder builder;
     private NewNoteAdapter noteAdapter;
     private CategoryAdapter categoryAdapter;
     private List<TagDto> tags;
-    List<NoteDto> noteItems;
+    static List<NoteDto> noteItems;
     public CategorisationFragment() {
-        // Required empty public constructor
-    }
 
-    public static CategorisationFragment newInstance(String param1, String param2) {
-        CategorisationFragment fragment = new CategorisationFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     //TODO: add category to note, add none default :)
@@ -115,7 +95,7 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
 
     @Override
     public void openNote(NoteDto noteDto) {
-        Fragment newFragment = new NoteLayoutFragment(noteDto);
+        Fragment newFragment = new NoteLayoutFragment(noteDto, new CategorisationFragment());
         FragmentTransaction transaction = requireFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
@@ -150,4 +130,13 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         dialog.show();
     }
 
+    public static List<NoteDto> getList(){
+        return noteItems;
+    }
+
+    public void updateList(List<NoteDto> filteredList) {
+        noteItems.clear();
+        noteItems.addAll(filteredList);
+//        noteAdapter.notifyDataSetChanged();
+    }
 }

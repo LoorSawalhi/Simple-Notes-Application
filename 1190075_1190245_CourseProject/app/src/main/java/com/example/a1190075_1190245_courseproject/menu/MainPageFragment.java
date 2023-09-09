@@ -128,7 +128,7 @@ public class MainPageFragment extends Fragment implements NewNoteAdapter.noteOnC
 
     @Override
     public void openNote(NoteDto noteDto) {
-        Fragment newFragment = new NoteLayoutFragment(noteDto);
+        Fragment newFragment = new NoteLayoutFragment(noteDto, new MainPageFragment());
         FragmentTransaction transaction = requireFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
@@ -138,5 +138,12 @@ public class MainPageFragment extends Fragment implements NewNoteAdapter.noteOnC
     private boolean checkFields() {
         return !title.getText().toString().isBlank() && !content.getText().toString().isBlank();
     }
+
+    public void updateList(List<NoteDto> filteredList) {
+        noteItems.clear();
+        noteItems.addAll(filteredList);
+        adapter.notifyDataSetChanged();
+    }
+
 
 }

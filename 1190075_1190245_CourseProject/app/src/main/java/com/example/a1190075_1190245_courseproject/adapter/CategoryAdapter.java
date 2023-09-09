@@ -18,15 +18,11 @@ import com.example.a1190075_1190245_courseproject.dto.TagDto;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
-
-    private MyApplication myApplication;
-    private Context context;
 
     private CategoryAdapter.tagOnClickListener listener;
     @Inject
@@ -35,13 +31,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Inject
     public NoteServiceImpl noteService;
 
-    private List<TagDto> tagDtos = new ArrayList<>();
+    private final List<TagDto> tagDtos;
 
 
     public CategoryAdapter(List<TagDto> tagDtos, Context context) {
         this.tagDtos = tagDtos;
-        this.context = context;
-        this.myApplication = (MyApplication) context.getApplicationContext();
+        MyApplication myApplication = (MyApplication) context.getApplicationContext();
         myApplication.getAppComponent().inject(this);
     }
 
@@ -60,9 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         TagDto tagItem = tagDtos.get(position);
         holder.tag.setText(tagItem.getLabel());
 
-        holder.tag.setOnClickListener(view -> {
-            listener.updateList(tagItem);
-        });
+        holder.tag.setOnClickListener(view -> listener.updateList(tagItem));
 
         int colorIndex = (position + colorArray.length + 4) % colorArray.length;
         holder.tag.setBackgroundColor(colorArray[colorIndex]);
@@ -75,7 +68,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tag;
+        private final TextView tag;
         private CardView item;
 
         public ViewHolder(@NonNull View itemView) {

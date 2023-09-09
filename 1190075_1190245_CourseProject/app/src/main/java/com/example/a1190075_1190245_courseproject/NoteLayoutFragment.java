@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.TagDto;
 import com.example.a1190075_1190245_courseproject.enums.Preference;
+import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
@@ -39,17 +40,10 @@ public class NoteLayoutFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
-
-    private ImageView edit;
-    private ImageView delete;
-    private ImageView share;
-    private ImageView fav;
     private TextView title;
-    private TextView date;
     private TextView content;
     private NoteDto noteItem;
+    private Fragment fragment;
 
     @Inject
     public UserServiceImpl userService;
@@ -62,8 +56,10 @@ public class NoteLayoutFragment extends Fragment {
     public NoteLayoutFragment() {
     }
 
-    public NoteLayoutFragment(NoteDto noteDto) {
+    public NoteLayoutFragment(NoteDto noteDto, Fragment fragment) {
+
         this.noteItem = noteDto;
+        this.fragment = fragment;
     }
 
     public static NoteLayoutFragment newInstance(String param1, String param2) {
@@ -79,8 +75,8 @@ public class NoteLayoutFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -132,13 +128,14 @@ public class NoteLayoutFragment extends Fragment {
             }
         });
 
-        edit = itemView.findViewById(R.id.edit);
-        delete = itemView.findViewById(R.id.delete);
-        share = itemView.findViewById(R.id.share);
-        fav = itemView.findViewById(R.id.favourite);
+        ImageView edit = itemView.findViewById(R.id.edit);
+        ImageView delete = itemView.findViewById(R.id.delete);
+        ImageView share = itemView.findViewById(R.id.share);
+        ImageView fav = itemView.findViewById(R.id.favourite);
+        ImageView previous = itemView.findViewById(R.id.previous);
         title = itemView.findViewById(R.id.display_title);
         content = itemView.findViewById(R.id.display_content);
-        date = itemView.findViewById(R.id.display_date);
+        TextView date = itemView.findViewById(R.id.display_date);
 
         title.setText(noteItem.getTitle());
         content.setText(noteItem.getContent());
@@ -155,6 +152,14 @@ public class NoteLayoutFragment extends Fragment {
             transitionDrawable.reverseTransition(1);
             flag.set(true);
         }
+
+        previous.setOnClickListener( v -> {
+
+            FragmentTransaction transaction = requireFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
 
         edit.setOnClickListener(v -> {
             Fragment newFragment = new NoteFragment(noteItem, this);
