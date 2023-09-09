@@ -70,14 +70,12 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         RecyclerView notes = view.findViewById(R.id.categorized_notes);
         Button add = view.findViewById(R.id.add_tag);
 
-        add.setOnClickListener(v -> {
-            showPopupDialog();
-        });
+        add.setOnClickListener(v -> showPopupDialog());
 
-        noteAdapter = new NewNoteAdapter(noteItems, getContext());
+        noteAdapter = new NewNoteAdapter(noteItems, requireContext());
         noteAdapter.setOnNoteItemClickListener(this);
 
-        categoryAdapter = new CategoryAdapter(tags, getContext());
+        categoryAdapter = new CategoryAdapter(tags, requireContext());
 
         notes.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         notes.setAdapter(noteAdapter);
@@ -107,6 +105,7 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         noteAdapter.notifyDataSetChanged();
     }
 
+    /** @noinspection deprecation*/
     @Override
     public void openNote(NoteDto noteDto) {
         Fragment newFragment = new NoteLayoutFragment(noteDto, new CategorisationFragment());
@@ -118,7 +117,7 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
     @SuppressLint("NotifyDataSetChanged")
     public void showPopupDialog() {
 
-        Dialog dialog = new Dialog(getContext());
+        Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.add_tag);
 
         EditText editText = dialog.findViewById(R.id.editTag);
@@ -132,10 +131,14 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
                 TagDto tagDto = new TagDto();
                 tagDto.setLabel(enteredText);
                 tagDto.setUserId(MainScreenActivity.currentUser.getId());
-                noteService.addTag(tagDto);
-                tags.add(tagDto);
-                categoryAdapter.notifyDataSetChanged();
-                Toast.makeText(getContext(), "Added Successfully", Toast.LENGTH_LONG).show();
+                int add = noteService.addTag(tagDto);
+                if(add != 0) {
+                    tags.add(tagDto);
+                    categoryAdapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(), "Added Successfully", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "Failed to Add tag", Toast.LENGTH_LONG).show();
+                }
             }
             dialog.dismiss();
 
@@ -151,6 +154,7 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(List<NoteDto> filteredList) {
         noteItems.clear();
         noteItems.addAll(filteredList);

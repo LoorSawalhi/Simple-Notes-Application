@@ -12,7 +12,6 @@ import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -157,7 +156,7 @@ public class NoteDaoImpl implements NoteDao {
 
         int rows = database.delete("note", "id = ?", new String[]{id});
         close();
-        return (int) rows;
+        return rows;
     }
 
     @Override
@@ -173,16 +172,6 @@ public class NoteDaoImpl implements NoteDao {
         close();
         return (int) rowId;
     }
-
-    @Override
-    public int deleteTag(String id) {
-        openWrite();
-
-        long rows = database.delete("tag", "id = ?", new String[]{id});
-        close();
-        return (int) rows;
-    }
-
 
     @Override
     public List<NoteDto> getNotesByTagLabel(String tagLabel, String userId) {

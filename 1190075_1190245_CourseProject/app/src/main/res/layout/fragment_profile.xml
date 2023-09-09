@@ -24,7 +24,7 @@ tools:context=".menu.ProfileFragment">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="logo" />
+        android:contentDescription="@string/logo" />
 
     <TextView
         android:id="@+id/create_text"
@@ -32,9 +32,9 @@ tools:context=".menu.ProfileFragment">
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="User Profile"
+        android:text="@string/user_profile"
         app:layout_constraintTop_toBottomOf="@+id/icon"
-        android:textSize="27dp"
+        android:textSize="27sp"
         android:textColor="@color/white"
         android:visibility="visible" />
 
@@ -70,7 +70,7 @@ tools:context=".menu.ProfileFragment">
                         android:id="@+id/firstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="First Name"
+                        android:hint="@string/first_name"
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey_500"
@@ -87,7 +87,8 @@ tools:context=".menu.ProfileFragment">
                     android:layout_height="20dp"
                     android:layout_weight="6"
                     android:layout_gravity="center"
-                    android:src="@drawable/edit"/>
+                    android:src="@drawable/edit"
+                    android:contentDescription="@string/edit_icon" />
             </LinearLayout>
 
             <LinearLayout
@@ -104,7 +105,7 @@ tools:context=".menu.ProfileFragment">
                         android:id="@+id/lastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Last Name"
+                        android:hint="@string/last_name"
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey_500"
@@ -139,7 +140,7 @@ tools:context=".menu.ProfileFragment">
                         android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email"
+                        android:hint="@string/email"
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey_500"
@@ -148,7 +149,8 @@ tools:context=".menu.ProfileFragment">
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:minHeight="48dp"
-                        android:layout_marginTop="25dp" />
+                        android:layout_marginTop="25dp"
+                        android:inputType="textEmailAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
@@ -176,7 +178,7 @@ tools:context=".menu.ProfileFragment">
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/email"
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey_500"

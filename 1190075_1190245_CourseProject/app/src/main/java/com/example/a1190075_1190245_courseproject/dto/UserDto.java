@@ -22,15 +22,6 @@ public class UserDto {
 
     }
 
-    public UserDto(String firstName, String lastName, String nickName, String email, String password, Preference preference) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.nickName = nickName;
-        this.email = email;
-        this.password = password;
-        this.preference = preference;
-    }
-
     public String getId() {
         return id;
     }

@@ -1,6 +1,5 @@
 package com.example.a1190075_1190245_courseproject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
-import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
-import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
 import com.example.a1190075_1190245_courseproject.service.NoteService;
 
 import javax.inject.Inject;
@@ -23,16 +20,8 @@ import javax.inject.Inject;
 
 public class NoteFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private TextView date;
     private EditText title;
     private EditText content;
-    private ImageView save;
     private NoteDto note;
     private Fragment fragment;
 
@@ -46,25 +35,12 @@ public class NoteFragment extends Fragment {
         this.fragment = targetFragment;
     }
 
-
-    public static NoteFragment newInstance(String param1, String param2) {
-        NoteFragment fragment = new NoteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
+    /** @noinspection deprecation*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,10 +48,10 @@ public class NoteFragment extends Fragment {
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
 
-        date = view.findViewById(R.id.note_date);
+        TextView date = view.findViewById(R.id.note_date);
         content = view.findViewById(R.id.fill_c);
         title = view.findViewById(R.id.fill_t);
-        save = view.findViewById(R.id.save_note);
+        ImageView save = view.findViewById(R.id.save_note);
 
         content.setText(note.getContent());
         title.setText(note.getTitle());
@@ -109,8 +85,6 @@ public class NoteFragment extends Fragment {
     }
 
     private boolean checkFields() {
-        if(title.getText().toString().isBlank() || content.getText().toString().isBlank())
-            return false;
-        return true;
+        return !title.getText().toString().isBlank() && !content.getText().toString().isBlank();
     }
 }

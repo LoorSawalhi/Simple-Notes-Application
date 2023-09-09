@@ -56,20 +56,6 @@ public class NoteServiceImpl implements NoteService {
         return noteDao.addTag(tagDto);
     }
 
-    @Override
-    public int deleteTag(TagDto tagDto) {
-        return noteDao.deleteTag(tagDto.getId());
-    }
-    @Override
-    public int addTagToNote(NoteDto noteDto) {
-        return noteDao.update(noteDto.getId(), noteDto);
-    }
-
-    @Override
-    public int deleteTagFromNote(NoteDto noteDto) {
-        noteDto.setTagId("0");
-        return noteDao.update(noteDto.getId(), noteDto);
-    }
 
     @Override
     public List<NoteDto> getNotesByTagLabel(String tagLabel, String userId) {

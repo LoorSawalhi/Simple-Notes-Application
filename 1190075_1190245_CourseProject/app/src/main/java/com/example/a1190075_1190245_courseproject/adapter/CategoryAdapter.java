@@ -3,14 +3,12 @@ package com.example.a1190075_1190245_courseproject.adapter;
 import static com.example.a1190075_1190245_courseproject.MainScreenActivity.colorArray;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a1190075_1190245_courseproject.MyApplication;
@@ -23,20 +21,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private CategoryAdapter.tagOnClickListener listener;
+    private final List<TagDto> tags;
     @Inject
     public UserServiceImpl userService;
 
     @Inject
     public NoteServiceImpl noteService;
+    private CategoryAdapter.tagOnClickListener listener;
 
-    private final List<TagDto> tagDtos;
 
-
-    public CategoryAdapter(List<TagDto> tagDtos, Context context) {
-        this.tagDtos = tagDtos;
+    public CategoryAdapter(List<TagDto> tags, Context context) {
+        this.tags = tags;
         MyApplication myApplication = (MyApplication) context.getApplicationContext();
         myApplication.getAppComponent().inject(this);
     }
@@ -53,7 +50,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
-        TagDto tagItem = tagDtos.get(position);
+        TagDto tagItem = tags.get(position);
         holder.tag.setText(tagItem.getLabel());
 
         holder.tag.setOnClickListener(view -> listener.updateList(tagItem));
@@ -64,21 +61,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return tagDtos.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView tag;
-        private CardView item;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            tag = itemView.findViewById(R.id.category);
-            item = itemView.findViewById(R.id.card_c);
-
-        }
+        return tags.size();
     }
 
     public void setOnTagClickListener(CategoryAdapter.tagOnClickListener listener) {
@@ -88,5 +71,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public interface tagOnClickListener {
 
         void updateList(TagDto tag);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private final TextView tag;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            tag = itemView.findViewById(R.id.category);
+
+        }
     }
 }

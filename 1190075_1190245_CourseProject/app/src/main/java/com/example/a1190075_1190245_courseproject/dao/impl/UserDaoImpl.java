@@ -54,24 +54,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public UserDto findById(String id) {
-        openRead();
-
-        Cursor cursor = database.rawQuery("SELECT * FROM user WHERE id = ?", new String[]{id});
-
-
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            UserDto user = UserDto.cursorToUser(cursor);
-            cursor.close();
-            return user;
-        }
-        close();
-        return null;
-    }
-
-    @Override
     public boolean insert(UserDto user) {
         openWrite();
         ContentValues values = new ContentValues();
@@ -111,16 +93,6 @@ public class UserDaoImpl implements UserDao {
         return rows;
     }
 
-
-
-    @Override
-    public int delete(String id) {
-        openWrite();
-        int rows = database.delete("User", "id=?", new String[]{id});
-        close();
-        return rows;
-    }
-
     @Override
     public List<NoteDto> favouriteNotes(String userId) {
         openRead();
@@ -140,17 +112,4 @@ public class UserDaoImpl implements UserDao {
         return notes;
     }
 
-
-    @Override
-    public UserDto loginUser(String email, String password) {
-        Cursor cursor = database.rawQuery("SELECT * FROM user WHERE email = ? AND password = ?", new String[]{email, password});
-        if (cursor.moveToFirst()) {
-            UserDto user = UserDto.cursorToUser(cursor);
-
-            cursor.close();
-            return user;
-        }
-        cursor.close();
-        return null;
-    }
 }

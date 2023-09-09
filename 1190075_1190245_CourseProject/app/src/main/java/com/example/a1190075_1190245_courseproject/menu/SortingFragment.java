@@ -1,7 +1,6 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,29 +31,14 @@ import javax.inject.Inject;
 
 public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnClickListener {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     @Inject
     public UserServiceImpl userService;
     @Inject
     public NoteServiceImpl noteService;
-    private String mParam1;
-    private String mParam2;
-    private RecyclerView recyclerView;
     private NewNoteAdapter adapter;
     private static List<NoteDto> noteItems;
-    private AlertDialog.Builder builder;
 
     public SortingFragment() {
-    }
-
-    public static SortingFragment newInstance(String param1, String param2) {
-        SortingFragment fragment = new SortingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -62,11 +46,6 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
         super.onCreate(savedInstanceState);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -76,7 +55,7 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
 
         String[] options = {"CREATION DATE", "ALPHABETICALLY"};
         final Spinner sortingSpinner = view.findViewById(R.id.sort_spinner);
-        ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> objGenderArr = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, options);
         sortingSpinner.setAdapter(objGenderArr);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
@@ -91,8 +70,8 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
             sortingSpinner.setSelection(1);
         }
 
-        recyclerView = view.findViewById(R.id.fav_grid);
-        adapter = new NewNoteAdapter(noteItems, getContext());
+        RecyclerView recyclerView = view.findViewById(R.id.fav_grid);
+        adapter = new NewNoteAdapter(noteItems, requireContext());
 
         adapter.setOnNoteItemClickListener(this);
 
@@ -130,6 +109,7 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
         return view;
     }
 
+    /** @noinspection deprecation*/
     @Override
     public void openNote(NoteDto noteDto) {
         Fragment newFragment = new NoteLayoutFragment(noteDto, new SortingFragment());
@@ -143,6 +123,7 @@ public class SortingFragment extends Fragment implements NewNoteAdapter.noteOnCl
         return noteItems;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(List<NoteDto> filteredList) {
         noteItems.clear();
         noteItems.addAll(filteredList);

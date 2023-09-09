@@ -33,4 +33,7 @@
     <string name="note_title">Note title</string>
     <string name="tag_name">Tag Name</string>
     <string name="plus">+</string>
+    <string name="don_t_have_an_account_create_one">Don\'t Have An Account? Create One</string>
+    <string name="user_profile">User Profile</string>
+    <string name="edit_icon">edit icon</string>
 </resources>

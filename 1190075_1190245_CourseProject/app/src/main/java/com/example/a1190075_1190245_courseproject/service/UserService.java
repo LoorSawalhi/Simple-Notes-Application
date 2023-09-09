@@ -6,13 +6,8 @@ import com.example.a1190075_1190245_courseproject.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
-    List<UserDto> getAll();
-    UserDto findById(String id);
     boolean addUser(UserDto user);
     int updateUser(UserDto user);
-    int deleteUser(String id);
-    List<NoteDto> getUserNotes(String userId);
     List<NoteDto> getUserFavouriteNotes(String userId);
-    boolean authorized(String email, String password);
     UserDto findUserByEmail(String email);
 }

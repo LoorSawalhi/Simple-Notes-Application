@@ -1,6 +1,6 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,32 +28,15 @@ import javax.inject.Inject;
 public class FavouriteFragment extends Fragment implements NewNoteAdapter.noteOnClickListener {
 
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
     @Inject
     public UserServiceImpl userService;
 
     @Inject
     public NoteServiceImpl noteService;
-    private AlertDialog.Builder builder;
     private List<NoteDto> noteItems;
     private NewNoteAdapter adapter;
 
     public FavouriteFragment() {
-    }
-
-
-    public static FavouriteFragment newInstance(String param1, String param2) {
-        FavouriteFragment fragment = new FavouriteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -61,11 +44,6 @@ public class FavouriteFragment extends Fragment implements NewNoteAdapter.noteOn
         super.onCreate(savedInstanceState);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -79,7 +57,7 @@ public class FavouriteFragment extends Fragment implements NewNoteAdapter.noteOn
         noteItems = userService.getUserFavouriteNotes(MainScreenActivity.currentUser.getId());
 
         RecyclerView recyclerView = rootView.findViewById(R.id.fav_grid);
-        adapter = new NewNoteAdapter(noteItems, getContext());
+        adapter = new NewNoteAdapter(noteItems, requireContext());
 
         adapter.setOnNoteItemClickListener(this);
 
@@ -89,6 +67,7 @@ public class FavouriteFragment extends Fragment implements NewNoteAdapter.noteOn
     }
 
 
+    /** @noinspection deprecation*/
     @Override
     public void openNote(NoteDto noteDto) {
         Fragment newFragment = new NoteLayoutFragment(noteDto, new FavouriteFragment());
@@ -98,6 +77,7 @@ public class FavouriteFragment extends Fragment implements NewNoteAdapter.noteOn
         transaction.commit();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(List<NoteDto> filteredList) {
         noteItems.clear();
         noteItems.addAll(filteredList);

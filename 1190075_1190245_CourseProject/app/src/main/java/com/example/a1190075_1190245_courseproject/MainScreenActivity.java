@@ -1,5 +1,6 @@
 package com.example.a1190075_1190245_courseproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,7 +26,6 @@ import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
 import com.example.a1190075_1190245_courseproject.menu.SortingFragment;
-import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 import com.google.android.material.navigation.NavigationView;
@@ -41,7 +41,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     private DrawerLayout drawerLayout;
     private SearchView searchView;
+    @SuppressLint("StaticFieldLeak")
     private static TextView user;
+    @SuppressLint("StaticFieldLeak")
     private static TextView email;
     public static UserDto currentUser;
     private int itemId = R.id.all;
@@ -127,8 +129,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         });
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void filterList(String query) {
-        List<NoteDto> filteredList = null;
+        List<NoteDto> filteredList;
 
         switch (itemId) {
             case R.id.all:
@@ -157,6 +160,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         itemId = item.getItemId();

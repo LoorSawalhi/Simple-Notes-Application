@@ -7,7 +7,7 @@ public class SharedPrefManager {
     private static final int SHARED_PREF_PRIVATE = Context.MODE_PRIVATE;
     private static SharedPrefManager ourInstance = null;
     private static SharedPreferences sharedPreferences = null;
-    private SharedPreferences.Editor editor = null;
+    private final SharedPreferences.Editor editor;
     public static SharedPrefManager getInstance(Context context) {
         if (ourInstance != null) {
             return ourInstance;
@@ -20,9 +20,9 @@ public class SharedPrefManager {
                 SHARED_PREF_PRIVATE);
         editor = sharedPreferences.edit();
     }
-    public boolean writeString(String key, String value) {
+    public void writeString(String key, String value) {
         editor.putString(key, value);
-        return editor.commit();
+        editor.commit();
     }
     public String readString(String key, String defaultValue) {
         return sharedPreferences.getString(key, defaultValue);

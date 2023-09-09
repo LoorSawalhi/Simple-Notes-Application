@@ -13,7 +13,7 @@ public class NoteDto {
     private String userId;
     private String title;
     private String content;
-    private Date createdOnDate = new Date();
+    private final Date createdOnDate = new Date();
     private String createdOn ;
     private boolean isFavourite;
     private String tagId;

@@ -13,7 +13,6 @@ public interface NoteDao {
     int update(String id, NoteDto noteDto);
     int delete(String id);
     int addTag(TagDto tagDto);
-    int deleteTag(String id);
     List<NoteDto> getNotesByTagLabel(String tagLabel, String userId);
     List<TagDto> getAllTagsForUser(String userId);
     int setFavourite(String userId, String noteId, boolean isFavourite);

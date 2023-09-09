@@ -131,11 +131,10 @@
                 android:id="@+id/linkSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't Have An Account? Create One"
+                android:text="@string/don_t_have_an_account_create_one"
                 android:textColor="@color/blue_700"
                 android:layout_gravity="center"
                 android:autoLink="web" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

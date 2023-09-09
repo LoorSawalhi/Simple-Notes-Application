@@ -10,13 +10,9 @@ public interface NoteService {
     int addNote(NoteDto noteDto);
     int updateNote(String id, NoteDto noteDto);
     int deleteNote(String id);
-
     int setFavourite(String userId, String noteId);
     int deleteFavourite(String userId, String noteId);
     int addTag(TagDto tagDto);
-    int deleteTag(TagDto tagDto);
-    int addTagToNote( NoteDto noteDto);
-    int deleteTagFromNote(NoteDto noteDto);
     List<NoteDto> getNotesByTagLabel(String tagLabel, String userId);
     List<TagDto> getAllTagsForUser(String userId);
     List<NoteDto> getSorted(String userId, String sortingCriteria);

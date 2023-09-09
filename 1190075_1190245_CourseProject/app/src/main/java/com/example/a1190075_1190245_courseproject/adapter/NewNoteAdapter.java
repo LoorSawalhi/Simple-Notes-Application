@@ -19,29 +19,23 @@ import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 
-
 public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHolder> {
 
-    private List<NoteDto> noteItems = new ArrayList<>();
-    private noteOnClickListener listener;
-    private Context context;
-    private MyApplication myApplication;
-
+    private final List<NoteDto> noteItems;
     @Inject
     public UserServiceImpl userService;
-
     @Inject
     public NoteServiceImpl noteService;
+    private noteOnClickListener listener;
+
     public NewNoteAdapter(List<NoteDto> noteItems, Context context) {
         this.noteItems = noteItems;
-        this.context = context;
-        this.myApplication = (MyApplication) context.getApplicationContext();
+        MyApplication myApplication = (MyApplication) context.getApplicationContext();
         myApplication.getAppComponent().inject(this);
 
     }
@@ -53,11 +47,6 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
 
     public void setOnNoteItemClickListener(noteOnClickListener listener) {
         this.listener = listener;
-    }
-
-    public interface noteOnClickListener {
-
-        void openNote(NoteDto noteDto);
     }
 
     @NonNull
@@ -83,12 +72,17 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
         holder.card.setBackgroundColor(colorArray[colorIndex]);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleTextView;
-        private TextView dateTextView;
-        private ConstraintLayout card;
+    public interface noteOnClickListener {
 
-        private CardView item;
+        void openNote(NoteDto noteDto);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView titleTextView;
+        private final TextView dateTextView;
+        private final ConstraintLayout card;
+
+        private final CardView item;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,7 +90,6 @@ public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHold
             dateTextView = itemView.findViewById(R.id.create_date);
             item = itemView.findViewById(R.id.cardView);
             card = itemView.findViewById(R.id.back_item);
-
         }
     }
 }

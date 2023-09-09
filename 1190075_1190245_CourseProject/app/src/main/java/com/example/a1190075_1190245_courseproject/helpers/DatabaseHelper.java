@@ -52,29 +52,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_NOTE_TABLE);
         db.execSQL(CREATE_TAG_TABLE);
 
-// User data
-        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('1', 'Ahmad', 'Smith', 'ahmady', '1', '1', \"" + Preference.CREATIONDATE.name() +"\")");
-        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Loor', 'Johnson', 'loory', 'loor@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
+        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('1', 'Ahmad', 'Abbas', 'ahmad', '1', '1', \"" + Preference.CREATIONDATE.name() +"\")");
+        db.execSQL("INSERT INTO `user` (id, firstName, lastName, nickName, email, passwords, preference) VALUES ('2', 'Loor', 'Sawalhi', 'loor', 'loor@example.com', 'password', \"" + Preference.CREATIONDATE.name() +"\")");
 
-// Tag data
         db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('0', 'All', '1')");
         db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('1', 'All', '2')");
         db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('2', 'Work', '1')");
         db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('3', 'Personal', '1')");
         db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('4', 'Family', '2')");
         db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('5', 'Work', '2')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('6', 'Hobbies', '1')");
+        db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('7', 'Travel', '2')");
 
-// Notes for Ahmad (userId=1) with different tags
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Android Components', 'Learn about Activity, Service, and BroadcastReceiver.', '2023-09-10', 1, '1')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Android Components', 'Learn about Activity, Service, and BroadcastReceiver.', '2023-09-10', 1, '2')");
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('2', '1', 'Kotlin Libraries', 'Explore Coroutines and Flow.', '2023-09-09', 0, '2')");
-
-// Notes for Loor (userId=2) with different tags
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('3', '2', 'Android Networking', 'Retrofit and OkHttp.', '2023-01-03', 1, '1')");
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('4', '2', 'Design Patterns', 'MVC, MVP, and MVVM in Android.', '2023-01-04', 0, '3')");
-
-// Shared notes for Ahmad and Loor
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('4', '2', 'Design Patterns', 'MVC, MVP, and MVVM in Android.', '2023-01-04', 0, '4')");
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('5', '1', 'Shared Note on RxJava', 'Learning RxJava for Android.', '2023-01-05', 1, '3')");
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('6', '2', 'Shared Note on Room', 'Exploring Room database.', '2023-01-05', 1, '2')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('6', '2', 'Shared Note on Room', 'Exploring Room database.', '2023-01-05', 1, '5')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('7', '1', 'Guitar Lessons', 'Learn E major and G major.', '2023-01-06', 0, '6')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('8', '2', 'Travel Itinerary', 'Trip to Paris.', '2023-01-07', 1, '7')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('9', '1', 'Photography Tips', 'Understanding ISO, aperture, and shutter speed.', '2023-01-08', 0, '6')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('10', '2', 'Cooking Recipes', 'Homemade pizza and pasta.', '2023-01-09', 1, '7')");
+
     }
 
     @Override

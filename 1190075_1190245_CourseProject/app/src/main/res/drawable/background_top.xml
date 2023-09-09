@@ -5,7 +5,7 @@
     <gradient
         android:startColor="@color/blue_700"
         android:endColor="@color/blue_400"
-        android:angle="180"/> <!-- Use a multiple of 45, e.g., 180 for horizontal gradient -->
+        android:angle="180"/>
     <corners
         android:bottomRightRadius="100dp"
         android:bottomLeftRadius="100dp"/>

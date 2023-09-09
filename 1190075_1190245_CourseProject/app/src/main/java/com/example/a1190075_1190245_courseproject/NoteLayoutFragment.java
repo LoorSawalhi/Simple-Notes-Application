@@ -7,10 +7,6 @@ import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,25 +17,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.a1190075_1190245_courseproject.dto.NoteDto;
 import com.example.a1190075_1190245_courseproject.dto.TagDto;
-import com.example.a1190075_1190245_courseproject.enums.Preference;
-import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 
 public class NoteLayoutFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private TextView title;
     private TextView content;
@@ -62,25 +54,12 @@ public class NoteLayoutFragment extends Fragment {
         this.noteItem = noteDto;
         this.fragment = fragment;
     }
-
-    public static NoteLayoutFragment newInstance(String param1, String param2) {
-        NoteLayoutFragment fragment = new NoteLayoutFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
+    /** @noinspection deprecation*/
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,7 +75,7 @@ public class NoteLayoutFragment extends Fragment {
         TagDto tag = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId()).stream().filter(t -> t.getId().equalsIgnoreCase(noteItem.getTagId())).findFirst().orElse(null);
 
         final Spinner tagSpinner = itemView.findViewById(R.id.cat_spinner);
-        ArrayAdapter<String> objTagArr = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> objTagArr = new ArrayAdapter<>(requireContext(),android.R.layout.simple_spinner_item, options);
         tagSpinner.setAdapter(objTagArr);
 
         if(tag != null)

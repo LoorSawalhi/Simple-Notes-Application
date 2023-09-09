@@ -9,10 +9,7 @@ import java.util.List;
 public interface UserDao {
 
     List<UserDto> list();
-    UserDto findById(String id);
     boolean insert(UserDto user);
     int update(UserDto user);
-    int delete(String id);
     List<NoteDto> favouriteNotes(String userId);
-    UserDto loginUser(String email, String password);
 }

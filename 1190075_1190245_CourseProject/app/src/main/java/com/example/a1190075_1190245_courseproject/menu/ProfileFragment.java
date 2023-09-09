@@ -1,6 +1,8 @@
 package com.example.a1190075_1190245_courseproject.menu;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.example.a1190075_1190245_courseproject.SignUpActivity;
 import com.example.a1190075_1190245_courseproject.dao.NoteDao;
 import com.example.a1190075_1190245_courseproject.dao.UserDao;
 import com.example.a1190075_1190245_courseproject.dto.UserDto;
+import com.example.a1190075_1190245_courseproject.helpers.SharedPrefManager;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 
@@ -24,12 +27,6 @@ import javax.inject.Inject;
 
 
 public class ProfileFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
 
     @Inject
     UserDao userDao;
@@ -59,26 +56,11 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
     }
 
-
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -106,6 +88,7 @@ public class ProfileFragment extends Fragment {
         lastName.setText(MainScreenActivity.currentUser.getLastName());
         email.setText(MainScreenActivity.currentUser.getEmail());
         password.setText(MainScreenActivity.currentUser.getPassword());
+        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         editFN.setOnClickListener(v -> toggleEditText(firstName, editFN));
         editLN.setOnClickListener(v -> toggleEditText(lastName, editLN));
@@ -120,6 +103,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void toggleEditText(EditText editText, ImageView image) {
 
         if(!editText.isEnabled()){
@@ -157,6 +141,10 @@ public class ProfileFragment extends Fragment {
                         Toast.makeText(getContext(), "Email Format Is Wrong", Toast.LENGTH_LONG).show();
                     }else {
                         emailText = email.getText().toString();
+                        String saved = SharedPrefManager.getInstance(getContext()).readString("email", "");
+                        if(!saved.equals("")) {
+                            SharedPrefManager.getInstance(getContext()).writeString("email", emailText);
+                        }
                         Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
                     }
                     break;
