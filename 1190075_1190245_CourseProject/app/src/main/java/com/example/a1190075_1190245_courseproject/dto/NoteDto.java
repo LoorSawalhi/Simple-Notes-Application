@@ -3,6 +3,8 @@ package com.example.a1190075_1190245_courseproject.dto;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,7 +13,8 @@ public class NoteDto {
     private String userId;
     private String title;
     private String content;
-    private String createdOn = new Date().toString();
+    private Date createdOnDate = new Date();
+    private String createdOn ;
     private boolean isFavourite;
     private String tagId;
 
@@ -58,6 +61,8 @@ public class NoteDto {
     }
 
     public String getCreatedOn() {
+        DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT);
+        this.createdOn = dateFormatter.format(createdOnDate);
         return createdOn;
     }
 

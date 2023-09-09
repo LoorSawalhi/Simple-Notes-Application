@@ -42,6 +42,8 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
     private CategoryAdapter categoryAdapter;
     private List<TagDto> tags;
     static List<NoteDto> noteItems;
+    static TagDto currentTag = new TagDto();
+
     public CategorisationFragment() {
 
     }
@@ -51,7 +53,7 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         super.onCreate(savedInstanceState);
     }
 
-    //TODO: add category to note, add none default :)
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
 
         noteItems = noteService.listUserNotes(MainScreenActivity.currentUser.getId());
         tags = noteService.getAllTagsForUser(MainScreenActivity.currentUser.getId());
+
+        currentTag.setLabel("All");
 
         RecyclerView categories = view.findViewById(R.id.categories_grid);
         RecyclerView notes = view.findViewById(R.id.categorized_notes);
@@ -88,8 +92,18 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void updateList(TagDto tag) {
-        noteItems = noteService.getNotesByTagLabel(tag.getLabel(), MainScreenActivity.currentUser.getId());
-        noteItems.forEach(n -> System.out.println(n.toString()));
+        noteItems.clear();
+        List<NoteDto> notes;
+
+        currentTag.setLabel(tag.getLabel());
+
+        if(tag.getLabel().equals("All")) {
+            notes = noteService.listUserNotes(MainScreenActivity.currentUser.getId());
+        } else {
+            notes = noteService.getNotesByTagLabel(tag.getLabel(), MainScreenActivity.currentUser.getId());
+        }
+
+        noteItems.addAll(notes);
         noteAdapter.notifyDataSetChanged();
     }
 
@@ -107,7 +121,6 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.add_tag);
 
-        // TODO: TRIM WHEN USER ADD SOMETHING SIGN IN UP
         EditText editText = dialog.findViewById(R.id.editTag);
         Button closeButton = dialog.findViewById(R.id.add_button);
         closeButton.setOnClickListener(view -> {
@@ -130,13 +143,17 @@ public class CategorisationFragment extends Fragment implements CategoryAdapter.
         dialog.show();
     }
 
-    public static List<NoteDto> getList(){
-        return noteItems;
+    public List<NoteDto> getList(){
+        if(currentTag.getLabel().equals("All")) {
+            return noteService.listUserNotes(MainScreenActivity.currentUser.getId());
+        } else {
+            return noteService.getNotesByTagLabel(currentTag.getLabel(), MainScreenActivity.currentUser.getId());
+        }
     }
 
     public void updateList(List<NoteDto> filteredList) {
         noteItems.clear();
         noteItems.addAll(filteredList);
-//        noteAdapter.notifyDataSetChanged();
+        noteAdapter.notifyDataSetChanged();
     }
 }

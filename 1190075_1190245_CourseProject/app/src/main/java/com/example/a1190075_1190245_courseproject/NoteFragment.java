@@ -83,7 +83,6 @@ public class NoteFragment extends Fragment {
 
         save.setOnClickListener(v -> {
             if(checkFields()){
-                // TODO: edit note
                 NoteDto noteDto = note;
                 noteDto.setTitle(title.getText().toString());
                 noteDto.setContent(content.getText().toString());

@@ -24,7 +24,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-//TODO : ADD TAGS ON THE NOTES
+
 
 public class NewNoteAdapter extends RecyclerView.Adapter<NewNoteAdapter.ViewHolder> {
 

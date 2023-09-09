@@ -3,6 +3,7 @@ package com.example.a1190075_1190245_courseproject.adapter;
 import static com.example.a1190075_1190245_courseproject.MainScreenActivity.colorArray;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

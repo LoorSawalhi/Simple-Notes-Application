@@ -107,7 +107,7 @@ public class MainPageFragment extends Fragment implements NewNoteAdapter.noteOnC
 
                     int add = noteService.addNote(noteDto);
                     if(add != -1) {
-                        noteItems.add(noteDto);
+                        noteItems.add(0, noteDto);
                         Toast.makeText(getContext(), "Note Added Successfully", Toast.LENGTH_SHORT).show();
                         adapter.notifyDataSetChanged();
                     } else {

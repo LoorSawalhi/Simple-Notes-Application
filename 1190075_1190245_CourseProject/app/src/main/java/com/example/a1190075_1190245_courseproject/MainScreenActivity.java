@@ -25,6 +25,7 @@ import com.example.a1190075_1190245_courseproject.menu.FavouriteFragment;
 import com.example.a1190075_1190245_courseproject.menu.MainPageFragment;
 import com.example.a1190075_1190245_courseproject.menu.ProfileFragment;
 import com.example.a1190075_1190245_courseproject.menu.SortingFragment;
+import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
 import com.example.a1190075_1190245_courseproject.service.impl.NoteServiceImpl;
 import com.example.a1190075_1190245_courseproject.service.impl.UserServiceImpl;
 import com.google.android.material.navigation.NavigationView;
@@ -43,7 +44,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private static TextView user;
     private static TextView email;
     public static UserDto currentUser;
-    private int itemId= R.id.all;
+    private int itemId = R.id.all;
     @Inject
     UserDao userDao;
     @Inject
@@ -139,11 +140,17 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 updateFavouriteFragment(filteredList);
                 break;
             case R.id.sotred:
-                filteredList = filter(query, SortingFragment.getList());
+                if(MainScreenActivity.currentUser.getPreference().name().equals("CREATIONDATE")) {
+                    filteredList = filter(query,  noteService.getSorted(MainScreenActivity.currentUser.getId(), "creationDate DESC"));
+
+                } else {
+                    filteredList = filter(query,  noteService.getSorted(MainScreenActivity.currentUser.getId(), "title"));
+
+                }
                 updateSortingFragment(filteredList);
                 break;
             case R.id.note_tagging:
-                filteredList = filter(query, CategorisationFragment.getList());
+                filteredList = filter(query, categorisationFragment.getList());
                 updateCategorisationFragment(filteredList);
                 break;
         }
@@ -172,11 +179,12 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 searchView.setVisibility(View.INVISIBLE);
                 break;
             case R.id.note_tagging:
-                loadFragment(new CategorisationFragment());
+                loadFragment(categorisationFragment);
                 searchView.setVisibility(View.VISIBLE);
                 break;
             case R.id.logout:
                 Intent intent = new Intent(MainScreenActivity.this, SignInActivity.class);
+                MainScreenActivity.currentUser = null;
                 startActivity(intent);
                 break;
         }

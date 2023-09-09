@@ -44,7 +44,6 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String PASSWORD_PATTERN =
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,12}$";
 
-    //TODO: PRINT TO THE USER PASSWORD REQUIREMENTS
 
     private static final Pattern pattern_email = Pattern.compile(EMAIL_PATTERN);
     private static final Pattern pattern_password = Pattern.compile(PASSWORD_PATTERN);

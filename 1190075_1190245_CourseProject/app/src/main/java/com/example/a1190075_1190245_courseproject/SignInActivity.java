@@ -24,7 +24,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private  EditText email;
     private  EditText password;
-    private CheckBox rememberUser; // TODO SHARED PREFRENCES
+    private CheckBox rememberUser;
     private Button logIn;
     @Inject
     UserDao userDao;
@@ -57,6 +57,9 @@ public class SignInActivity extends AppCompatActivity {
         sharedPrefManager = SharedPrefManager.getInstance(this);
 
         email = findViewById(R.id.email);
+        String emailPref = SharedPrefManager.getInstance(this).readString("email", "");
+        email.setText(emailPref);
+
         password = findViewById(R.id.password);
         rememberUser = findViewById(R.id.remember_me);
         logIn = findViewById(R.id.login);
@@ -86,8 +89,11 @@ public class SignInActivity extends AppCompatActivity {
             } else {
                 MainScreenActivity.currentUser = userDto;
                 if(rememberUser.isChecked()){
-                //TODO save email on shared preference
+                    SharedPrefManager.getInstance(this).writeString("email", userDto.getEmail());
+                } else {
+                    SharedPrefManager.getInstance(this).writeString("email", "");
                 }
+
                 Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
                 startActivity(intent);
             }
