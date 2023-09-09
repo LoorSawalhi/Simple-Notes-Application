@@ -11,7 +11,10 @@ import com.example.a1190075_1190245_courseproject.dto.TagDto;
 import com.example.a1190075_1190245_courseproject.helpers.DatabaseHelper;
 import com.example.a1190075_1190245_courseproject.query.NoteSqlQuery;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NoteDaoImpl implements NoteDao {
@@ -108,7 +111,9 @@ public class NoteDaoImpl implements NoteDao {
         values.put("userId", note.getUserId());
         values.put("title", note.getTitle());
         values.put("content", note.getContent());
-        values.put("creationDate", note.getCreatedOn());
+
+        String formattedDate =  DateFormat.getDateInstance().format(new Date());
+        values.put("creationDate", formattedDate);
 
         long rowId = database.insert("note", null, values);
         close();

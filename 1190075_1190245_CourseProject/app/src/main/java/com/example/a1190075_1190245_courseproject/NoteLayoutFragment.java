@@ -2,6 +2,7 @@ package com.example.a1190075_1190245_courseproject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
@@ -178,6 +179,10 @@ public class NoteLayoutFragment extends Fragment {
                         int deleted = noteService.deleteNote(noteItem.getId());
 
                         if(deleted != 0) {
+                            FragmentTransaction transaction = requireFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_container, fragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
                             Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Deleting Failed", Toast.LENGTH_SHORT).show();
@@ -188,13 +193,16 @@ public class NoteLayoutFragment extends Fragment {
         });
 
         share.setOnClickListener(v -> {
-            Intent gmailIntent =new Intent();
-            gmailIntent.setAction(Intent.ACTION_SENDTO);
-            gmailIntent.setDataAndType(Uri.parse("mailto:"), "message/rfc822");
-            gmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{MainScreenActivity.currentUser.getEmail()});
-            gmailIntent.putExtra(Intent.EXTRA_SUBJECT,title.getText().toString());
-            gmailIntent.putExtra(Intent.EXTRA_TEXT, content.getText().toString());
-            startActivity(gmailIntent);
+            try {
+                Intent gmailIntent = new Intent(Intent.ACTION_SENDTO);
+                gmailIntent.setData(Uri.parse("mailto:" + MainScreenActivity.currentUser.getEmail()));
+                gmailIntent.putExtra(Intent.EXTRA_SUBJECT, title.getText().toString());
+                gmailIntent.putExtra(Intent.EXTRA_TEXT, content.getText().toString());
+                startActivity(gmailIntent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(getContext(), "No email client available exception", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         fav.setOnClickListener(v -> {

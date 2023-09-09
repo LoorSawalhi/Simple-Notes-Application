@@ -88,7 +88,7 @@ public class MainPageFragment extends Fragment implements NewNoteAdapter.noteOnC
         title = rootView.findViewById(R.id.fill_title);
         content = rootView.findViewById(R.id.fill_content);
 
-        noteItems = noteService.listUserNotes(MainScreenActivity.currentUser.getId());
+        noteItems = noteService.getSorted(MainScreenActivity.currentUser.getId(), "creationDate DESC");
 
         recyclerView = rootView.findViewById(R.id.notes_grid);
         adapter = new NewNoteAdapter(noteItems, getContext());

@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "userId TEXT," +
                     "title TEXT," +
                     "content TEXT," +
-                    "creationDate TEXT," +
+                    "creationDate Date," +
                     "isFavourite INTEGER DEFAULT 0," +
                     "tagId TEXT DEFAULT '0'," +
                     "FOREIGN KEY(userId) REFERENCES Users(id)" +
@@ -65,8 +65,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO `tag` (id, label, userId) VALUES ('5', 'Work', '2')");
 
 // Notes for Ahmad (userId=1) with different tags
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Android Components', 'Learn about Activity, Service, and BroadcastReceiver.', '2023-01-01', 1, '1')");
-        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('2', '1', 'Kotlin Libraries', 'Explore Coroutines and Flow.', '2023-01-02', 0, '2')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('1', '1', 'Android Components', 'Learn about Activity, Service, and BroadcastReceiver.', '2023-09-10', 1, '1')");
+        db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('2', '1', 'Kotlin Libraries', 'Explore Coroutines and Flow.', '2023-09-09', 0, '2')");
 
 // Notes for Loor (userId=2) with different tags
         db.execSQL("INSERT INTO `note` (id, userId, title, content, creationDate, isFavourite, tagId) VALUES ('3', '2', 'Android Networking', 'Retrofit and OkHttp.', '2023-01-03', 1, '1')");
