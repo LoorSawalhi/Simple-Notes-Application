@@ -62,7 +62,8 @@ public class NoteDto {
 
     public String getCreatedOn() {
         DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT);
-        this.createdOn = dateFormatter.format(createdOnDate);
+        if(this.createdOn == null)
+            this.createdOn = dateFormatter.format(createdOnDate);
         return createdOn;
     }
 
